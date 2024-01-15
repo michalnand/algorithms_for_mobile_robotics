@@ -1,1 +1,1 @@
-# algorithms_for_mobile_robotics
+# algorithms for mobile robotics - hands on
