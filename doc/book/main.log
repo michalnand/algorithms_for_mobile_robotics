@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  11 AUG 2024 18:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  11 AUG 2024 21:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -631,20 +631,20 @@ File: lstlang1.sty 2024/02/21 1.10 listings language file
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -674,35 +674,35 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count344
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 4
-8.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 6
+9.
  (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 4
-8.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 6
+9.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-48.
+69.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-48.
+69.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 48.
+(Font)              <14.4> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 48.
+(Font)              <10> on input line 69.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 48.
+(Font)              <7> on input line 69.
  [1
 
 {/usr/local/texlive/2024basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/us
@@ -712,39 +712,39 @@ r/local/texlive/2024basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}] [2
 <../images/robot/board_dims_a.png, id=12, 554.5518pt x 618.6312pt>
 File: ../images/robot/board_dims_a.png Graphic file (type png)
 <use ../images/robot/board_dims_a.png>
-Package pdftex.def Info: ../images/robot/board_dims_a.png  used on input line 5
-9.
+Package pdftex.def Info: ../images/robot/board_dims_a.png  used on input line 8
+0.
 (pdftex.def)             Requested size: 194.09604pt x 216.52415pt.
 
-Overfull \hbox (2.59604pt too wide) in paragraph at lines 59--60
+Overfull \hbox (2.59604pt too wide) in paragraph at lines 80--81
  [][] 
  []
 
 <../images/robot/board_all.png, id=13, 554.07pt x 618.6312pt>
 File: ../images/robot/board_all.png Graphic file (type png)
 <use ../images/robot/board_all.png>
-Package pdftex.def Info: ../images/robot/board_all.png  used on input line 65.
+Package pdftex.def Info: ../images/robot/board_all.png  used on input line 86.
 (pdftex.def)             Requested size: 193.9274pt x 216.52415pt.
 
-Overfull \hbox (2.4274pt too wide) in paragraph at lines 65--66
+Overfull \hbox (2.4274pt too wide) in paragraph at lines 86--87
  [][] 
  []
 
 <../images/robot/robot_01.jpg, id=14, 4111.36pt x 4111.36pt>
 File: ../images/robot/robot_01.jpg Graphic file (type jpg)
 <use ../images/robot/robot_01.jpg>
-Package pdftex.def Info: ../images/robot/robot_01.jpg  used on input line 76.
+Package pdftex.def Info: ../images/robot/robot_01.jpg  used on input line 97.
 (pdftex.def)             Requested size: 205.58005pt x 205.58005pt.
 [3 <../images/robot/board_dims_a.png (PNG copy)> <../images/robot/board_all.png
  (PNG copy)> <../images/robot/robot_01.jpg>]
 <../diagrams/sw/sw-block_dc.png, id=19, 527.571pt x 569.4876pt>
 File: ../diagrams/sw/sw-block_dc.png Graphic file (type png)
 <use ../diagrams/sw/sw-block_dc.png>
-Package pdftex.def Info: ../diagrams/sw/sw-block_dc.png  used on input line 84.
-
+Package pdftex.def Info: ../diagrams/sw/sw-block_dc.png  used on input line 105
+.
 (pdftex.def)             Requested size: 422.05737pt x 455.5907pt.
 
-Overfull \hbox (39.05737pt too wide) in paragraph at lines 84--85
+Overfull \hbox (39.05737pt too wide) in paragraph at lines 105--106
  [][] 
  []
 
@@ -752,39 +752,39 @@ Overfull \hbox (39.05737pt too wide) in paragraph at lines 84--85
 <../images/robot/schem_gs.png, id=26, 1490.56876pt x 2208.20985pt>
 File: ../images/robot/schem_gs.png Graphic file (type png)
 <use ../images/robot/schem_gs.png>
-Package pdftex.def Info: ../images/robot/schem_gs.png  used on input line 91.
+Package pdftex.def Info: ../images/robot/schem_gs.png  used on input line 112.
 (pdftex.def)             Requested size: 417.35641pt x 618.29456pt.
 
-Overfull \hbox (34.35641pt too wide) in paragraph at lines 91--92
+Overfull \hbox (34.35641pt too wide) in paragraph at lines 112--113
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 91.54454pt on input line 93.
+LaTeX Warning: Float too large for page by 91.54454pt on input line 114.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 99.
+(Font)              <12> on input line 120.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 99.
+(Font)              <8> on input line 120.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 99.
+(Font)              <6> on input line 120.
 
-Overfull \hbox (60.49112pt too wide) in paragraph at lines 99--142
+Overfull \hbox (60.49112pt too wide) in paragraph at lines 120--163
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 27.84938pt on input line 144.
+LaTeX Warning: Float too large for page by 27.84938pt on input line 165.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [5 <../images/robot/schem_gs.png>] [6]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-65.
+86.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -801,11 +801,11 @@ File: ../diagrams/control_generic/control_generic-discrete_dynamics.png Graphic
  file (type png)
 <use ../diagrams/control_generic/control_generic-discrete_dynamics.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-discrete_d
-ynamics.png  used on input line 210.
+ynamics.png  used on input line 231.
 (pdftex.def)             Requested size: 243.26268pt x 91.06088pt.
  [8]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-39.
+60.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -816,14 +816,14 @@ File: ../diagrams/control_generic/control_generic-motor_control_photo.png Graph
 ic file (type png)
 <use ../diagrams/control_generic/control_generic-motor_control_photo.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-motor_cont
-rol_photo.png  used on input line 263.
+rol_photo.png  used on input line 284.
 (pdftex.def)             Requested size: 231.2643pt x 161.88501pt.
 <../diagrams/identification/identification.png, id=57, 452.4102pt x 333.1647pt>
 
 File: ../diagrams/identification/identification.png Graphic file (type png)
 <use ../diagrams/identification/identification.png>
 Package pdftex.def Info: ../diagrams/identification/identification.png  used on
- input line 270.
+ input line 291.
 (pdftex.def)             Requested size: 271.44821pt x 199.90036pt.
  [10 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
 <../images/motor_control/motor_step_response.png, id=62, 570.933pt x 137.313pt>
@@ -831,7 +831,7 @@ Package pdftex.def Info: ../diagrams/identification/identification.png  used on
 File: ../images/motor_control/motor_step_response.png Graphic file (type png)
 <use ../images/motor_control/motor_step_response.png>
 Package pdftex.def Info: ../images/motor_control/motor_step_response.png  used 
-on input line 306.
+on input line 327.
 (pdftex.def)             Requested size: 342.56244pt x 82.38843pt.
  [11 <../diagrams/identification/identification.png>]
 <../images/motor_control/motor_constant_estimation.png, id=67, 392.4261pt x 298
@@ -840,11 +840,11 @@ File: ../images/motor_control/motor_constant_estimation.png Graphic file (type
 png)
 <use ../images/motor_control/motor_constant_estimation.png>
 Package pdftex.def Info: ../images/motor_control/motor_constant_estimation.png 
- used on input line 328.
+ used on input line 349.
 (pdftex.def)             Requested size: 235.45747pt x 179.08643pt.
  [12 <../images/motor_control/motor_step_response.png> <../images/motor_control
 /motor_constant_estimation.png>]
-Overfull \hbox (25.00415pt too wide) in paragraph at lines 348--350
+Overfull \hbox (25.00415pt too wide) in paragraph at lines 369--371
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
@@ -855,103 +855,128 @@ File: ../images/motor_control/motor_time_constant_estimation.png Graphic file (
 type png)
 <use ../images/motor_control/motor_time_constant_estimation.png>
 Package pdftex.def Info: ../images/motor_control/motor_time_constant_estimation
-.png  used on input line 417.
+.png  used on input line 438.
 (pdftex.def)             Requested size: 236.75833pt x 179.08643pt.
- [14] [15 <../images/motor_control/motor_time_constant_estimation.png>]
-<../diagrams/control_generic/control_generic-motor_control.png, id=85, 452.4102
+
+Overfull \hbox (5.19196pt too wide) in paragraph at lines 454--455
+[]\T1/lmr/m/n/12 float x = mo-tor_control.get_right_velocity() - re-turn me-as-
+sured wheel
+ []
+
+[14] [15 <../images/motor_control/motor_time_constant_estimation.png>]
+(/usr/local/texlive/2024basic/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/02/21 1.10 listings language file
+)
+(/usr/local/texlive/2024basic/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/02/21 1.10 listings language file
+)
+(/usr/local/texlive/2024basic/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/02/21 1.10 (Carsten Heinz)
+)
+[16] [17]
+Overfull \hbox (6.64046pt too wide) in paragraph at lines 561--563
+[]\T1/lmr/m/n/12 Average mo-tor con-stant is $\OML/lmm/m/it/12 k \OT1/lmr/m/n/1
+2 = 80\OML/lmm/m/it/12 :\OT1/lmr/m/n/12 056$\T1/lmr/m/n/12 , and time con-stant
+ is $\OML/lmm/m/it/12 ^^\ \OT1/lmr/m/n/12 = 9\OML/lmm/m/it/12 :\OT1/lmr/m/n/12 
+230[\OML/lmm/m/it/12 ms\OT1/lmr/m/n/12 ]$\T1/lmr/m/n/12 .
+ []
+
+[18]
+<../diagrams/control_generic/control_generic-motor_control.png, id=94, 452.4102
 pt x 159.7167pt>
 File: ../diagrams/control_generic/control_generic-motor_control.png Graphic fil
 e (type png)
 <use ../diagrams/control_generic/control_generic-motor_control.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-motor_cont
-rol.png  used on input line 438.
+rol.png  used on input line 601.
 (pdftex.def)             Requested size: 271.44821pt x 95.83075pt.
-
-[16
+ [19
 
  <../diagrams/control_generic/control_generic-motor_control.png>]
-<../diagrams/control_generic/control_generic-pid.png, id=90, 317.988pt x 44.084
-7pt>
+<../diagrams/control_generic/control_generic-pid.png, id=100, 317.988pt x 44.08
+47pt>
 File: ../diagrams/control_generic/control_generic-pid.png Graphic file (type pn
 g)
 <use ../diagrams/control_generic/control_generic-pid.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-pid.png  u
-sed on input line 449.
+sed on input line 612.
 (pdftex.def)             Requested size: 254.39073pt x 35.26779pt.
-<../diagrams/control_generic/control_generic-pid_discrete.png, id=91, 368.577pt
- x 109.1277pt>
+<../diagrams/control_generic/control_generic-pid_discrete.png, id=101, 368.577p
+t x 109.1277pt>
 File: ../diagrams/control_generic/control_generic-pid_discrete.png Graphic file
  (type png)
 <use ../diagrams/control_generic/control_generic-pid_discrete.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-pid_discre
-te.png  used on input line 456.
+te.png  used on input line 619.
 (pdftex.def)             Requested size: 294.86198pt x 87.30226pt.
- [17 <../diagrams/control_generic/control_generic-pid.png> <../diagrams/control
-_generic/control_generic-pid_discrete.png>]
-<../images/motor_control/pid_p_control.png, id=97, 578.16pt x 289.08pt>
+
+[20 <../diagrams/control_generic/control_generic-pid.png> <../diagrams/control_
+generic/control_generic-pid_discrete.png>]
+<../images/motor_control/pid_p_control.png, id=107, 578.16pt x 289.08pt>
 File: ../images/motor_control/pid_p_control.png Graphic file (type png)
 <use ../images/motor_control/pid_p_control.png>
 Package pdftex.def Info: ../images/motor_control/pid_p_control.png  used on inp
-ut line 483.
+ut line 646.
 (pdftex.def)             Requested size: 462.52863pt x 231.2643pt.
 
-Overfull \hbox (79.52863pt too wide) in paragraph at lines 483--484
+Overfull \hbox (79.52863pt too wide) in paragraph at lines 646--647
  [][] 
  []
 
-[18 <../images/motor_control/pid_p_control.png>]
-<../images/motor_control/pid_pi_control_0.png, id=102, 578.16pt x 289.08pt>
+[21 <../images/motor_control/pid_p_control.png>]
+<../images/motor_control/pid_pi_control_0.png, id=112, 578.16pt x 289.08pt>
 File: ../images/motor_control/pid_pi_control_0.png Graphic file (type png)
 <use ../images/motor_control/pid_pi_control_0.png>
 Package pdftex.def Info: ../images/motor_control/pid_pi_control_0.png  used on 
-input line 509.
+input line 672.
 (pdftex.def)             Requested size: 462.52863pt x 231.2643pt.
 
-Overfull \hbox (79.52863pt too wide) in paragraph at lines 509--510
+Overfull \hbox (79.52863pt too wide) in paragraph at lines 672--673
  [][] 
  []
 
-[19 <../images/motor_control/pid_pi_control_0.png>]
-<../images/motor_control/pid_pi_control_1.png, id=108, 578.16pt x 289.08pt>
+[22 <../images/motor_control/pid_pi_control_0.png>]
+<../images/motor_control/pid_pi_control_1.png, id=117, 578.16pt x 289.08pt>
 File: ../images/motor_control/pid_pi_control_1.png Graphic file (type png)
 <use ../images/motor_control/pid_pi_control_1.png>
 Package pdftex.def Info: ../images/motor_control/pid_pi_control_1.png  used on 
-input line 530.
+input line 693.
 (pdftex.def)             Requested size: 462.52863pt x 231.2643pt.
 
-Overfull \hbox (79.52863pt too wide) in paragraph at lines 530--531
+Overfull \hbox (79.52863pt too wide) in paragraph at lines 693--694
  [][] 
  []
 
-[20 <../images/motor_control/pid_pi_control_1.png>] [21]
-<../diagrams/control_generic/control_generic-lqr_discrete.png, id=116, 346.1733
+[23 <../images/motor_control/pid_pi_control_1.png>] [24]
+<../diagrams/control_generic/control_generic-lqr_discrete.png, id=125, 346.1733
 pt x 174.1707pt>
 File: ../diagrams/control_generic/control_generic-lqr_discrete.png Graphic file
  (type png)
 <use ../diagrams/control_generic/control_generic-lqr_discrete.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-lqr_discre
-te.png  used on input line 616.
+te.png  used on input line 779.
 (pdftex.def)             Requested size: 276.939pt x 139.33675pt.
- [22 <../diagrams/control_generic/control_generic-lqr_discrete.png>]
-<../diagrams/control_generic/control_generic-lqr_detail.png, id=121, 393.1488pt
+ [25 <../diagrams/control_generic/control_generic-lqr_discrete.png>]
+<../diagrams/control_generic/control_generic-lqr_detail.png, id=131, 393.1488pt
  x 122.1363pt>
 File: ../diagrams/control_generic/control_generic-lqr_detail.png Graphic file (
 type png)
 <use ../diagrams/control_generic/control_generic-lqr_detail.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-lqr_detail
-.png  used on input line 638.
+.png  used on input line 801.
 (pdftex.def)             Requested size: 314.51947pt x 97.70917pt.
- [23 <../diagrams/control_generic/control_generic-lqr_detail.png>] (./main.aux)
+ [26 <../diagrams/control_generic/control_generic-lqr_detail.png>] [27] [28] [2
+9] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 11271 strings out of 475567
- 180665 string characters out of 5777889
- 1966187 words of memory out of 5000000
- 33270 multiletter control sequences out of 15000+600000
+ 11452 strings out of 475567
+ 183208 string characters out of 5777889
+ 1994187 words of memory out of 5000000
+ 33445 multiletter control sequences out of 15000+600000
  625972 words of font info for 73 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  85i,14n,93p,315b,1294s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -967,10 +992,10 @@ ts/type1/public/lm/lmro12.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/ty
 pe1/public/lm/lmsy10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/p
 ublic/lm/lmsy8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/
 lm/lmtt8.pfb>
-Output written on main.pdf (23 pages, 12965330 bytes).
+Output written on main.pdf (29 pages, 12987256 bytes).
 PDF statistics:
- 190 PDF objects out of 1000 (max. 8388607)
- 101 compressed objects within 2 object streams
+ 209 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  96 words of extra memory for PDF output out of 10000 (max. 10000000)
 

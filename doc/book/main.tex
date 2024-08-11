@@ -17,6 +17,8 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{white}{rgb}{0.9,0.9,0.9}
+\definecolor{dark_gray}{rgb}{0.2,0.2,0.2}
 
 \lstdefinestyle{python_style}{
     backgroundcolor=\color{backcolour},   
@@ -32,6 +34,25 @@
     tabsize=4,
     showspaces=false,
     showstringspaces=false
+}
+
+\lstdefinestyle{cpp_style}{
+    language=C++,
+    basicstyle=\ttfamily\tiny,
+    backgroundcolor=\color{backcolour}, 
+    keywordstyle=\color{magenta}\ttfamily\tiny,
+    stringstyle=\color{codepurple}\ttfamily\tiny,
+    commentstyle=\color{codegreen}\ttfamily\tiny,
+    numbersep=10pt,
+    tabsize=4,
+}
+
+
+\lstdefinestyle{terminal_style}{
+    basicstyle=\ttfamily\tiny\color{white},
+    backgroundcolor=\color{dark_gray}, 
+    numbersep=10pt,
+    tabsize=4,
 }
 
 \lstset{style=python_style}
@@ -395,9 +416,9 @@ print("k_mean = ", k_mean)
                 \item repeat $n_{steps}$, each step duration is $\Delta T$
                     \begin{enumerate}
                         \item $if\ u_{in} > 0\ and\ x(n) > 0.632ku_{in}$ \\
-                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{in}$
+                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{set}$
                         \item $else\ if\ u_{in} < 0\ and\ x(n) < 0.632ku_{in}$ \\
-                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{in}$
+                            increment $n_{HalfPeriods}$, and set $u_{in} = u_{set}$
                     \end{enumerate}
             \end{enumerate}
 
@@ -425,129 +446,271 @@ print("k_mean = ", k_mean)
           
 
         \subsection{Real motor identification}
-        TODO
+            For implementation in real system, the code must runs in real time. With relative high 
+            sampling frequency 4kHz, the code is written in c++. Interface is universal, with few key functions.
+
+            \begin{itemize}
+                \item timer.delay\_ms(unsigned int time) - waits given milliseconds
+                \item float x = motor\_control.get\_right\_velocity() - return meassured wheel velocity
+                \item motor\_control.set\_right\_torque(float x) - sets the PWM value, depends on sign the rotation direction can be controlled
+            \end{itemize}
+
+            This functions needs to be customised for user application.
+
+            \newpage
+            First we estimate motor constant $k$ :
+            
+            \begin{lstlisting}[style=cpp_style]
+//1, estimate motor constant k, on different input values
+uint32_t n_steps = 500;
+
+float u_values[10] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+
+float k_mean     = 0.0;
+float x_var_mean = 0.0;
+
+for (unsigned int j = 0; j < 10; j++)
+{
+    //run motor with desired input and wait for steady state
+    float u_in = u_values[j];
+
+    motor_control.set_right_torque(u_in*MOTOR_CONTROL_MAX_TORQUE); 
+    timer.delay_ms(500);    
+
+    //estimate average velocity
+    float x_mean = 0.0;
+    for (unsigned int i = 0; i < n_steps; i++)
+    {
+        float x = motor_control.get_right_velocity();
+        x_mean+= x;
+        timer.delay_ms(1); 
+    }
+    x_mean = x_mean/n_steps;    
+
+    //estimate average variance - encoder noise
+    float x_var = 0.0;
+    for (unsigned int i = 0; i < n_steps; i++)
+    {
+        float x = motor_control.get_right_velocity();
+        x_var+= (x - x_mean)*(x - x_mean);
+        timer.delay_ms(1);
+    }
+    x_var = x_var/n_steps;  
+
+    float k = x_mean/u_in;
+    k_mean+= x_mean/u_in;   
+    x_var_mean+= x_var;
+
+    terminal << "u_in   = " << u_in << "\n";
+    terminal << "k      = " << k << "\n";
+    terminal << "x_mean = " << x_mean << "\n";
+    terminal << "x_var  = " << x_var << "\n";
+    terminal << "\n\n";
+}   
+
+//print summary results
+k_mean     = k_mean/10.0;
+x_var_mean = x_var_mean/10.0;
+
+terminal << "k          = " << k_mean << "\n";
+terminal << "x_var_mean = " << x_var_mean << "\n";
+        \end{lstlisting}
+    
+        \newpage
+        Second we estimate motor time constant $\tau$ :
+        \begin{lstlisting}[style=cpp_style]
+//2, estimate time constant by oscilating motor
+float u_in = 0.25;
+uint32_t periods = 0; 
+
+n_steps = 2000;
+
+for (unsigned int i = 0; i < n_steps; i++)
+{
+    motor_control.set_right_torque(u_in*MOTOR_CONTROL_MAX_TORQUE);
+    float x = motor_control.get_right_velocity()*60.0/(2.0*PI);
+
+    if (u_in > 0.0) 
+    {
+        if (x > 0.632*k_mean*u_in)
+        {
+            u_in = -u_in;
+            periods++;
+        }
+    }
+    else
+    {
+        if (x < 0.632*k_mean*u_in)
+        {
+            u_in = -u_in;
+            periods++;  
+        }
+    }
+
+    timer.delay_ms(1);
+}
+
+float t_period = (2*n_steps/periods)/PI;
+terminal << "periods = " << periods << "\n";
+terminal << "tau     = " << t_period << "[ms]\n";
+terminal << "\n\n";
+
+        \end{lstlisting}
+
+        \newpage
+        Average motor constant is $k = 80.056$, and time constant is $\tau = 9.230[ms]$.
+        Terminal output :
+        \begin{lstlisting}[style=terminal_style]
+...
+
+u_in   =  0.800
+k      =  87.194
+x_mean =  69.755
+x_var  =  19.236
 
 
-\newpage
-\chapter{Motor control}
-
-    motor velocity controller
-
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.6]{../diagrams/control_generic/control_generic-motor_control.png}
-        \caption{Velocity control overview}
-        \label{fig:velocity_control_overview}
-    \end{figure}
+u_in   =  0.900
+k      =  86.440
+x_mean =  77.796
+x_var  =  18.124
 
 
-    \newpage
-    \section{PID control}
+u_in   =  1.000
+k      =  85.750
+x_mean =  85.750
+x_var  =  7.554
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-pid.png}
-            \caption{Textbook continuous PID controller}
-            \label{fig:textbook_continuous_pid_controller}
-        \end{figure}
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-pid_discrete.png}
-            \caption{Discrete PID controller }
-            \label{fig:discrete_pid_controller}
-        \end{figure}
+k          =  80.056
+x_var_mean =  170.903
+
+
+periods = 136
+tau     =  9.230[ms]
+        \end{lstlisting}
 
         
-        \begin{align}
-            k_0 &= K_p + K_i\Delta T + \frac{K_d}{\Delta T} \\
-            k_1 &= -K_p - 2\frac{K_d}{\Delta T} \\
-            k_2 &= \frac{K_d}{\Delta T}
-        \end{align}
 
-            \newpage
-            \subsection{PID control - P only controller}
+\newpage
+\chapter{Motion control}
 
-                \begin{itemize}
-                    \item  target value : \textcolor{red}{\textbf { 1000rpm}}
-                    \item  P-only control causes \textcolor{red}{\textbf {steady state error}}
-                \end{itemize}
+    \section{Motor velocity controller}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../diagrams/control_generic/control_generic-motor_control.png}
+            \caption{Velocity control overview}
+            \label{fig:velocity_control_overview}
+        \end{figure}
+
+
+        \newpage
+        \section{PID control}
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-pid.png}
+                \caption{Textbook continuous PID controller}
+                \label{fig:textbook_continuous_pid_controller}
+            \end{figure}
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-pid_discrete.png}
+                \caption{Discrete PID controller }
+                \label{fig:discrete_pid_controller}
+            \end{figure}
+
             
-                \begin{align}
-                    u(n+1) &= u(n-1) + k_pe(n) - k_pe(n-1) \\
-                    k_p    &= 0.01
-                \end{align}
+            \begin{align}
+                k_0 &= K_p + K_i\Delta T + \frac{K_d}{\Delta T} \\
+                k_1 &= -K_p - 2\frac{K_d}{\Delta T} \\
+                k_2 &= \frac{K_d}{\Delta T}
+            \end{align}
 
-                \begin{figure}[!htb]
-                    \centering
-                    \includegraphics[scale=0.8]{../images/motor_control/pid_p_control.png}
-                    \caption{P-only controller}
-                    \label{fig:p_controller}
-                \end{figure}
+                \newpage
+                \subsection{PID control - P only controller}
 
-            \newpage
-            \subsection{PID control - PI}
+                    \begin{itemize}
+                        \item  target value : \textcolor{red}{\textbf { 1000rpm}}
+                        \item  P-only control causes \textcolor{red}{\textbf {steady state error}}
+                    \end{itemize}
                 
-                too high I term 
+                    \begin{align}
+                        u(n+1) &= u(n-1) + k_pe(n) - k_pe(n-1) \\
+                        k_p    &= 0.01
+                    \end{align}
 
-                \begin{itemize}
-                    \item  target value : \textcolor{red}{\textbf {1000rpm}}
-                    \item  PI control \textcolor{red}{\textbf {removes steady state error}}
-                    \item  too high I term causes \textcolor{red}{\textbf {oscilations and overshot}}
-                \end{itemize}
-            
-              
-                \begin{align}
-                    u(n+1) &= u(n-1) + (k_p + k_i\Delta T) e(n) - k_pe(n-1) \\
-                    k_p    &= 0.01 \\
-                    k_i\Delta T    &= 0.005
-                \end{align}
+                    \begin{figure}[!htb]
+                        \centering
+                        \includegraphics[scale=0.8]{../images/motor_control/pid_p_control.png}
+                        \caption{P-only controller}
+                        \label{fig:p_controller}
+                    \end{figure}
+
+                \newpage
+                \subsection{PID control - PI}
+                    
+                    too high I term 
+
+                    \begin{itemize}
+                        \item  target value : \textcolor{red}{\textbf {1000rpm}}
+                        \item  PI control \textcolor{red}{\textbf {removes steady state error}}
+                        \item  too high I term causes \textcolor{red}{\textbf {oscilations and overshot}}
+                    \end{itemize}
                 
                 
-                \begin{figure}[!htb]
-                    \centering
-                    \includegraphics[scale=0.8]{../images/motor_control/pid_pi_control_0.png}
-                    \caption{PI controller}
-                    \label{fig:pi_controller}
-                \end{figure}
+                    \begin{align}
+                        u(n+1) &= u(n-1) + (k_p + k_i\Delta T) e(n) - k_pe(n-1) \\
+                        k_p    &= 0.01 \\
+                        k_i\Delta T    &= 0.005
+                    \end{align}
+                    
+                    
+                    \begin{figure}[!htb]
+                        \centering
+                        \includegraphics[scale=0.8]{../images/motor_control/pid_pi_control_0.png}
+                        \caption{PI controller}
+                        \label{fig:pi_controller}
+                    \end{figure}
 
-                correct I term
+                    correct I term
 
-                \begin{itemize}
-                    \item  target value : \textcolor{red}{\textbf {1000rpm}}
-                    \item  correct tunned PI controller for 1st order system
-                    \item  \textcolor{red}{\textbf {no overshot, no steady state error}}
-                \end{itemize}
+                    \begin{itemize}
+                        \item  target value : \textcolor{red}{\textbf {1000rpm}}
+                        \item  correct tunned PI controller for 1st order system
+                        \item  \textcolor{red}{\textbf {no overshot, no steady state error}}
+                    \end{itemize}
+                    
+                    \begin{align}
+                        u(n+1) &= u(n-1) + (k_p + k_i\Delta T) e(n) - k_pe(n-1) \\
+                        k_p    &= 0.01 \\
+                        k_i\Delta T    &= 0.0002
+                    \end{align}
+
+                    \begin{figure}[!htb]
+                        \centering
+                        \includegraphics[scale=0.8]{../images/motor_control/pid_pi_control_1.png}
+                        \caption{PI controller with correct parameters}
+                        \label{fig:pi_controller_correct}
+                    \end{figure}
+                    
+                \newpage
+                \subsection{Complete discrete PID algorithm}  
+        
+                    \begin{enumerate}
+                    \item  calculate u-change candidate :
+                        $$\Delta \hat{u}(n) = k_0e(n) + k_1e(n) + k_2e(n)$$
+                    
+                    \item clip maximum allowed u-change, to avoid u-kick :
+                        $$\Delta u(n) = clip(\Delta \hat{u}(n), -du_{min}, du_{max})$$
                 
-                \begin{align}
-                    u(n+1) &= u(n-1) + (k_p + k_i\Delta T) e(n) - k_pe(n-1) \\
-                    k_p    &= 0.01 \\
-                    k_i\Delta T    &= 0.0002
-                \end{align}
+                    \item clip maximum allowed u value, to avoid saturation / windup :
+                        $$u(n) = clip(u(n-1) + \Delta u(n), -u_{min}, u_{max})$$
+                    \end{enumerate}
 
-                \begin{figure}[!htb]
-                    \centering
-                    \includegraphics[scale=0.8]{../images/motor_control/pid_pi_control_1.png}
-                    \caption{PI controller with correct parameters}
-                    \label{fig:pi_controller_correct}
-                \end{figure}
-                
-            \newpage
-            \subsection{complete discrete PID algorithm}  
-    
-                \begin{enumerate}
-                  \item  calculate u-change candidate :
-                    $$\Delta \hat{u}(n) = k_0e(n) + k_1e(n) + k_2e(n)$$
-                  
-                  \item clip maximum allowed u-change, to avoid u-kick :
-                    $$\Delta u(n) = clip(\Delta \hat{u}(n), -du_{min}, du_{max})$$
-              
-                  \item clip maximum allowed u value, to avoid saturation / windup :
-                    $$u(n) = clip(u(n-1) + \Delta u(n), -u_{min}, u_{max})$$
-                \end{enumerate}
-
-                Full Python code example for discrete PID controller :
-                \begin{lstlisting}[style=python_style]
+                    Full Python code example for discrete PID controller :
+                    \begin{lstlisting}[style=python_style]
 class PID:
 
 def __init__(self, kp, ki, kd, antiwindup = 10**10, du_max=10**10):
@@ -578,15 +741,15 @@ def forward(self, xr, x, u_prev):
     u   = numpy.clip(u_prev + du,  -self.antiwindup, self.antiwindup)
 
     return u
+                    \end{lstlisting}
 
 
-                \end{lstlisting}
+
 
 
     \newpage
     \section{Optimal control}
-
-                
+       
         Optimal control is solution of following optimisation problem
 
         \begin{align}
@@ -640,6 +803,142 @@ def forward(self, xr, x, u_prev):
             \label{fig:control_lqr_matrices_shape}
         \end{figure}
         
+    \newpage
+    \section{Model predictive control}
+        Model predictive control is solution of following optimisation problem
 
+        \begin{align}
+            \min_{x(.), \Delta u(.)} &\sum_{h=0}^H (x_r^T(h) - x^T(h))Q(x_r(h) - x(h)) + \Delta u^T(h)R\Delta u(h) \\
+            s.t.\ u(n) &= u(n-1) + \Delta u(n), \\
+            x(n+1) &= Ax(n) + Bu(n)
+        \end{align}
+
+        where : 
+        \begin{itemize}
+          \item $H$ is prediction horizon steps
+          \item $A$ is matrix, $n \times n$
+          \item $B$ is matrix, $n \times m$
+          \item $Q$ is matrix, $n \times n$
+          \item $R$ is matrix, $m \times m$
+          \item $_\Delta u$ is controller output
+          \item where $n$ is system orders, and $m$ system inputs count
+        \end{itemize}
+
+        Unwrap into form where only $x(n)$ and $u(n-1)$ are used to predict all other $x$
+        \begin{align*}
+            x(n+1)&= Ax(n) + Bu(n) \\
+                &= Ax(n) + B(u(n-1) + _\Delta u(n)) \\
+            x(n+2)&= Ax(n+1) + B(u(n) + _\Delta u(n+1)) \\
+                &= A^2x(n) + (AB + B)u(n-1) + (AB+B)_\Delta u(n) + B_\Delta u(u) \\
+            x(n+3)&= Ax(n+2) + B(u(n+1) + _\Delta u(n+2)) \\
+                &= A^3x(n) + (A^2 + AB + B)u(n-1) \\
+                & + (A^2B + AB + B)_\Delta u(n) \\
+                & + (AB + B)_\Delta u(n+1) + B_\Delta u(n+2) \\
+            ... 
+        \end{align*}  
+
+
+        Rewrite into matrix form
+        \begin{align*}
+            \begin{bmatrix}
+            x(n+1) \\
+            x(n+2) \\
+            \dots \\
+            x(n+H)
+            \end{bmatrix} &= 
+            \begin{bmatrix}
+            A^1 \\
+            A^2 \\
+            \dots \\
+            A^H
+            \end{bmatrix} x(n) +
+            \begin{bmatrix}
+            B \\
+            AB \\
+            \dots \\
+            \sum_{i=0}^{H-1} A^iB
+            \end{bmatrix} u(n-1) + \\
+            &+
+            \begin{bmatrix}
+            B  & 0 & \dots & 0 \\
+            AB + B & B & \dots & 0 \\
+            \dots & \dots & \dots & \dots \\
+            \sum_{i=0}^{H-1}A^iB & \sum_{i=0}^{H-2}A^iB & \dots & B
+            \end{bmatrix}
+            \begin{bmatrix}
+            _\Delta u(n) \\
+            \dots \\
+            _\Delta u(n + H - 1) \\
+            \end{bmatrix} 
+        \end{align*}
+
+        in compact matrix form
+
+        \begin{align*}
+            \tilde{X} &= \Psi x(n) + \Omega u(n-1) + \Theta \tilde{_\Delta U}
+        \end{align*}
+
+
+        Formulate quadratic loss (cost) function
+
+        \begin{align*}
+            J &= \tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} 
+                        + (\tilde{X_r} - \tilde{X})^T \tilde{Q} (\tilde{X_r} - \tilde{X})^T \\
+        \end{align*}
+
+        after substitution
+        \begin{align*}
+            S = \tilde{X_r} - \Psi\tilde{X} - \Omega u(n-1)
+        \end{align*}
+
+        we get
+        \begin{align*}
+            J &= \tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} + (S -  \Theta \tilde{_\Delta U} )^T \tilde{Q} (S -  \Theta \tilde{_\Delta U} ) \\
+                        &= \tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} 
+                        + S^T\tilde{Q}S - S^T \tilde{Q} \Theta \tilde{_\Delta U} 
+                        - \tilde{_\Delta U}^T \Theta^T\tilde{Q}S + \tilde{_\Delta U}^T\Theta^T\tilde{Q}\Theta\tilde{_\Delta U}
+        \end{align*}
+
+        \newpage
+        find derivative with respect to $\tilde{_\Delta U}$ 
+
+        \begin{align*}  
+            \frac{\partial J}{\partial {\tilde{_\Delta U}}} & : \\
+            \frac{\partial {\tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} } }{\partial {\tilde{_\Delta U}}} & = 2\tilde{R}\tilde{_\Delta U} \\
+            \frac{\partial {S^T\tilde{Q}S}}{\partial {\tilde{_\Delta U}}} & = 0 \\
+            \frac{\partial {- S^T \tilde{Q} \Theta \tilde{_\Delta U} }}{\partial {\tilde{_\Delta U}}} & = -\Theta^T\tilde{Q}S \\
+            \frac{\partial {- \tilde{_\Delta U}^T \Theta^T\tilde{Q}S}}{\partial {\tilde{_\Delta U}}} & = -\Theta^T\tilde{Q}S \\
+            \frac{\partial { \tilde{_\Delta U}^T\Theta^T\tilde{Q}\Theta\tilde{_\Delta U}}}{\partial {\tilde{_\Delta U}}} & = 2\Theta^T\tilde{Q}\Theta\tilde{_\Delta U}
+        \end{align*}  
+
+
+        put derivate equal to zero, and solve
+
+        \begin{align*}
+          \frac{\partial J}{\partial {\tilde{_\Delta U}}} & = 2 \tilde{R} \tilde{_\Delta U} - 2\Theta^T\tilde{Q}S + 2\Theta^T\tilde{Q}\Theta\tilde{_\Delta U} \\
+          0 &= 2 \tilde{R} \tilde{_\Delta U} - 2\Theta^T\tilde{Q}S + 2\Theta^T\tilde{Q}\Theta\tilde{_\Delta U} \\
+          (\tilde{R} + \Theta^T\tilde{Q}\Theta)\tilde{_\Delta U}  &= \Theta^T\tilde{Q}S 
+        \end{align*}  
+      
+        and \textbf{obtain solution for unconstrained model predictive controll}
+        \begin{align*}
+          \tilde{_\Delta U} &= (\tilde{R} + \Theta^T\tilde{Q}\Theta)^{-1} \Theta^T\tilde{Q}S
+        \end{align*} 
+
+        \textbf{model predictive control - full algorithm} \\
+        given matrices : $\tilde{Q}, \tilde{R}, \Theta, \Phi, \Omega$ \\
+        initialization (precompute) :
+        \begin{align*}
+        \Xi &= (\tilde{R} + \Theta^T\tilde{Q}\Theta)^{-1} \Theta^T\tilde{Q} \\
+        \end{align*}
+        
+        \textbf{in loop process controller step :}
+        \begin{align*}
+          E(n) &= X_r(n) - \Phi x(n) - \Omega u(n-1) \\
+          _\Delta u(n) &= \Xi E(n) \\
+          u(n) &= u(n-1) + _\Delta u(n)
+        \end{align*}
+      
+      
 
 \end{document}
