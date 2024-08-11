@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  10 AUG 2024 21:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  11 AUG 2024 08:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -884,11 +884,8 @@ Dictionary: translator-numbers-dictionary, Language: English
 m-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./afr.nav)
-Underfull \hbox (badness 10000) in paragraph at lines 53--53
-
- []
-
 LaTeX Font Info:    Trying to load font information for U+msa on input line 53.
+
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1055,7 +1052,7 @@ ts/cm/cmssbx10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmssi10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb>
-Output written on afr.pdf (10 pages, 3790680 bytes).
+Output written on afr.pdf (10 pages, 3790682 bytes).
 PDF statistics:
  362 PDF objects out of 1000 (max. 8388607)
  292 compressed objects within 3 object streams

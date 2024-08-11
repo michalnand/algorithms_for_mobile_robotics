@@ -8,6 +8,34 @@
 \usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{color}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{python_style}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\tiny,
+    language=Python,
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false
+}
+
+\lstset{style=python_style}
+
 
 
 %%%%%%%%%% BOOK INFORMATION %%%%%%%%%%
@@ -117,7 +145,151 @@
             \label{table:1}
         \end{table}
 
+\newpage
+\chapter{System identification}
 
+    \section{State space models}
+
+        System state is column vector, with $N$ rows
+        \begin{align}
+            x(n) &= \begin{bmatrix} x_{0}(n) \\ x_{1}(n) \\ ... \\ x_{N-1}(n) \end{bmatrix}
+        \end{align}
+
+        For single output system this vector contains single value, e.g. the motor velocity $\omega(n)$
+        \begin{align}
+            x(n) &= \begin{bmatrix} \omega(n) \end{bmatrix}
+        \end{align}
+
+
+        If we have 2nd order system, e.g. servo with inertia, the state will contain two 
+        elements : 
+        \begin{itemize}
+            \item motor shaft velocity $\omega(n)$, measured in $rad/s$
+            \item motor shaft angle $\theta(n)$, measured in $rad$
+        \end{itemize}
+
+        \begin{align}
+            x(n) &= \begin{bmatrix} \omega(n) \\ \theta(n) \end{bmatrix}
+        \end{align}
+
+        More accurate servo model observes also motor current $i(n)$, which gives us three element state vector
+        \begin{align}
+            x(n) &= \begin{bmatrix} i(n) \\ \omega(n) \\ \theta(n) \end{bmatrix}
+        \end{align}
+
+        Robot moving in 2D plane have usualy state containing robot position $x'$, $y'$, and robot orientation $\theta$
+
+        \begin{align}
+            x(n) &= \begin{bmatrix} x'(n) \\ y'(n) \\ \theta(n) \end{bmatrix}
+        \end{align}
+
+        The number of rows in state vector $x(n)$ is called \textbf{system order}.
+
+        The dynamical system is controlled with $M$ inputs, stacked in column input vector $u(n)$
+        \begin{align}
+            u(n) &= \begin{bmatrix} u_{0}(n) \\ u_{1}(n) \\ ... \\ u_{M-1}(n) \end{bmatrix}
+        \end{align}
+
+        The system with single input, e.g. motor with current control, input vector contains single value 
+        \begin{align}
+            u(n) &= \begin{bmatrix} i(n) \end{bmatrix}
+        \end{align}
+
+        Differential drive robot where are controlled two independent motors have two inputs 
+        \begin{align}
+            u(n) &= \begin{bmatrix} i_{left}(n) \\ i_{right}(n) \end{bmatrix}
+        \end{align}
+
+        Relation between control input $u(n)$, current state $x(n)$ and next state $x(n+1)$ can be 
+        modeled using \textbf{linear state space model}
+        
+        \begin{align}
+            x(n+1) &= Ax(n) + Bu(n)
+        \end{align}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../diagrams/control_generic/control_generic-discrete_dynamics.png}
+            \caption{State space model matrices shapes}
+            \label{fig:state_space_model_matrices_shapes}
+        \end{figure}
+        
+        This model can capture dynamics of any linear system. Sometimes the state $x(n)$ can't be 
+        meassured directly, and we observe only system output $y(n) = Cx(n)$. Where matrix $C$ have k-rows and n-columns.
+        In our case we consider we have access to full state $x(n)$.
+        There is of course the continuous form of state space model 
+
+        \begin{align}
+            \frac{dx}{dt} &= A^cx(t) + B^cu(t)
+        \end{align}
+
+        note : the martices $A^c$ and $B^c$ differs from discrete system matrices $A$ and $B$.
+        They are related with bilinear transform as 
+        
+        \begin{align}
+            S_a &= (I - \frac{\Delta T}{2}A^c)^{-1} \\
+            S_b &= I + \frac{\Delta T}{2}A^c \\
+            A &=  S_aS_b \\
+            B &= S_a B^c \Delta T 
+        \end{align}
+
+        where $\Delta T$ is sampling period. This is mostly used discretisation, 
+        from continuous (e.g. physical) model into discrete form.
+        Following pythoncode convert continous system into discrete system. 
+        If system contains output matrix $C$ discretisation doesn't effects its values.
+       
+        \begin{lstlisting}[style=python_style]
+def c2d(a, b, c, dt):
+    i = numpy.eye(a.shape[0])
+    
+    tmp_a = numpy.linalg.inv(i - (0.5*dt)*a)
+    tmp_b = i + (0.5*dt)*a
+
+    a_disc  = tmp_a@tmp_b
+    b_disc  = (tmp_a*dt)@b
+
+    return a_disc, b_disc, c
+        \end{lstlisting}
+       
+
+        Process of system identification is finding matrices $A$, $B$ (and $C$). From this model 
+        can be sythetised controller, or system able to plan multiple steps ahead.
+
+    \section{System examples}   
+        Motor velocity model, can be approximated as 1st order system.
+
+        Model will have following parameters
+
+        \begin{itemize}
+            \item sampling frequency 4kHz, $\Delta T = 1/4000$
+            \item maximum control input $u_{max} = 2$
+            \item motor constant $k = 17$
+            \item motor time constat $\tau = 29$ milliseconds
+        \end{itemize}
+
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../images/motor_control/motor_step_response.png}
+            \caption{Motor step response}
+            \label{fig:motor_step_response}
+        \end{figure}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../images/motor_control/motor_constant_estimation.png}
+            \caption{Motor constant estimation}
+            \label{fig:motor_constant_estimation}
+        \end{figure}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../images/motor_control/motor_time_constant_estimation.png}
+            \caption{Motor time constant estimation}
+            \label{fig:motor_time_constant_estimation}
+        \end{figure}
+
+\newpage
 \chapter{Motor control}
 
     motor velocity controller
@@ -157,11 +329,11 @@
         \end{figure}
 
         
-        \begin{align*}
-            k_0 &= K_p + K_i\Delta t + \frac{K_d}{\Delta t} \\
-            k_1 &= -K_p - 2\frac{K_d}{\Delta t} \\
-            k_2 &= \frac{K_d}{\Delta t}
-        \end{align*}
+        \begin{align}
+            k_0 &= K_p + K_i\Delta T + \frac{K_d}{\Delta T} \\
+            k_1 &= -K_p - 2\frac{K_d}{\Delta T} \\
+            k_2 &= \frac{K_d}{\Delta T}
+        \end{align}
 
             \newpage
             \subsection{PID control - P only controller}
@@ -171,10 +343,10 @@
                     \item  P-only control causes \textcolor{red}{\textbf {steady state error}}
                 \end{itemize}
             
-                \begin{align*}
+                \begin{align}
                     u(n+1) &= u(n-1) + k_pe(n) - k_pe(n-1) \\
                     k_p    &= 0.01
-                \end{align*}
+                \end{align}
 
                 \begin{figure}[!htb]
                     \centering
@@ -195,11 +367,11 @@
                 \end{itemize}
             
               
-                \begin{align*}
-                    u(n+1) &= u(n-1) + (k_p + k_i\Delta t) e(n) - k_pe(n-1) \\
+                \begin{align}
+                    u(n+1) &= u(n-1) + (k_p + k_i\Delta T) e(n) - k_pe(n-1) \\
                     k_p    &= 0.01 \\
-                    k_i    &= 0.005
-                \end{align*}
+                    k_i\Delta T    &= 0.005
+                \end{align}
                 
                 
                 \begin{figure}[!htb]
@@ -217,11 +389,11 @@
                     \item  \textcolor{red}{\textbf {no overshot, no steady state error}}
                 \end{itemize}
                 
-                \begin{align*}
-                u(n+1) &= u(n-1) + (k_p + k_i\Delta t) e(n) - k_pe(n-1) \\
-                k_p    &= 0.01 \\
-                k_i    &= 0.0002
-                \end{align*}
+                \begin{align}
+                    u(n+1) &= u(n-1) + (k_p + k_i\Delta T) e(n) - k_pe(n-1) \\
+                    k_p    &= 0.01 \\
+                    k_i\Delta T    &= 0.0002
+                \end{align}
 
                 \begin{figure}[!htb]
                     \centering
@@ -244,21 +416,75 @@
                     $$u(n) = clip(u(n-1) + \Delta u(n), -u_{min}, u_{max})$$
                 \end{enumerate}
 
-                \begin{figure}[!htb]
-                    \centering
-                    \includegraphics[scale=0.8]{../images/control/pid_init.png}
-                    \caption{Initialisation}
-                    \label{fig:code_discrete_pid}
-                \end{figure}
+                Full Python code example for discrete PID controller :
+                \begin{lstlisting}[style=python_style]
+class PID:
 
-                \begin{figure}[!htb]
-                    \centering
-                    \includegraphics[scale=0.8]{../images/control/pid_main.png}
-                    \caption{Main loop}
-                    \label{fig:code_discrete_pid}
-                \end{figure}
+def __init__(self, kp, ki, kd, antiwindup = 10**10, du_max=10**10):
+    self.k0 = kp + ki + kd
+    self.k1 = -kp -2.0*kd
+    self.k2 = kd
+
+    self.e0 = 0.0
+    self.e1 = 0.0
+    self.e2 = 0.0
+    
+    self.antiwindup = antiwindup
+    self.du_max     = du_max
+
+def forward(self, xr, x, u_prev):
+    # error compute
+    self.e2 = self.e1
+    self.e1 = self.e0
+    self.e0 = xr - x
+
+    # u-change computing
+    du = self.k0*self.e0 + self.k1*self.e1 + self.k2*self.e2
+
+    # kick clipping, maximum output value change limitation
+    du  = numpy.clip(du, -self.du_max , self.du_max)
+
+    # antiwindup, maximum output value limitation
+    u   = numpy.clip(u_prev + du,  -self.antiwindup, self.antiwindup)
+
+    return u
 
 
-  
+                \end{lstlisting}
+
+
+    \newpage
+    \section{Optimal control}
+        
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-lqr_discrete.png}
+            \caption{LQR controller with integral action}
+            \label{fig:control_lqr_generic}
+        \end{figure}
+
+        \begin{align}
+            u(n)&= -Kx(n) + K_ie_{int}(n) \\
+            e_{int}(n)& = e_{int}(n-1) + x_r(n) - x(n)
+        \end{align}
+
+        where : 
+        \begin{itemize}
+            \item $x(n)$ is observerd state, column vector, with shape $(N, 1)$
+            \item $x_r(n)$ is required state, column vector, with shape $(N, 1)$
+            \item $u(n)$ is controller output, column vector, with shape $(M, 1)$
+            \item $K$ is feedback gain matrix, with shape $(M, N)$
+            \item $K_i$ is integral gain matrix, with shape $(M, N)$ 
+        \end{itemize}
+
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-lqr_detail.png}
+            \caption{Matrices shapes in LQR controller}
+            \label{fig:control_lqr_matrices_shape}
+        \end{figure}
+        
+
 
 \end{document}
