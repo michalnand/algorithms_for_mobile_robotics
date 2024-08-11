@@ -39,16 +39,14 @@
 
 
 %%%%%%%%%% BOOK INFORMATION %%%%%%%%%%
-\newcommand{\authorname}{Michal Chovanec, PhD.}
-\newcommand{\booktitle}{Motoko Ice Dragon X}
-\newcommand{\subtitle}{Documentation}
-\newcommand{\publisher}{Publisher}
-\newcommand{\editionyear}{2024}
-\title{\booktitle}
-\author{\authorname}
+\title{Hands on Algorithms for robotics}
+\author{Michal Chovanec, PhD.}
+\date{\today}
 
 
 \begin{document}
+\maketitle
+
 
 \chapter{Hardware description}
 %\section{block diagram}
@@ -251,14 +249,35 @@ def c2d(a, b, c, dt):
     return a_disc, b_disc, c
         \end{lstlisting}
        
-
         Process of system identification is finding matrices $A$, $B$ (and $C$). From this model 
         can be sythetised controller, or system able to plan multiple steps ahead.
 
-    \section{System examples}   
-        Motor velocity model, can be approximated as 1st order system.
+    \section{First order identification}   
+        Goal is to find parameters of DC motor. Motor velocity model, can be approximated as 1st linear order system. 
+        Real system is of course non-linear. The photo of example system is on fig \ref{fig:wheel_drive_detail}.
+        Control loop hardware consists of motor driver (H-driver, DRV8212), motor (Pololu HP 1:30 gear), and quadrature magnetic encoder (2x DRV5013),
+        fig \ref{fig:motor_identification_process}
 
-        Model will have following parameters
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-motor_control_photo.png}
+            \caption{Wheel drive hardware detail}
+            \label{fig:wheel_drive_detail}
+        \end{figure}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../diagrams/identification/identification.png}
+            \caption{Motor identification process}
+            \label{fig:motor_identification_process}
+        \end{figure}
+
+        Input signal $u(n)$ can be generated arbitrarily. Mostly used is square wave, to capture
+        high frequency dynamics. Algorithm is from observed motor velocity $x(n)$ and given input $u(n)$
+        estimating model parameters.
+
+        Before real motor testing, we focus on simulation example.
+        Our simulated motor will have following parameters
 
         \begin{itemize}
             \item sampling frequency 4kHz, $\Delta T = 1/4000$
@@ -267,6 +286,20 @@ def c2d(a, b, c, dt):
             \item motor time constat $\tau = 29$ milliseconds
         \end{itemize}
 
+        Motor state is single variable, angular velocity $\omega(t)$. Model have two parameters $\alpha$, $\beta$. 
+        First order continuos model becomes
+
+        \begin{align}
+            \frac{d\omega(t)}{dt} &= \alpha \omega(t) + \beta u(t) \label{eq:first_order_system_a} \\
+            \alpha &= -\frac{1}{\tau}  \label{eq:first_order_system_b} \\
+            \beta &= \frac{k}{\tau}  \label{eq:first_order_system_c}
+        \end{align}
+
+        with given parameters $k$ and $\tau$ becomes $\alpha = -34.48$ and $\beta = 586.2$.
+
+        Unit step response is obtained by setting $u(n) = 1$, and solving using any differential 
+        equation solver. The simplest is Euler method, which works well for small $dt$ and low order 
+        systems. Much accurate is commonly used Runge-Kutta 4 method.
 
         \begin{figure}[!htb]
             \centering
@@ -275,19 +308,125 @@ def c2d(a, b, c, dt):
             \label{fig:motor_step_response}
         \end{figure}
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.6]{../images/motor_control/motor_constant_estimation.png}
-            \caption{Motor constant estimation}
-            \label{fig:motor_constant_estimation}
-        \end{figure}
+        Our goal is to generate input $u(t)$ and by observing system output $x(t)$ estimate parameters
+        $k$ and $\tau$.
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.6]{../images/motor_control/motor_time_constant_estimation.png}
-            \caption{Motor time constant estimation}
-            \label{fig:motor_time_constant_estimation}
-        \end{figure}
+        We start with simplest identification method, which works only for 1st order non-oscilating systems.
+        Method have two main steps
+        \begin{enumerate}
+            \item steady state value estimation
+            \item time constant estimation
+        \end{enumerate}
+
+        \subsection{Steady state estimation}
+
+            We drive motor on different input levels, e.g. ranging from 10\% ... 100\%. Observing steady 
+            state velocity the motor constant $k$ can be estimated.
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.6]{../images/motor_control/motor_constant_estimation.png}
+                \caption{Motor constant estimation}
+                \label{fig:motor_constant_estimation}
+            \end{figure}
+
+            Algorithm for estimating motor constant :
+
+            \begin{enumerate}
+                \item choose constant motor input $u \in (0, u_{max} \rangle$
+                \item run motor, and wait for velocity steady state
+                \item measure velocity  
+                \item estimate $\hat{k} = x/u$
+                \item repeats to estimate average $\hat{k}$
+            \end{enumerate}
+
+            In following code we choose 10 different input levels. After setting, we wait 500steps
+            to steady state, then we measure output velocity. Finally, we average results.
+
+            \begin{lstlisting}[style=python_style]
+# input levels
+u_values = u_max*numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
+
+# reset dynamical system into zero state
+ds.reset()
+
+for j in range(len(u_values)):
+
+    x_mean = []
+    for i in range(1000):
+
+        # convert scalar u to column vector
+        u    = u_values[j]
+        u    = numpy.array([[u]])
+        
+        # compute dynamical system one step
+        x, _ = ds.forward_state(u)
+
+        # after steady state, store x
+        if i > 500:
+            x_mean.append(x[0][0])
+
+    x_mean = numpy.array(x_mean)
+    x_mean = x_mean.mean()
+
+    k_est = x_mean/u_values[j]
+
+    print(u_values[j], k_est)
+
+k_mean = k_est.mean()
+
+# average k estimate
+print("k_mean = ", k_mean)
+            \end{lstlisting}
+
+        In our example the resulted $\hat{k}$ is $16.995$, which very close to real value $17$.
+        Accuracy depends on velocity estimation noise (encoder noise) and how many samples we average.
+        
+        \subsection{Time constant estimation}
+
+            Second parameter is time constant $\tau$. Most textbooks uses measuring time at which system 
+            reaches $63.2\%$ of $x_{max}$. Where $x_{max}$ is motor velocity on choosen $u$, a.k.a. steady 
+            state velocity at $u$. This method suffers to noise, and precise timing. Here we presents 
+            more accurate method, briging system into natural frequency resonance.
+            Algorithm is as follow :
+        
+            \begin{enumerate}
+                \item choose $u_{set}$, and set $u_{in} = u_{set}$
+                \item repeat $n_{steps}$, each step duration is $\Delta T$
+                    \begin{enumerate}
+                        \item $if\ u_{in} > 0\ and\ x(n) > 0.632ku_{in}$ \\
+                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{in}$
+                        \item $else\ if\ u_{in} < 0\ and\ x(n) < 0.632ku_{in}$ \\
+                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{in}$
+                    \end{enumerate}
+            \end{enumerate}
+
+            The time constant $\hat{\tau}$ can be now estimated by 
+
+            \begin{align}   
+                \hat{\tau} = \frac{2}{\pi}\frac{n_{steps}}{n_{HalfPeriods}}{\Delta T}
+            \end{align}
+
+            Where $\Delta T$ is sampling period, ratio ${n_{steps}} : {n_{HalfPeriods}}$ is
+            estimating system frequency. In core, this method is nothing more than  period 
+            duration estimation. The resulted time plot is on fig.  \ref{fig:motor_time_constant_estimation}.
+            Result for our simulated motor is $\hat{\tau} = 27.44[ms]$, which is good estimation of real value $29 [ms]$.
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.6]{../images/motor_control/motor_time_constant_estimation.png}
+                \caption{Motor time constant estimation}
+                \label{fig:motor_time_constant_estimation}
+            \end{figure}
+            
+            Using equations \ref{eq:first_order_system_b} and \ref{eq:first_order_system_c} we can estimate $\hat{\alpha}$ and $\hat{\beta}$ as
+            $\hat{\alpha} = -36.443$ and $\hat{\beta} = 619.372$
+
+          
+
+        \subsection{Real motor identification}
+        TODO
+
 
 \newpage
 \chapter{Motor control}
@@ -300,15 +439,6 @@ def c2d(a, b, c, dt):
         \caption{Velocity control overview}
         \label{fig:velocity_control_overview}
     \end{figure}
-
-    \begin{figure}[!htb]
-        \centering
-        \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-motor_control_photo.png}
-        \caption{Real system photo}
-        \label{fig:velocity_control_real}
-    \end{figure}
-
-
 
 
     \newpage
@@ -455,7 +585,32 @@ def forward(self, xr, x, u_prev):
 
     \newpage
     \section{Optimal control}
-        
+
+                
+        Optimal control is solution of following optimisation problem
+
+        \begin{align}
+            \min_{x(.), u(.)} \sum_{n=0}^\infty x^T(n)Qx(n) + u^T(n)Ru(n) \\
+            s.t.\ x(n+1) = Ax(n) + Bu(n)
+        \end{align}
+
+        the cost function is quadratic
+        \begin{align}
+            J &= \sum_{n=0}^\infty x^T(n)Qx(n) + u^T(n)Ru(n)
+        \end{align}
+
+        where $Q$ and $R$ are positive semidefinite square matrices, with shapes $N \times N$ and $M \times M$ respectively.
+        The system order is $N$ and system have $M$ inputs.
+        Matrix $Q$ penalises magnitude of $x(n)$ elements, matrix $R$ penalises control input $u(n)$ elements.
+        Solution is obtained by solving algebraic Riccati equation, and results in feedback gain $u(n) = -Kx(n)$.
+        This controller is called \textbf{Linear Quadratic Regulator - LQR}.
+        This matrix can fully manipulate with system poles and guarantee system stability.
+        However, given structure have steady state error - brings system always into zero state.
+        To eliminate this issue, we introduce integral action term by augmenting system matrices. 
+        Resulted controller have two matrices : feedback gain $K$ and integral action gain $K_i$ matrix.
+        The modified LQR controller have form on following fig \ref{fig:control_lqr_generic} 
+        with equations \ref{eq:lqr_integral_action}.
+
         \begin{figure}[!htb]
             \centering
             \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-lqr_discrete.png}
@@ -464,7 +619,7 @@ def forward(self, xr, x, u_prev):
         \end{figure}
 
         \begin{align}
-            u(n)&= -Kx(n) + K_ie_{int}(n) \\
+            u(n)&= -Kx(n) + K_ie_{int}(n) \label{eq:lqr_integral_action} \\
             e_{int}(n)& = e_{int}(n-1) + x_r(n) - x(n)
         \end{align}
 
