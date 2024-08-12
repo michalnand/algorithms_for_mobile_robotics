@@ -805,12 +805,28 @@ def forward(self, xr, x, u_prev):
         
     \newpage
     \section{Model predictive control}
+
+        Previous controllers were focused only on single step in required state $x_r(n)$.
+        Model predictive control solves more generic problem, where required input 
+        is not single a state $x_r(n)$ but whole sequence $X_r(n)$. 
+        This is called trajectory tracking problem and $X_r(n)$ is required trajectory with length of $H$-steps.
+        $H$ is called prediction horizon. Controller uses dynamics model of controlled system to predict
+        future steps. The control sequence $u(n)$ is optimised the controlled system follows the required 
+        trajectory $X_r(n)$.
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.5]{../diagrams/control/control-mpc_steps.png}
+            \caption{Principle of model predictive control}
+            \label{fig:mpc_steps}
+        \end{figure}
+        
         Model predictive control is solution of following optimisation problem
 
         \begin{align}
-            \min_{x(.), \Delta u(.)} &\sum_{h=0}^H (x_r^T(h) - x^T(h))Q(x_r(h) - x(h)) + \Delta u^T(h)R\Delta u(h) \\
-            s.t.\ u(n) &= u(n-1) + \Delta u(n), \\
-            x(n+1) &= Ax(n) + Bu(n)
+            \min_{x(.), \Delta u(.)} &\sum_{h=0}^H (x_r^T(h) - x^T(h))Q(x_r(h) - x(h)) + _\Delta u^T(h)R_\Delta u(h) \\
+            s.t.\ x(n+1) &= Ax(n) + Bu(n) \\
+            u(n) &= u(n-1) + _\Delta u(n)
         \end{align}
 
         where : 
@@ -821,7 +837,7 @@ def forward(self, xr, x, u_prev):
           \item $Q$ is matrix, $n \times n$
           \item $R$ is matrix, $m \times m$
           \item $_\Delta u$ is controller output
-          \item where $n$ is system orders, and $m$ system inputs count
+          \item $n$ is system orders, and $m$ system inputs count
         \end{itemize}
 
         Unwrap into form where only $x(n)$ and $u(n-1)$ are used to predict all other $x$
@@ -829,7 +845,7 @@ def forward(self, xr, x, u_prev):
             x(n+1)&= Ax(n) + Bu(n) \\
                 &= Ax(n) + B(u(n-1) + _\Delta u(n)) \\
             x(n+2)&= Ax(n+1) + B(u(n) + _\Delta u(n+1)) \\
-                &= A^2x(n) + (AB + B)u(n-1) + (AB+B)_\Delta u(n) + B_\Delta u(u) \\
+                &= A^2x(n) + (AB + B)u(n-1) + (AB+B)_\Delta u(n) + B_\Delta u(n) \\
             x(n+3)&= Ax(n+2) + B(u(n+1) + _\Delta u(n+2)) \\
                 &= A^3x(n) + (A^2 + AB + B)u(n-1) \\
                 & + (A^2B + AB + B)_\Delta u(n) \\
@@ -854,7 +870,7 @@ def forward(self, xr, x, u_prev):
             \end{bmatrix} x(n) +
             \begin{bmatrix}
             B \\
-            AB \\
+            AB + B \\
             \dots \\
             \sum_{i=0}^{H-1} A^iB
             \end{bmatrix} u(n-1) + \\
@@ -878,9 +894,23 @@ def forward(self, xr, x, u_prev):
             \tilde{X} &= \Psi x(n) + \Omega u(n-1) + \Theta \tilde{_\Delta U}
         \end{align*}
 
+        Explonation : 
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control/control-mpc_exp_1.png}
+            \caption{Effect of current state $x(n)$ and input $u(n)$ to all output steps}
+            \label{fig:mpc_exp_1}
+        \end{figure}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control/control-mpc_exp_2.png}
+            \caption{Effect of n-th input step $_\Delta u(n)$ on output}
+            \label{fig:mpc_exp_2}
+        \end{figure}
+
 
         Formulate quadratic loss (cost) function
-
         \begin{align*}
             J &= \tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} 
                         + (\tilde{X_r} - \tilde{X})^T \tilde{Q} (\tilde{X_r} - \tilde{X})^T \\
@@ -938,7 +968,13 @@ def forward(self, xr, x, u_prev):
           _\Delta u(n) &= \Xi E(n) \\
           u(n) &= u(n-1) + _\Delta u(n)
         \end{align*}
-      
+        
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control/control-mpc.png}
+            \caption{Block diagram of unconstrained MPC}
+            \label{fig:mpc_block}
+        \end{figure}
       
 
 \end{document}
