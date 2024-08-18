@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  11 AUG 2024 08:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  18 AUG 2024 19:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -934,89 +934,77 @@ rol.png  used on input line 67.
  [2
 
  <../diagrams/control_generic/control_generic-motor_control_photo.png> <../diag
-rams/control_generic/control_generic-motor_control.png>]
-<../diagrams/control_generic/control_generic-pid.png, id=89, 317.988pt x 44.084
-7pt>
+rams/control_generic/control_generic-motor_control.png>] [3
+
+]
+<../diagrams/control_generic/control_generic-pid.png, id=121, 317.988pt x 44.08
+47pt>
 File: ../diagrams/control_generic/control_generic-pid.png Graphic file (type pn
 g)
 <use ../diagrams/control_generic/control_generic-pid.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-pid.png  u
-sed on input line 87.
+sed on input line 107.
 (pdftex.def)             Requested size: 190.79427pt x 26.451pt.
-<../diagrams/control_generic/control_generic-pid_discrete.png, id=90, 368.577pt
- x 109.1277pt>
+<../diagrams/control_generic/control_generic-pid_discrete.png, id=122, 368.577p
+t x 109.1277pt>
 File: ../diagrams/control_generic/control_generic-pid_discrete.png Graphic file
  (type png)
 <use ../diagrams/control_generic/control_generic-pid_discrete.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-pid_discre
-te.png  used on input line 87.
+te.png  used on input line 107.
 (pdftex.def)             Requested size: 221.14789pt x 65.47711pt.
- [3
+ [4
 
  <../diagrams/control_generic/control_generic-pid.png> <../diagrams/control_gen
 eric/control_generic-pid_discrete.png>]
-<../images/motor_control/pid_p_control.png, id=125, 578.16pt x 289.08pt>
+<../images/motor_control/pid_p_control.png, id=154, 570.2103pt x 281.853pt>
 File: ../images/motor_control/pid_p_control.png Graphic file (type png)
 <use ../images/motor_control/pid_p_control.png>
 Package pdftex.def Info: ../images/motor_control/pid_p_control.png  used on inp
-ut line 108.
-(pdftex.def)             Requested size: 231.2599pt x 115.62994pt.
- [4
+ut line 128.
+(pdftex.def)             Requested size: 228.08008pt x 112.7392pt.
+ [5
 
  <../images/motor_control/pid_p_control.png>]
-<../images/motor_control/pid_pi_control_0.png, id=156, 578.16pt x 289.08pt>
+<../images/motor_control/pid_pi_control_0.png, id=183, 570.933pt x 281.853pt>
 File: ../images/motor_control/pid_pi_control_0.png Graphic file (type png)
 <use ../images/motor_control/pid_pi_control_0.png>
 Package pdftex.def Info: ../images/motor_control/pid_pi_control_0.png  used on 
-input line 129.
-(pdftex.def)             Requested size: 231.2599pt x 115.62994pt.
- [5
+input line 149.
+(pdftex.def)             Requested size: 228.36914pt x 112.7392pt.
+ [6
 
  <../images/motor_control/pid_pi_control_0.png>]
-<../images/motor_control/pid_pi_control_1.png, id=185, 578.16pt x 289.08pt>
+<../images/motor_control/pid_pi_control_1.png, id=212, 570.933pt x 281.853pt>
 File: ../images/motor_control/pid_pi_control_1.png Graphic file (type png)
 <use ../images/motor_control/pid_pi_control_1.png>
 Package pdftex.def Info: ../images/motor_control/pid_pi_control_1.png  used on 
-input line 151.
-(pdftex.def)             Requested size: 231.2599pt x 115.62994pt.
+input line 171.
+(pdftex.def)             Requested size: 228.36914pt x 112.7392pt.
+[7
 
-[6
-
- <../images/motor_control/pid_pi_control_1.png>] [7
+ <../images/motor_control/pid_pi_control_1.png>] [8
 
 ]
-<../images/control/pid_init.png, id=242, 574.145pt x 272.01625pt>
+<../images/control/pid_init.png, id=270, 574.145pt x 272.01625pt>
 File: ../images/control/pid_init.png Graphic file (type png)
 <use ../images/control/pid_init.png>
-Package pdftex.def Info: ../images/control/pid_init.png  used on input line 183
+Package pdftex.def Info: ../images/control/pid_init.png  used on input line 203
 .
 (pdftex.def)             Requested size: 229.65393pt x 108.80457pt.
-<../images/control/pid_main.png, id=243, 591.20876pt x 325.215pt>
+<../images/control/pid_main.png, id=271, 591.20876pt x 325.215pt>
 File: ../images/control/pid_main.png Graphic file (type png)
 <use ../images/control/pid_main.png>
-Package pdftex.def Info: ../images/control/pid_main.png  used on input line 183
+Package pdftex.def Info: ../images/control/pid_main.png  used on input line 203
 .
 (pdftex.def)             Requested size: 236.47931pt x 130.0837pt.
 
-Overfull \vbox (2.74585pt too high) detected at line 183
+Overfull \vbox (2.74585pt too high) detected at line 203
  []
 
-[8
+[9
 
- <../images/control/pid_init.png> <../images/control/pid_main.png>] [9
-
-]
-File: ../images/generic/rl_square.jpg Graphic file (type jpg)
-<use ../images/generic/rl_square.jpg>
-Package pdftex.def Info: ../images/generic/rl_square.jpg  used on input line 22
-3.
-(pdftex.def)             Requested size: 211.24513pt x 210.65796pt.
-
-Overfull \hbox (57.6002pt too wide) in paragraph at lines 223--223
- [][] 
- []
-
-[10
+ <../images/control/pid_init.png> <../images/control/pid_main.png>] [10
 
 ]
 \tf@nav=\write6
@@ -1028,7 +1016,8 @@ Overfull \hbox (57.6002pt too wide) in paragraph at lines 223--223
 \tf@snm=\write8
 \openout8 = `afr.snm'.
 
- (./afr.aux)
+
+(./afr.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -1037,25 +1026,29 @@ Package rerunfilecheck Info: File `afr.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21428 strings out of 475567
- 419192 string characters out of 5777889
+ 21426 strings out of 475567
+ 419069 string characters out of 5777889
  1938187 words of memory out of 5000000
- 43123 multiletter control sequences out of 15000+600000
+ 43120 multiletter control sequences out of 15000+600000
  565875 words of font info for 64 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  101i,15n,107p,398b,631s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mss10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmss8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmssbx10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmssi10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb>
-Output written on afr.pdf (10 pages, 3790682 bytes).
+
+pdfTeX warning (dest): name{Navigation11} has been referenced but does not exis
+t, replaced by a fixed one
+
+</usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+s10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmss8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmssbx10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmssi10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmsy10.pfb>
+Output written on afr.pdf (10 pages, 3630142 bytes).
 PDF statistics:
- 362 PDF objects out of 1000 (max. 8388607)
- 292 compressed objects within 3 object streams
- 21 named destinations out of 1000 (max. 500000)
+ 363 PDF objects out of 1000 (max. 8388607)
+ 293 compressed objects within 3 object streams
+ 22 named destinations out of 1000 (max. 500000)
  123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

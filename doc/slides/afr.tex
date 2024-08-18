@@ -69,6 +69,26 @@
 
 \begin{frame}
   
+  \frametitle{\textbf { motor parameters}}
+
+  \begin{itemize}
+    \item motor maximum input range $u_{max} = 1.0$
+    \item motor constant $k = 139.084$
+    \item motor time constant $\tau = 8.276[ms]$
+  \end{itemize}
+
+  \begin{align*}
+    \alpha&= -\frac{1}{\tau} \\
+    \beta&= k\frac{1}{\tau} \\
+    \frac{d\omega(t)}{dt} &= \alpha \omega(t) + \beta u(t) \\
+    \frac{d\omega(t)}{dt} &= -120.83 \omega(t) + 16805.7 u(t) 
+  \end{align*}
+  
+\end{frame}
+
+
+\begin{frame}
+  
   \frametitle{\textbf { PID control}}
 
   \begin{itemize}
@@ -199,28 +219,6 @@
 
 
 
-
-\begin{frame}
-  
-  \frametitle{\textbf { motor velocity controller}}
-  
-  \begin{columns}
-
-    \begin{column}{0.5\textwidth}
-      \centering{\includegraphics[scale=0.045]{../images/generic/rl_square.jpg}}
-    \end{column}
-
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}
-        \item fastest line following
-        \item 3 rounds
-        \item obstacles : broken line, brick, loop, colored line
-      \end{itemize}
-    \end{column}
-
-  \end{columns}
-  
-\end{frame}
 
 
 \end{document}
