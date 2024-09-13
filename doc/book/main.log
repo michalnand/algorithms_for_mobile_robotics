@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  18 AUG 2024 20:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  18 AUG 2024 20:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -628,7 +628,7 @@ File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/02/21 1.10 listings language file
 )
-No file main.aux.
+(./main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
@@ -645,6 +645,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
+
 (/usr/local/texlive/2024basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count338
@@ -809,14 +810,6 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [9 <../diagrams/control_generic/control_generic-discrete_dynamics.png>]
-
-LaTeX Warning: Reference `fig:wheel_drive_detail' on page 10 undefined on input
- line 278.
-
-
-LaTeX Warning: Reference `fig:motor_identification_process' on page 10 undefine
-d on input line 280.
-
 <../diagrams/control_generic/control_generic-motor_control_photo.png, id=56, 28
 9.08pt x 202.356pt>
 File: ../diagrams/control_generic/control_generic-motor_control_photo.png Graph
@@ -832,7 +825,7 @@ File: ../diagrams/identification/identification.png Graphic file (type png)
 Package pdftex.def Info: ../diagrams/identification/identification.png  used on
  input line 291.
 (pdftex.def)             Requested size: 271.44821pt x 199.90036pt.
-[10 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
+ [10 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
 <../images/motor_control/motor_step_response.png, id=62, 570.933pt x 137.313pt>
 
 File: ../images/motor_control/motor_step_response.png Graphic file (type png)
@@ -840,8 +833,7 @@ File: ../images/motor_control/motor_step_response.png Graphic file (type png)
 Package pdftex.def Info: ../images/motor_control/motor_step_response.png  used 
 on input line 327.
 (pdftex.def)             Requested size: 342.56244pt x 82.38843pt.
-
-[11 <../diagrams/identification/identification.png>]
+ [11 <../diagrams/identification/identification.png>]
 <../images/motor_control/motor_constant_estimation.png, id=67, 392.4261pt x 298
 .4751pt>
 File: ../images/motor_control/motor_constant_estimation.png Graphic file (type 
@@ -857,10 +849,6 @@ Overfull \hbox (25.00415pt too wide) in paragraph at lines 369--371
  []
 
 [13]
-
-LaTeX Warning: Reference `fig:motor_time_constant_estimation' on page 14 undefi
-ned on input line 433.
-
 <../images/motor_control/motor_time_constant_estimation.png, id=77, 394.5942pt 
 x 298.4751pt>
 File: ../images/motor_control/motor_time_constant_estimation.png Graphic file (
@@ -869,14 +857,6 @@ type png)
 Package pdftex.def Info: ../images/motor_control/motor_time_constant_estimation
 .png  used on input line 438.
 (pdftex.def)             Requested size: 236.75833pt x 179.08643pt.
-
-LaTeX Warning: Reference `eq:first_order_system_b' on page 14 undefined on inpu
-t line 443.
-
-
-LaTeX Warning: Reference `eq:first_order_system_c' on page 14 undefined on inpu
-t line 443.
-
 
 Overfull \hbox (5.19196pt too wide) in paragraph at lines 454--455
 []\T1/lmr/m/n/12 float x = mo-tor_control.get_right_velocity() - re-turn me-as-
@@ -968,14 +948,6 @@ Overfull \hbox (73.74701pt too wide) in paragraph at lines 693--694
  []
 
 [23 <../images/motor_control/pid_pi_control_1.png>] [24]
-
-LaTeX Warning: Reference `fig:control_lqr_generic' on page 25 undefined on inpu
-t line 774.
-
-
-LaTeX Warning: Reference `eq:lqr_integral_action' on page 25 undefined on input
- line 775.
-
 <../diagrams/control_generic/control_generic-lqr_discrete.png, id=125, 346.1733
 pt x 174.1707pt>
 File: ../diagrams/control_generic/control_generic-lqr_discrete.png Graphic file
@@ -984,7 +956,7 @@ File: ../diagrams/control_generic/control_generic-lqr_discrete.png Graphic file
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-lqr_discre
 te.png  used on input line 779.
 (pdftex.def)             Requested size: 276.939pt x 139.33675pt.
-[25 <../diagrams/control_generic/control_generic-lqr_discrete.png>]
+ [25 <../diagrams/control_generic/control_generic-lqr_discrete.png>]
 <../diagrams/control_generic/control_generic-lqr_detail.png, id=131, 393.1488pt
  x 122.1363pt>
 File: ../diagrams/control_generic/control_generic-lqr_detail.png Graphic file (
@@ -994,44 +966,13 @@ Package pdftex.def Info: ../diagrams/control_generic/control_generic-lqr_detail
 .png  used on input line 801.
 (pdftex.def)             Requested size: 314.51947pt x 97.70917pt.
  [26 <../diagrams/control_generic/control_generic-lqr_detail.png>]
-
-LaTeX Warning: Reference `eq:required_trajectory' on page 27 undefined on input
- line 812.
-
-
-LaTeX Warning: Reference `eq:predicted_trajectory' on page 27 undefined on inpu
-t line 815.
-
 <../diagrams/control/control-mpc_steps.png, id=136, 693.792pt x 311.4837pt>
 File: ../diagrams/control/control-mpc_steps.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_steps.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_steps.png  used on inp
 ut line 820.
 (pdftex.def)             Requested size: 346.89514pt x 155.74147pt.
-[27 <../diagrams/control/control-mpc_steps.png>]
-
-LaTeX Warning: Reference `eq:mpc_matrix_form' on page 28 undefined on input lin
-e 858.
-
-
-LaTeX Warning: Reference `eq:mpc_loss' on page 28 undefined on input line 859.
-
-
-LaTeX Warning: Reference `eq:mpc_derivative' on page 28 undefined on input line
- 861.
-
-
-LaTeX Warning: Reference `eq:mpc_zero_solving' on page 28 undefined on input li
-ne 861.
-
-
-LaTeX Warning: Reference `eq:mpc_solution' on page 28 undefined on input line 8
-61.
-
-
-LaTeX Warning: Reference `eq:mpc_fast_solution_1' on page 28 undefined on input
- line 862.
-
+ [27 <../diagrams/control/control-mpc_steps.png>]
 
 LaTeX Warning: Reference `eq:mpc_fast_solution_2' on page 28 undefined on input
  line 862.
@@ -1040,12 +981,12 @@ LaTeX Warning: Reference `eq:mpc_fast_solution_2' on page 28 undefined on input
 Underfull \vbox (badness 1337) has occurred while \output is active []
 
  [28]
-<../diagrams/control/control-mpc_exp_1.png, id=144, 375.804pt x 177.7842pt>
+<../diagrams/control/control-mpc_exp_1.png, id=144, 375.804pt x 180.675pt>
 File: ../diagrams/control/control-mpc_exp_1.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_exp_1.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_exp_1.png  used on inp
 ut line 937.
-(pdftex.def)             Requested size: 300.6436pt x 142.22752pt.
+(pdftex.def)             Requested size: 300.6436pt x 144.54018pt.
 
 [29]
 <../diagrams/control/control-mpc_exp_2.png, id=148, 375.804pt x 216.81pt>
@@ -1072,15 +1013,12 @@ L3 programming layer <2020/03/25>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 11491 strings out of 475567
- 184735 string characters out of 5777889
+ 11494 strings out of 475567
+ 184774 string characters out of 5777889
  1994187 words of memory out of 5000000
- 33486 multiletter control sequences out of 15000+600000
+ 33487 multiletter control sequences out of 15000+600000
  625972 words of font info for 73 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  85i,14n,93p,315b,1294s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1096,7 +1034,7 @@ ts/type1/public/lm/lmro12.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/ty
 pe1/public/lm/lmsy10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/p
 ublic/lm/lmsy8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/
 lm/lmtt8.pfb>
-Output written on main.pdf (33 pages, 13243571 bytes).
+Output written on main.pdf (33 pages, 13246551 bytes).
 PDF statistics:
  230 PDF objects out of 1000 (max. 8388607)
  123 compressed objects within 2 object streams
