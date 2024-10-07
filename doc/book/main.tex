@@ -6,7 +6,9 @@
 \usepackage{graphicx}
 
 \usepackage{subcaption}
-\usepackage{amsmath}
+\usepackage{amsmath}  % For mathematical formulas
+\usepackage{amsfonts} % For \mathbb
+\usepackage{amssymb}  % For additional symbols
 \usepackage{color}
 \usepackage{listings}
 \usepackage{xcolor}
@@ -17,8 +19,8 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
-\definecolor{white}{rgb}{0.9,0.9,0.9}
 \definecolor{dark_gray}{rgb}{0.2,0.2,0.2}
+\definecolor{white}{rgb}{0.9,0.9,0.9}
 
 \lstdefinestyle{python_style}{
     backgroundcolor=\color{backcolour},   
@@ -1018,6 +1020,99 @@ def forward(self, xr, x, u_prev):
             \caption{Block diagram of unconstrained MPC}
             \label{fig:mpc_block}
         \end{figure}
-      
+
+
+\newpage
+\chapter{Reinforcement learning}
+
+    Reinforcement Learning (RL) is a branch of machine learning concerned with how agents take actions 
+    in an environment to maximize cumulative reward. 
+    Unlike supervised learning, where the agent learns from a labeled dataset, 
+    RL focuses on trial-and-error interactions, as shown on figure \ref{fig:rl_principle}. 
+    The agent observes the state of the environment, 
+    selects actions according to a policy, and receives feedback in the form of rewards. 
+    Over time, the agent aims to learn an optimal policy that maximizes the total long-term reward by balancing exploration (trying new actions) and exploitation (choosing known high-reward actions).
+    Key concepts in RL include states, actions, rewards, policies, and value functions. 
+    RL has been successfully applied in areas such as robotics, game playing, 
+    and autonomous systems, where decision-making under uncertainty is crucial.
+
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.8]{../diagrams/reinforcement_learning/rl-rl.png}
+        \caption{Reinforcement learning principle}
+        \label{fig:rl_principle}
+    \end{figure}
+
+    \newpage
+    \section{Terminology}
+
+    \subsection{State}
+    Represents the current status or configuration of a system or environment. 
+    It contains all the relevant information necessary to make decisions about future actions or predictions. 
+    The state encodes the minimum amount of information required to describe the system's present situation without needing to know the full history of past events.
+
+    \begin{align}
+        s(n) \in \mathbb{S}
+    \end{align}
+
+    \textbf{Example of states}:
+    \begin{itemize}
+        \item \textit{Robot state}: This may include position $(x, y)$, velocity components $v_x, v_y$, and the robot's orientation $\theta$. 
+        Together, this forms a 5-element state vector: $[x, y, v_x, v_y, \theta]$.
+        
+        \item \textit{Image-based state}: A screenshot from a game represented as an RGB image of shape $(3, \text{height}, \text{width})$. To capture temporal information, multiple frames can be stacked, e.g., four frames. In this case, the state has a shape of $(4 \times 3, \text{height}, \text{width})$.
+    \end{itemize}
+    
+    \subsection{Policy}
+    A policy defines the mechanism by which an agent selects actions based on its perception of the environment (i.e., its current state). 
+    It represents the agent's behavior, mapping states to actions and guiding how the agent interacts with the environment.
+    
+    A policy can be deterministic, denoted as
+    \[
+    a = \pi(s)
+    \]
+    where the action \( a \) is determined directly by the state \( s \), or it can be stochastic, defined as
+    \[
+    a \sim \pi(\cdot | s)
+    \]
+    where the action \( a \) is drawn from a probability distribution conditioned on the state \( s \).
+    
+
+    \subsection{Reward}
+    A reward is a scalar feedback signal that measures the quality of the outcome of an agent's action, guiding the agent towards behaviors that maximize long-term cumulative reward. 
+    The agent's objective is to maximize the expected cumulative reward over time.
+    
+    \subsection{Objective of Reinforcement Learning}
+    The formal objective of reinforcement learning is to maximize the expected return, which is the sum of discounted rewards over time
+    \begin{align}
+        J(\theta) = \mathbb{E}_{\pi_{\theta}} \left[ \sum_{n=0}^{\infty} \gamma^n r(n) \right]
+    \end{align}
+    where:
+    \begin{itemize}
+        \item \( \pi_{\theta} \) is the policy parameterized by \( \theta \),
+        \item \( r(n) \) is the reward at time step \( n \),
+        \item \( \gamma \in [0, 1) \) is the discount factor, which balances immediate and future rewards.
+    \end{itemize}
+
+    \subsection{Value}
+    The value function represents the expected cumulative reward that an agent can obtain from a particular state or state-action pair. 
+    There are two main types of value functions:
+    \begin{itemize}
+        \item \textbf{State Value Function} \( V^\pi(s) \): The expected return starting from state \( s \) and following policy \( \pi \).
+        \item \textbf{Action Value Function} \( Q^\pi(s, a) \): The expected return starting from state \( s \), taking action \( a \), and then following policy \( \pi \).
+    \end{itemize}
+    Value functions help the agent determine how beneficial it is to be in a certain state or take a particular action,
+    guiding the learning process.
+
+    \newpage
+    \section{Actor-Critic agent}
+
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[scale=0.8]{../diagrams/reinforcement_learning/rl-actor_critic.png}
+        \caption{Actor critic basic structure}
+        \label{fig:actor_critic}
+    \end{figure}
 
 \end{document}
+

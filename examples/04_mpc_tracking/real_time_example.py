@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
             xr = get_xr(n, 2000)
 
-            for i in range(0, len(xr) - 1, 5):
+            for i in range(0, len(xr) - 1, 2):
                 x0 = scale_position(xr[i][0], 1.5, img.shape[0])
                 y0 = scale_position(xr[i][2], 1.5, img.shape[1])
                 x1 = scale_position(xr[i+1][0], 1.5, img.shape[0])
