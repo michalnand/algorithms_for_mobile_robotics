@@ -407,15 +407,15 @@
 
         \item control variable
           \begin{align*}
-            du &=
+            _\Delta u &=
             \begin{bmatrix}
-              du_v \\
-              du_{\omega}
+              _\Delta u_v \\
+              _\Delta u_{\omega}
             \end{bmatrix}
           \end{align*}
 
           \begin{align*}
-            u(n) &= u(n-1) + du(n)
+            u(n) &= u(n-1) +{_\Delta}u(n)
           \end{align*}
 
       \end{itemize}
@@ -432,6 +432,10 @@
 \begin{frame}
 \frametitle{\textbf { state space model (continuos)}}
 
+  \begin{align*}
+    dx &= Ax + Bu
+  \end{align*}
+  
   \begin{columns}
 
     \begin{column}{0.5\textwidth}
@@ -469,7 +473,7 @@
   \begin{itemize}
     \item 4 poles : double in $0$, $-\frac{1}{\tau_{forward}}$ and $-\frac{1}{\tau_{turn}}$
     \item 2 control inputs : forward velocity and turning velocity
-    \item constrains for kick avoid (jerk) : $du_{min} < du < du_{max}$
+    \item constrains for kick avoid (jerk) : ${_\Delta}u_{min} < {_\Delta}u < {_\Delta}u_{max}$
     \item constrains for motor limits : $u_{min} < u < u_{max}$
   \end{itemize}
 

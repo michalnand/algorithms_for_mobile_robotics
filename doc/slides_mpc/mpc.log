@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  28 NOV 2024 09:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  28 NOV 2024 10:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1076,24 +1076,24 @@ n input line 426.
 <../images/books/lin_alg.jpg, id=582, 765.86125pt x 1003.75pt>
 File: ../images/books/lin_alg.jpg Graphic file (type jpg)
 <use ../images/books/lin_alg.jpg>
-Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 502.
+Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 506.
 (pdftex.def)             Requested size: 76.5906pt x 100.38087pt.
 <../images/books/kalman_filter.png, id=583, 476.78125pt x 710.655pt>
 File: ../images/books/kalman_filter.png Graphic file (type png)
 <use ../images/books/kalman_filter.png>
 Package pdftex.def Info: ../images/books/kalman_filter.png  used on input line 
-502.
+506.
 (pdftex.def)             Requested size: 71.5141pt x 106.59364pt.
 <../images/books/matrix.png, id=584, 575.14874pt x 745.78625pt>
 File: ../images/books/matrix.png Graphic file (type png)
 <use ../images/books/matrix.png>
-Package pdftex.def Info: ../images/books/matrix.png  used on input line 502.
+Package pdftex.def Info: ../images/books/matrix.png  used on input line 506.
 (pdftex.def)             Requested size: 86.26859pt x 111.86311pt.
 <../images/books/predictive_control.jpg, id=585, 667.49374pt x 1003.75pt>
 File: ../images/books/predictive_control.jpg Graphic file (type jpg)
 <use ../images/books/predictive_control.jpg>
 Package pdftex.def Info: ../images/books/predictive_control.jpg  used on input 
-line 502.
+line 506.
 (pdftex.def)             Requested size: 66.75328pt x 100.38087pt.
  [20
 
@@ -1138,7 +1138,7 @@ ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (20 pages, 5002507 bytes).
+Output written on mpc.pdf (20 pages, 5002787 bytes).
 PDF statistics:
  676 PDF objects out of 1000 (max. 8388607)
  564 compressed objects within 6 object streams
