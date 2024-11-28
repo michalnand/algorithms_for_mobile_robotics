@@ -79,6 +79,14 @@
 
 \end{frame}
 
+
+
+
+
+
+
+
+
 \begin{frame}
   
   \frametitle{\textbf { MPC - overview }}
@@ -125,6 +133,127 @@
 \end{frame}
 
 
+
+
+
+
+\begin{frame}
+  
+  \frametitle{\textbf { robot trajectory tracking example}}
+  \centering{\includegraphics[scale=1.0]{../diagrams/robot/robot-differential_drive.png}}
+
+\end{frame}
+
+
+\begin{frame}
+  
+  \frametitle{\textbf { robot trajectory tracking example}}
+ 
+  \begin{columns}
+
+    \begin{column}{0.5\textwidth}
+      \centering{\includegraphics[scale=0.5]{../diagrams/robot/robot-differential_drive.png}}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item state
+          \begin{align*}
+            x &=
+            \begin{bmatrix}
+              v \\
+              d \\
+              \omega \\
+              \theta
+            \end{bmatrix}
+          \end{align*}
+
+
+        \item control variable
+          \begin{align*}
+            _\Delta u &=
+            \begin{bmatrix}
+              _\Delta u_v \\
+              _\Delta u_{\omega}
+            \end{bmatrix}
+          \end{align*}
+
+          \begin{align*}
+            u(n) &= u(n-1) +{_\Delta}u(n)
+          \end{align*}
+
+      \end{itemize}
+    \end{column}
+
+  \end{columns}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{\textbf { state space model (continuos)}}
+
+  \begin{align*}
+    dx &= Ax + Bu
+  \end{align*}
+  
+  \begin{columns}
+
+    \begin{column}{0.5\textwidth}
+
+      \begin{align*}
+        A =
+        \begin{pmatrix}
+          -\frac{1}{\tau_{forward}} & 0 & 0 & 0 \\
+          1 & 0 & 0 & 0 \\
+          0 & 0 & -\frac{1}{\tau_{turn}} & 0 \\
+          0 & 0 & 1 & 0 
+        \end{pmatrix}
+      \end{align*}
+    
+    \end{column}
+
+
+    \begin{column}{0.5\textwidth}
+
+      \begin{align*}
+        B =
+        \begin{pmatrix}
+          -\frac{k_{forward}}{\tau_{forward}} & 0 \\
+          0 & 0 \\
+          0 & -\frac{k_{turn}}{\tau_{turn}} \\
+          0 & 0
+        \end{pmatrix}
+      \end{align*}
+
+    \end{column}
+
+
+  \end{columns}
+
+  \begin{itemize}
+    \item 4 poles : double in $0$, $-\frac{1}{\tau_{forward}}$ and $-\frac{1}{\tau_{turn}}$
+    \item 2 control inputs : forward velocity and turning velocity
+    \item constrains for kick avoid (jerk) : ${_\Delta}u_{min} < {_\Delta}u < {_\Delta}u_{max}$
+    \item constrains for motor limits : $u_{min} < u < u_{max}$
+  \end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+  
+  \frametitle{\textbf { MPC - overview }}
+  \centering{\includegraphics[scale=0.55]{../diagrams/control/control-robot_tracking.png}}
+
+\end{frame}
+
+
+
 \begin{frame}
   
   \frametitle{\textbf { MPC - overview }}
@@ -155,8 +284,8 @@
   loss (cost) function is quadratic, with weighting terms $Q$ and $R$,
 
   \begin{align*}
-    \mathcal{L} = \sum_{h=0}^{H-1} \big((x_r(h) - x(h))^T Q (x_r(h) - x(h))\big) + \Delta u^T(h) R \Delta u(h), \\
-    u(n) = u(n-1) + \Delta u(n), \\
+    \mathcal{L} = \sum_{h=0}^{H-1} \big((x_r(h) - x(h))^T Q (x_r(h) - x(h))\big) +_{\Delta}u^T(h)R_{\Delta}u(h), \\
+    u(n) = u(n-1)+_{\Delta}u(n), \\
     \text{s.t.} \quad x(n+1) = Ax(n) + Bu(n).
   \end{align*}
 
@@ -167,7 +296,7 @@
     \item $B$ is matrix, $n \times m$
     \item $Q$ is matrix, $n \times n$
     \item $R$ is matrix, $m \times m$
-    \item $_\Delta u$ is controller output
+    \item $_{\Delta}u$ is controller output
     \item where $n$ is system orders, and $m$ system inputs count
   \end{itemize}
 
@@ -282,6 +411,15 @@
 
 
 
+\begin{frame}
+  
+  \frametitle{\bf $Q$ and $R$ augmentation}
+
+  \centering{\includegraphics[scale=0.75]{../diagrams/control/control-q_aug.png}}
+
+\end{frame}
+
+
 
 \begin{frame}
   
@@ -351,7 +489,15 @@
 \begin{frame}
   
   \frametitle{\bf full algorithm}
-  given matrices : $$\tilde{Q}, \tilde{R}, \Theta, \Phi, \Omega$$
+  \centering{\includegraphics[scale=0.6]{../diagrams/control/control-mpc_algo.png}}
+
+\end{frame}
+
+
+\begin{frame}
+  
+  \frametitle{\bf full algorithm}
+  given matrices : $$\tilde{Q}, \tilde{R}, \Psi, \Omega, \Theta$$
   initialization (precompute) :
   \begin{align*}
   \Xi &= (\tilde{R} + \Theta^T\tilde{Q}\Theta)^{-1} \Theta^T\tilde{Q} \\
@@ -359,7 +505,7 @@
   
   in loop :
   \begin{align*}
-    E(n) &= X_r(n) - \Phi x(n) - \Omega u(n-1) \\
+    E(n) &= X_r(n) - \Psi x(n) - \Omega u(n-1) \\
     _\Delta u(n) &= \Xi E(n) \\
     u(n) &= u(n-1) + _\Delta u(n)
   \end{align*}
@@ -371,113 +517,6 @@
 
 
 
-
-
-\begin{frame}
-  
-  \frametitle{\textbf { robot trajectory tracking example}}
-  \centering{\includegraphics[scale=1.0]{../diagrams/robot/robot-differential_drive.png}}
-
-\end{frame}
-
-
-\begin{frame}
-  
-  \frametitle{\textbf { robot trajectory tracking example}}
- 
-  \begin{columns}
-
-    \begin{column}{0.5\textwidth}
-      \centering{\includegraphics[scale=0.5]{../diagrams/robot/robot-differential_drive.png}}
-    \end{column}
-
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}
-        \item state
-          \begin{align*}
-            x &=
-            \begin{bmatrix}
-              v \\
-              d \\
-              \omega \\
-              \theta
-            \end{bmatrix}
-          \end{align*}
-
-
-        \item control variable
-          \begin{align*}
-            _\Delta u &=
-            \begin{bmatrix}
-              _\Delta u_v \\
-              _\Delta u_{\omega}
-            \end{bmatrix}
-          \end{align*}
-
-          \begin{align*}
-            u(n) &= u(n-1) +{_\Delta}u(n)
-          \end{align*}
-
-      \end{itemize}
-    \end{column}
-
-  \end{columns}
-
-\end{frame}
-
-
-
-
-
-\begin{frame}
-\frametitle{\textbf { state space model (continuos)}}
-
-  \begin{align*}
-    dx &= Ax + Bu
-  \end{align*}
-  
-  \begin{columns}
-
-    \begin{column}{0.5\textwidth}
-
-      \begin{align*}
-        A =
-        \begin{pmatrix}
-          -\frac{1}{\tau_{forward}} & 0 & 0 & 0 \\
-          1 & 0 & 0 & 0 \\
-          0 & 0 & -\frac{1}{\tau_{turn}} & 0 \\
-          0 & 0 & 1 & 0 
-        \end{pmatrix}
-      \end{align*}
-    
-    \end{column}
-
-
-    \begin{column}{0.5\textwidth}
-
-      \begin{align*}
-        B =
-        \begin{pmatrix}
-          -\frac{k_{forward}}{\tau_{forward}} & 0 \\
-          0 & 0 \\
-          0 & -\frac{k_{turn}}{\tau_{turn}} \\
-          0 & 0
-        \end{pmatrix}
-      \end{align*}
-
-    \end{column}
-
-
-  \end{columns}
-
-  \begin{itemize}
-    \item 4 poles : double in $0$, $-\frac{1}{\tau_{forward}}$ and $-\frac{1}{\tau_{turn}}$
-    \item 2 control inputs : forward velocity and turning velocity
-    \item constrains for kick avoid (jerk) : ${_\Delta}u_{min} < {_\Delta}u < {_\Delta}u_{max}$
-    \item constrains for motor limits : $u_{min} < u < u_{max}$
-  \end{itemize}
-
-\end{frame}
 
 
 

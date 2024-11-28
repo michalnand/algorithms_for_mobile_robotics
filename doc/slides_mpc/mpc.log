@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  28 NOV 2024 10:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  28 NOV 2024 18:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -957,7 +957,7 @@ Package pdftex.def Info: ../images/generic/smart_grid.png  used on input line 8
 File: ../diagrams/control/control-mpc_overview_0.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_overview_0.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_overview_0.png  used o
-n input line 87.
+n input line 95.
 (pdftex.def)             Requested size: 216.80946pt x 99.73235pt.
  [3
 
@@ -967,135 +967,169 @@ n input line 87.
 File: ../diagrams/control/control-mpc_overview_1.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_overview_1.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_overview_1.png  used o
-n input line 125.
+n input line 133.
 (pdftex.def)             Requested size: 221.14415pt x 123.58054pt.
  [4
 
  <../diagrams/control/control-mpc_overview_1.png>]
-<../diagrams/control/control-mpc_overview_2.png, id=154, 506.6127pt x 205.9695p
-t>
-File: ../diagrams/control/control-mpc_overview_2.png Graphic file (type png)
-<use ../diagrams/control/control-mpc_overview_2.png>
-Package pdftex.def Info: ../diagrams/control/control-mpc_overview_2.png  used o
-n input line 133.
-(pdftex.def)             Requested size: 329.29434pt x 133.87857pt.
-
-Overfull \hbox (22.00447pt too wide) in paragraph at lines 133--133
- [][] 
- []
-
-[5
-
- <../diagrams/control/control-mpc_overview_2.png>]
-<../diagrams/control/control-q_loss.png, id=183, 347.6187pt x 166.9437pt>
-File: ../diagrams/control/control-q_loss.png Graphic file (type png)
-<use ../diagrams/control/control-q_loss.png>
-Package pdftex.def Info: ../diagrams/control/control-q_loss.png  used on input 
-line 146.
-(pdftex.def)             Requested size: 278.09532pt x 133.55511pt.
- [6
-
- <../diagrams/control/control-q_loss.png>] [7
-
-]
-Overfull \hbox (13.48018pt too wide) detected at line 195
-[]
- []
-
-[8
-
-]
-Overfull \hbox (20.91165pt too wide) detected at line 246
-[]
- []
-
-[9
-
-]
-<../diagrams/control/control-mpc_exp_0.png, id=298, 419.166pt x 227.6505pt>
-File: ../diagrams/control/control-mpc_exp_0.png Graphic file (type png)
-<use ../diagrams/control/control-mpc_exp_0.png>
-Package pdftex.def Info: ../diagrams/control/control-mpc_exp_0.png  used on inp
-ut line 260.
-(pdftex.def)             Requested size: 272.45467pt x 147.97105pt.
- [10
-
- <../diagrams/control/control-mpc_exp_0.png>]
-<../diagrams/control/control-mpc_exp_1.png, id=327, 375.804pt x 180.675pt>
-File: ../diagrams/control/control-mpc_exp_1.png Graphic file (type png)
-<use ../diagrams/control/control-mpc_exp_1.png>
-Package pdftex.def Info: ../diagrams/control/control-mpc_exp_1.png  used on inp
-ut line 271.
-(pdftex.def)             Requested size: 281.85231pt x 135.5059pt.
- [11
-
- <../diagrams/control/control-mpc_exp_1.png>]
-<../diagrams/control/control-mpc_exp_2.png, id=356, 375.804pt x 216.81pt>
-File: ../diagrams/control/control-mpc_exp_2.png Graphic file (type png)
-<use ../diagrams/control/control-mpc_exp_2.png>
-Package pdftex.def Info: ../diagrams/control/control-mpc_exp_2.png  used on inp
-ut line 281.
-(pdftex.def)             Requested size: 281.85231pt x 162.60709pt.
- [12
-
- <../diagrams/control/control-mpc_exp_2.png>]
-Overfull \hbox (21.92444pt too wide) detected at line 308
-[]
- []
-
-[13
-
-] [14
-
-] [15
-
-] [16
-
-]
-<../diagrams/robot/robot-differential_drive.png, id=498, 295.5843pt x 199.4652p
+<../diagrams/robot/robot-differential_drive.png, id=154, 295.5843pt x 199.4652p
 t>
 File: ../diagrams/robot/robot-differential_drive.png Graphic file (type png)
 <use ../diagrams/robot/robot-differential_drive.png>
 Package pdftex.def Info: ../diagrams/robot/robot-differential_drive.png  used o
-n input line 381.
+n input line 145.
 (pdftex.def)             Requested size: 295.58357pt x 199.4647pt.
- [17
+ [5
 
  <../diagrams/robot/robot-differential_drive.png>]
 File: ../diagrams/robot/robot-differential_drive.png Graphic file (type png)
 <use ../diagrams/robot/robot-differential_drive.png>
 Package pdftex.def Info: ../diagrams/robot/robot-differential_drive.png  used o
-n input line 426.
+n input line 190.
 (pdftex.def)             Requested size: 147.79178pt x 99.73235pt.
+ [6
+
+]
+[7
+
+]
+<../diagrams/control/control-robot_tracking.png, id=242, 615.7404pt x 347.6187p
+t>
+File: ../diagrams/control/control-robot_tracking.png Graphic file (type png)
+<use ../diagrams/control/control-robot_tracking.png>
+Package pdftex.def Info: ../diagrams/control/control-robot_tracking.png  used o
+n input line 253.
+(pdftex.def)             Requested size: 338.65826pt x 191.19087pt.
+
+Overfull \hbox (31.3684pt too wide) in paragraph at lines 253--253
+ [][] 
+ []
+
+[8
+
+ <../diagrams/control/control-robot_tracking.png>]
+<../diagrams/control/control-mpc_overview_2.png, id=272, 506.6127pt x 205.9695p
+t>
+File: ../diagrams/control/control-mpc_overview_2.png Graphic file (type png)
+<use ../diagrams/control/control-mpc_overview_2.png>
+Package pdftex.def Info: ../diagrams/control/control-mpc_overview_2.png  used o
+n input line 262.
+(pdftex.def)             Requested size: 329.29434pt x 133.87857pt.
+
+Overfull \hbox (22.00447pt too wide) in paragraph at lines 262--262
+ [][] 
+ []
+
+[9
+
+ <../diagrams/control/control-mpc_overview_2.png>]
+<../diagrams/control/control-q_loss.png, id=301, 347.6187pt x 166.9437pt>
+File: ../diagrams/control/control-q_loss.png Graphic file (type png)
+<use ../diagrams/control/control-q_loss.png>
+Package pdftex.def Info: ../diagrams/control/control-q_loss.png  used on input 
+line 275.
+(pdftex.def)             Requested size: 278.09532pt x 133.55511pt.
+ [10
+
+ <../diagrams/control/control-q_loss.png>] [11
+
+]
+Overfull \hbox (13.48018pt too wide) detected at line 324
+[]
+ []
+
+[12
+
+]
+Overfull \hbox (20.91165pt too wide) detected at line 375
+[]
+ []
+
+[13
+
+]
+<../diagrams/control/control-mpc_exp_0.png, id=413, 419.166pt x 227.6505pt>
+File: ../diagrams/control/control-mpc_exp_0.png Graphic file (type png)
+<use ../diagrams/control/control-mpc_exp_0.png>
+Package pdftex.def Info: ../diagrams/control/control-mpc_exp_0.png  used on inp
+ut line 389.
+(pdftex.def)             Requested size: 272.45467pt x 147.97105pt.
+ [14
+
+ <../diagrams/control/control-mpc_exp_0.png>]
+<../diagrams/control/control-mpc_exp_1.png, id=442, 375.804pt x 180.675pt>
+File: ../diagrams/control/control-mpc_exp_1.png Graphic file (type png)
+<use ../diagrams/control/control-mpc_exp_1.png>
+Package pdftex.def Info: ../diagrams/control/control-mpc_exp_1.png  used on inp
+ut line 400.
+(pdftex.def)             Requested size: 281.85231pt x 135.5059pt.
+ [15
+
+ <../diagrams/control/control-mpc_exp_1.png>]
+<../diagrams/control/control-mpc_exp_2.png, id=471, 375.804pt x 216.81pt>
+File: ../diagrams/control/control-mpc_exp_2.png Graphic file (type png)
+<use ../diagrams/control/control-mpc_exp_2.png>
+Package pdftex.def Info: ../diagrams/control/control-mpc_exp_2.png  used on inp
+ut line 410.
+(pdftex.def)             Requested size: 281.85231pt x 162.60709pt.
+ [16
+
+ <../diagrams/control/control-mpc_exp_2.png>]
+<../diagrams/control/control-q_aug.png, id=503, 297.0297pt x 115.632pt>
+File: ../diagrams/control/control-q_aug.png Graphic file (type png)
+<use ../diagrams/control/control-q_aug.png>
+Package pdftex.def Info: ../diagrams/control/control-q_aug.png  used on input l
+ine 420.
+(pdftex.def)             Requested size: 222.77171pt x 86.72379pt.
+
+[17
+
+ <../diagrams/control/control-q_aug.png>]
+Overfull \hbox (21.92444pt too wide) detected at line 446
+[]
+ []
 
 [18
 
 ] [19
 
+] [20
+
 ]
-<../images/books/lin_alg.jpg, id=582, 765.86125pt x 1003.75pt>
+<../diagrams/control/control-mpc_algo.png, id=615, 456.0237pt x 384.4764pt>
+File: ../diagrams/control/control-mpc_algo.png Graphic file (type png)
+<use ../diagrams/control/control-mpc_algo.png>
+Package pdftex.def Info: ../diagrams/control/control-mpc_algo.png  used on inpu
+t line 494.
+(pdftex.def)             Requested size: 273.61633pt x 230.6876pt.
+ [21
+
+ <../diagrams/control/control-mpc_algo.png>] [22
+
+]
+<../images/books/lin_alg.jpg, id=670, 765.86125pt x 1003.75pt>
 File: ../images/books/lin_alg.jpg Graphic file (type jpg)
 <use ../images/books/lin_alg.jpg>
-Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 506.
+Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 545.
 (pdftex.def)             Requested size: 76.5906pt x 100.38087pt.
-<../images/books/kalman_filter.png, id=583, 476.78125pt x 710.655pt>
+<../images/books/kalman_filter.png, id=671, 476.78125pt x 710.655pt>
 File: ../images/books/kalman_filter.png Graphic file (type png)
 <use ../images/books/kalman_filter.png>
 Package pdftex.def Info: ../images/books/kalman_filter.png  used on input line 
-506.
+545.
 (pdftex.def)             Requested size: 71.5141pt x 106.59364pt.
-<../images/books/matrix.png, id=584, 575.14874pt x 745.78625pt>
+<../images/books/matrix.png, id=672, 575.14874pt x 745.78625pt>
 File: ../images/books/matrix.png Graphic file (type png)
 <use ../images/books/matrix.png>
-Package pdftex.def Info: ../images/books/matrix.png  used on input line 506.
+Package pdftex.def Info: ../images/books/matrix.png  used on input line 545.
 (pdftex.def)             Requested size: 86.26859pt x 111.86311pt.
-<../images/books/predictive_control.jpg, id=585, 667.49374pt x 1003.75pt>
+<../images/books/predictive_control.jpg, id=673, 667.49374pt x 1003.75pt>
 File: ../images/books/predictive_control.jpg Graphic file (type jpg)
 <use ../images/books/predictive_control.jpg>
 Package pdftex.def Info: ../images/books/predictive_control.jpg  used on input 
-line 506.
+line 545.
 (pdftex.def)             Requested size: 66.75328pt x 100.38087pt.
- [20
+ [23
 
  <../images/books/lin_alg.jpg> <../images/books/kalman_filter.png> <../images/b
 ooks/matrix.png> <../images/books/predictive_control.jpg>]
@@ -1108,8 +1142,7 @@ ooks/matrix.png> <../images/books/predictive_control.jpg>]
 \tf@snm=\write8
 \openout8 = `mpc.snm'.
 
-
-(./mpc.aux)
+ (./mpc.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -1118,13 +1151,13 @@ Package rerunfilecheck Info: File `mpc.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21618 strings out of 475567
- 423579 string characters out of 5777889
+ 21651 strings out of 475567
+ 424689 string characters out of 5777889
  1945187 words of memory out of 5000000
- 43285 multiletter control sequences out of 15000+600000
+ 43312 multiletter control sequences out of 15000+600000
  569847 words of font info for 79 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 101i,19n,107p,406b,677s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,19n,107p,406b,721s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/
@@ -1138,10 +1171,10 @@ ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (20 pages, 5002787 bytes).
+Output written on mpc.pdf (23 pages, 5252348 bytes).
 PDF statistics:
- 676 PDF objects out of 1000 (max. 8388607)
- 564 compressed objects within 6 object streams
- 41 named destinations out of 1000 (max. 500000)
- 158 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 765 PDF objects out of 1000 (max. 8388607)
+ 640 compressed objects within 7 object streams
+ 47 named destinations out of 1000 (max. 500000)
+ 173 words of extra memory for PDF output out of 10000 (max. 10000000)
 
