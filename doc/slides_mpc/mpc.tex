@@ -1,5 +1,6 @@
 \documentclass{beamer}
-\usepackage{amsmath}
+\usepackage{amsmath, xparse}
+
 
 \usetheme{Warsaw}
 
@@ -54,6 +55,30 @@
 }
 
 
+
+\begin{frame}
+  
+  \frametitle{\textbf { MPC - applications }}
+
+  \begin{columns}
+
+    \begin{column}{0.5\textwidth}
+      \centering{\includegraphics[scale=0.1]{../images/generic/boston_dynamics.jpeg}} \\
+      \centering{\includegraphics[scale=0.4]{../images/generic/green_house.jpeg}}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+
+      \centering{\includegraphics[scale=0.2]{../images/generic/hakuto.jpeg}} \\
+      \centering{\includegraphics[scale=0.1]{../images/generic/smart_grid.png}}
+      
+    \end{column}
+
+  \end{columns}
+
+
+\end{frame}
+
 \begin{frame}
   
   \frametitle{\textbf { MPC - overview }}
@@ -64,7 +89,38 @@
 \begin{frame}
   
   \frametitle{\textbf { MPC - overview }}
-  \centering{\includegraphics[scale=1.0]{../diagrams/control/control-mpc_overview_1.png}}
+  \centering{\includegraphics[scale=0.9]{../diagrams/control/control-mpc_overview_1.png}}
+  
+ 
+  \begin{columns}
+
+    \begin{column}{0.5\textwidth}
+      state vector, \\ e.g. (position, velocity, angle, angular rate)
+      \begin{align*}
+        x &=
+        \begin{bmatrix}
+          x_0 \\
+          x_1 \\
+          ..  \\
+          x_{n-1}  
+        \end{bmatrix}
+      \end{align*}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      control variable, \\ e.g. (left speed, right speed)
+      \begin{align*}
+        u &=
+        \begin{bmatrix}
+          u_0 \\
+          u_1 \\
+          ..  \\
+          u_{m-1}  
+        \end{bmatrix}
+      \end{align*}
+    \end{column}
+
+  \end{columns}
 
 \end{frame}
 
@@ -78,6 +134,16 @@
 
 
 
+
+
+
+\begin{frame}
+  
+  \frametitle{\bf quadratic problem formulation}
+
+  \centering{\includegraphics[scale=0.8]{../diagrams/control/control-q_loss.png}}
+  
+\end{frame}
 
 
 
@@ -231,7 +297,7 @@
     S = \tilde{X_r} - \Psi\tilde{X} - \Omega u(n-1)
   \end{align*}
 
-  we get
+  we obtain
   \begin{align*}
     \mathcal{L} &= \tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} + (S -  \Theta \tilde{_\Delta U} )^T \tilde{Q} (S -  \Theta \tilde{_\Delta U} ) \\
                 &= \tilde{_\Delta U}^T \tilde{R} \tilde{_\Delta U} 
@@ -305,6 +371,115 @@
 
 
 
+
+
+\begin{frame}
+  
+  \frametitle{\textbf { robot trajectory tracking example}}
+  \centering{\includegraphics[scale=1.0]{../diagrams/robot/robot-differential_drive.png}}
+
+\end{frame}
+
+
+\begin{frame}
+  
+  \frametitle{\textbf { robot trajectory tracking example}}
+ 
+  \begin{columns}
+
+    \begin{column}{0.5\textwidth}
+      \centering{\includegraphics[scale=0.5]{../diagrams/robot/robot-differential_drive.png}}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item state
+          \begin{align*}
+            x &=
+            \begin{bmatrix}
+              v \\
+              d \\
+              \omega \\
+              \theta
+            \end{bmatrix}
+          \end{align*}
+
+
+        \item control variable
+          \begin{align*}
+            du &=
+            \begin{bmatrix}
+              du_v \\
+              du_{\omega}
+            \end{bmatrix}
+          \end{align*}
+
+          \begin{align*}
+            u(n) &= u(n-1) + du(n)
+          \end{align*}
+
+      \end{itemize}
+    \end{column}
+
+  \end{columns}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{\textbf { state space model (continuos)}}
+
+  \begin{columns}
+
+    \begin{column}{0.5\textwidth}
+
+      \begin{align*}
+        A =
+        \begin{pmatrix}
+          -\frac{1}{\tau_{forward}} & 0 & 0 & 0 \\
+          1 & 0 & 0 & 0 \\
+          0 & 0 & -\frac{1}{\tau_{turn}} & 0 \\
+          0 & 0 & 1 & 0 
+        \end{pmatrix}
+      \end{align*}
+    
+    \end{column}
+
+
+    \begin{column}{0.5\textwidth}
+
+      \begin{align*}
+        B =
+        \begin{pmatrix}
+          -\frac{k_{forward}}{\tau_{forward}} & 0 \\
+          0 & 0 \\
+          0 & -\frac{k_{turn}}{\tau_{turn}} \\
+          0 & 0
+        \end{pmatrix}
+      \end{align*}
+
+    \end{column}
+
+
+  \end{columns}
+
+  \begin{itemize}
+    \item 4 poles : double in $0$, $-\frac{1}{\tau_{forward}}$ and $-\frac{1}{\tau_{turn}}$
+    \item 2 control inputs : forward velocity and turning velocity
+    \item constrains for kick avoid (jerk) : $du_{min} < du < du_{max}$
+    \item constrains for motor limits : $u_{min} < u < u_{max}$
+  \end{itemize}
+
+\end{frame}
+
+
+
+
+
+
 \begin{frame}
   
   \frametitle{\textbf { recommended reading}}
@@ -325,38 +500,6 @@
   \end{columns}
 
 \end{frame}
-
-
-
-
-\begin{frame}
-  
-  \frametitle{\textbf { robot trajectory tracking }}
-  \centering{\includegraphics[scale=1.0]{../diagrams/robot/robot-differential_drive.png}}
-
-\end{frame}
-
-
-\begin{frame}
-  
-  \frametitle{\textbf { robot trajectory tracking}}
- 
-  \begin{columns}
-
-    \begin{column}{0.5\textwidth}
-      \centering{\includegraphics[scale=1.0]{../diagrams/robot/robot-differential_drive.png}}
-    \end{column}
-
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}
-        \item x
-      \end{itemize}
-    \end{column}
-
-  \end{columns}
-
-\end{frame}
-
 
 
 

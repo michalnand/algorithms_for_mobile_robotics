@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  27 NOV 2024 20:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  28 NOV 2024 09:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -715,6 +715,18 @@ lt.sty
 )
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/beamer/beamerouterthemedefau
 lt.sty)))
+(/usr/local/texlive/2024basic/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/local/texlive/2024basic/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2024-02-20 L3 programming layer (loader) 
+
+(/usr/local/texlive/2024basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.d
+ef
+File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count337
+\l__pdf_internal_box=\box76
+))
+Package: xparse 2024-02-18 L3 Experimental document command parser
+)
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/beamer/beamerthemeWarsaw.sty
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/beamer/beamerinnerthemeround
@@ -726,33 +738,27 @@ w.sty
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/beamer/beamercolorthemeorchi
 d.sty)
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/beamer/beamercolorthemewhale
-.sty))
-(/usr/local/texlive/2024basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.d
-ef
-File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count337
-\l__pdf_internal_box=\box76
-) (./mpc.aux)
+.sty)) (./mpc.aux)
 \openout1 = `mpc.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 31.
-LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 32.
+LaTeX Font Info:    ... okay on input line 32.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -812,53 +818,53 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 31.
+Package hyperref Info: Link coloring OFF on input line 32.
  (./mpc.out) (./mpc.out)
 \@outlinefile=\write5
 \openout5 = `mpc.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 31.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 32.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 31.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 32.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 31.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 31.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 31.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 31.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 31.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/b/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 31.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 31.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 31.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 31.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 31.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 31.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 32.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 31.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 31.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 32.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 31.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 31.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 31.
+(Font)                  OT1/cmss/b/n --> OT1/cmr/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 31.
+(Font)                  OT1/cmss/b/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 31.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/b/n on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 31.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/b/it on input line 32.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 31.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/b/n on input line 32.
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/translator/translator-basic-
 dictionary-English.dict
@@ -884,13 +890,13 @@ Dictionary: translator-numbers-dictionary, Language: English
 m-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./mpc.nav)
-LaTeX Font Info:    Trying to load font information for U+msa on input line 53.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 54.
 
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 53.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 54.
 
 
 (/usr/local/texlive/2024basic/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -899,7 +905,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <../images/generic/rl_square.jpg, id=21, 4694.53876pt x 4681.49pt>
 File: ../images/generic/rl_square.jpg Graphic file (type jpg)
 <use ../images/generic/rl_square.jpg>
-Package pdftex.def Info: ../images/generic/rl_square.jpg  used on input line 53
+Package pdftex.def Info: ../images/generic/rl_square.jpg  used on input line 54
 .
 (pdftex.def)             Requested size: 364.96371pt x 363.88324pt.
 
@@ -915,145 +921,184 @@ Overfull \vbox (90.73662pt too high) has occurred while \output is active []
 
 {/usr/local/texlive/2024basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <..
 /images/generic/rl_square.jpg>]
-<../diagrams/control/control-mpc_overview_0.png, id=53, 224.037pt x 107.6823pt>
+<../images/generic/boston_dynamics.jpeg, id=53, 1117.17375pt x 837.1275pt>
+File: ../images/generic/boston_dynamics.jpeg Graphic file (type jpg)
+<use ../images/generic/boston_dynamics.jpeg>
+Package pdftex.def Info: ../images/generic/boston_dynamics.jpeg  used on input 
+line 80.
+(pdftex.def)             Requested size: 111.7239pt x 83.71765pt.
+<../images/generic/green_house.jpeg, id=54, 240.9pt x 162.00525pt>
+File: ../images/generic/green_house.jpeg Graphic file (type jpg)
+<use ../images/generic/green_house.jpeg>
+Package pdftex.def Info: ../images/generic/green_house.jpeg  used on input line
+ 80.
+(pdftex.def)             Requested size: 96.35828pt x 64.80093pt.
+<../images/generic/hakuto.jpeg, id=55, 803.0pt x 408.52625pt>
+File: ../images/generic/hakuto.jpeg Graphic file (type jpg)
+<use ../images/generic/hakuto.jpeg>
+Package pdftex.def Info: ../images/generic/hakuto.jpeg  used on input line 80.
+(pdftex.def)             Requested size: 160.59715pt x 81.7038pt.
 
+Overfull \hbox (6.95222pt too wide) in paragraph at lines 80--80
+ [][] 
+ []
+
+<../images/generic/smart_grid.png, id=56, 1126.2075pt x 779.91376pt>
+File: ../images/generic/smart_grid.png Graphic file (type png)
+<use ../images/generic/smart_grid.png>
+Package pdftex.def Info: ../images/generic/smart_grid.png  used on input line 8
+0.
+(pdftex.def)             Requested size: 112.62735pt x 77.99594pt.
+[2
+
+ <../images/generic/boston_dynamics.jpeg> <../images/generic/green_house.jpeg> 
+<../images/generic/hakuto.jpeg> <../images/generic/smart_grid.png>]
+<../diagrams/control/control-mpc_overview_0.png, id=87, 216.81pt x 99.7326pt>
 File: ../diagrams/control/control-mpc_overview_0.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_overview_0.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_overview_0.png  used o
-n input line 62.
-(pdftex.def)             Requested size: 224.03644pt x 107.68202pt.
- [2
+n input line 87.
+(pdftex.def)             Requested size: 216.80946pt x 99.73235pt.
+ [3
 
  <../diagrams/control/control-mpc_overview_0.png>]
-<../diagrams/control/control-mpc_overview_1.png, id=85, 245.718pt x 137.313pt>
+<../diagrams/control/control-mpc_overview_1.png, id=117, 245.718pt x 137.313pt>
+
 File: ../diagrams/control/control-mpc_overview_1.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_overview_1.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_overview_1.png  used o
-n input line 69.
-(pdftex.def)             Requested size: 245.71739pt x 137.31265pt.
- [3
+n input line 125.
+(pdftex.def)             Requested size: 221.14415pt x 123.58054pt.
+ [4
 
  <../diagrams/control/control-mpc_overview_1.png>]
-<../diagrams/control/control-mpc_overview_2.png, id=114, 506.6127pt x 199.4652p
+<../diagrams/control/control-mpc_overview_2.png, id=154, 506.6127pt x 205.9695p
 t>
 File: ../diagrams/control/control-mpc_overview_2.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_overview_2.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_overview_2.png  used o
-n input line 77.
-(pdftex.def)             Requested size: 329.29434pt x 129.65083pt.
+n input line 133.
+(pdftex.def)             Requested size: 329.29434pt x 133.87857pt.
 
-Overfull \hbox (22.00447pt too wide) in paragraph at lines 77--77
+Overfull \hbox (22.00447pt too wide) in paragraph at lines 133--133
  [][] 
  []
 
-[4
+[5
 
- <../diagrams/control/control-mpc_overview_2.png>] [5
+ <../diagrams/control/control-mpc_overview_2.png>]
+<../diagrams/control/control-q_loss.png, id=183, 347.6187pt x 166.9437pt>
+File: ../diagrams/control/control-q_loss.png Graphic file (type png)
+<use ../diagrams/control/control-q_loss.png>
+Package pdftex.def Info: ../diagrams/control/control-q_loss.png  used on input 
+line 146.
+(pdftex.def)             Requested size: 278.09532pt x 133.55511pt.
+ [6
+
+ <../diagrams/control/control-q_loss.png>] [7
 
 ]
-Overfull \hbox (13.48018pt too wide) detected at line 129
+Overfull \hbox (13.48018pt too wide) detected at line 195
 []
  []
 
-[6
+[8
 
 ]
-Overfull \hbox (20.91165pt too wide) detected at line 180
+Overfull \hbox (20.91165pt too wide) detected at line 246
 []
  []
 
-[7
+[9
 
 ]
-<../diagrams/control/control-mpc_exp_0.png, id=236, 419.166pt x 227.6505pt>
+<../diagrams/control/control-mpc_exp_0.png, id=298, 419.166pt x 227.6505pt>
 File: ../diagrams/control/control-mpc_exp_0.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_exp_0.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_exp_0.png  used on inp
-ut line 194.
+ut line 260.
 (pdftex.def)             Requested size: 272.45467pt x 147.97105pt.
- [8
+ [10
 
  <../diagrams/control/control-mpc_exp_0.png>]
-<../diagrams/control/control-mpc_exp_1.png, id=266, 375.804pt x 180.675pt>
+<../diagrams/control/control-mpc_exp_1.png, id=327, 375.804pt x 180.675pt>
 File: ../diagrams/control/control-mpc_exp_1.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_exp_1.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_exp_1.png  used on inp
-ut line 205.
+ut line 271.
 (pdftex.def)             Requested size: 281.85231pt x 135.5059pt.
- [9
+ [11
 
  <../diagrams/control/control-mpc_exp_1.png>]
-<../diagrams/control/control-mpc_exp_2.png, id=295, 375.804pt x 216.81pt>
+<../diagrams/control/control-mpc_exp_2.png, id=356, 375.804pt x 216.81pt>
 File: ../diagrams/control/control-mpc_exp_2.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_exp_2.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_exp_2.png  used on inp
-ut line 215.
+ut line 281.
 (pdftex.def)             Requested size: 281.85231pt x 162.60709pt.
- [10
+ [12
 
  <../diagrams/control/control-mpc_exp_2.png>]
-Overfull \hbox (21.92444pt too wide) detected at line 242
+Overfull \hbox (21.92444pt too wide) detected at line 308
 []
  []
 
-[11
-
-] [12
-
-] [13
+[13
 
 ] [14
 
-]
-<../images/books/lin_alg.jpg, id=436, 765.86125pt x 1003.75pt>
-File: ../images/books/lin_alg.jpg Graphic file (type jpg)
-<use ../images/books/lin_alg.jpg>
-Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 327.
-(pdftex.def)             Requested size: 76.5906pt x 100.38087pt.
-<../images/books/kalman_filter.png, id=437, 476.78125pt x 710.655pt>
-File: ../images/books/kalman_filter.png Graphic file (type png)
-<use ../images/books/kalman_filter.png>
-Package pdftex.def Info: ../images/books/kalman_filter.png  used on input line 
-327.
-(pdftex.def)             Requested size: 71.5141pt x 106.59364pt.
-<../images/books/matrix.png, id=438, 575.14874pt x 745.78625pt>
-File: ../images/books/matrix.png Graphic file (type png)
-<use ../images/books/matrix.png>
-Package pdftex.def Info: ../images/books/matrix.png  used on input line 327.
-(pdftex.def)             Requested size: 86.26859pt x 111.86311pt.
-<../images/books/predictive_control.jpg, id=439, 667.49374pt x 1003.75pt>
-File: ../images/books/predictive_control.jpg Graphic file (type jpg)
-<use ../images/books/predictive_control.jpg>
-Package pdftex.def Info: ../images/books/predictive_control.jpg  used on input 
-line 327.
-(pdftex.def)             Requested size: 66.75328pt x 100.38087pt.
- [15
+] [15
 
- <../images/books/lin_alg.jpg> <../images/books/kalman_filter.png> <../images/b
-ooks/matrix.png> <../images/books/predictive_control.jpg>]
-<../diagrams/robot/robot-differential_drive.png, id=469, 304.2567pt x 188.6247p
+] [16
+
+]
+<../diagrams/robot/robot-differential_drive.png, id=498, 295.5843pt x 199.4652p
 t>
 File: ../diagrams/robot/robot-differential_drive.png Graphic file (type png)
 <use ../diagrams/robot/robot-differential_drive.png>
 Package pdftex.def Info: ../diagrams/robot/robot-differential_drive.png  used o
-n input line 337.
-(pdftex.def)             Requested size: 304.25595pt x 188.62422pt.
- [16
+n input line 381.
+(pdftex.def)             Requested size: 295.58357pt x 199.4647pt.
+ [17
 
  <../diagrams/robot/robot-differential_drive.png>]
 File: ../diagrams/robot/robot-differential_drive.png Graphic file (type png)
 <use ../diagrams/robot/robot-differential_drive.png>
 Package pdftex.def Info: ../diagrams/robot/robot-differential_drive.png  used o
-n input line 358.
-(pdftex.def)             Requested size: 304.25595pt x 188.62422pt.
+n input line 426.
+(pdftex.def)             Requested size: 147.79178pt x 99.73235pt.
 
-Overfull \hbox (150.61102pt too wide) in paragraph at lines 358--358
- [][] 
- []
+[18
 
-[17
+] [19
 
 ]
+<../images/books/lin_alg.jpg, id=582, 765.86125pt x 1003.75pt>
+File: ../images/books/lin_alg.jpg Graphic file (type jpg)
+<use ../images/books/lin_alg.jpg>
+Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 502.
+(pdftex.def)             Requested size: 76.5906pt x 100.38087pt.
+<../images/books/kalman_filter.png, id=583, 476.78125pt x 710.655pt>
+File: ../images/books/kalman_filter.png Graphic file (type png)
+<use ../images/books/kalman_filter.png>
+Package pdftex.def Info: ../images/books/kalman_filter.png  used on input line 
+502.
+(pdftex.def)             Requested size: 71.5141pt x 106.59364pt.
+<../images/books/matrix.png, id=584, 575.14874pt x 745.78625pt>
+File: ../images/books/matrix.png Graphic file (type png)
+<use ../images/books/matrix.png>
+Package pdftex.def Info: ../images/books/matrix.png  used on input line 502.
+(pdftex.def)             Requested size: 86.26859pt x 111.86311pt.
+<../images/books/predictive_control.jpg, id=585, 667.49374pt x 1003.75pt>
+File: ../images/books/predictive_control.jpg Graphic file (type jpg)
+<use ../images/books/predictive_control.jpg>
+Package pdftex.def Info: ../images/books/predictive_control.jpg  used on input 
+line 502.
+(pdftex.def)             Requested size: 66.75328pt x 100.38087pt.
+ [20
+
+ <../images/books/lin_alg.jpg> <../images/books/kalman_filter.png> <../images/b
+ooks/matrix.png> <../images/books/predictive_control.jpg>]
 \tf@nav=\write6
 \openout6 = `mpc.nav'.
 
@@ -1063,7 +1108,8 @@ Overfull \hbox (150.61102pt too wide) in paragraph at lines 358--358
 \tf@snm=\write8
 \openout8 = `mpc.snm'.
 
- (./mpc.aux)
+
+(./mpc.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -1072,29 +1118,30 @@ Package rerunfilecheck Info: File `mpc.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21480 strings out of 475567
- 419605 string characters out of 5777889
- 1946187 words of memory out of 5000000
- 43159 multiletter control sequences out of 15000+600000
+ 21618 strings out of 475567
+ 423579 string characters out of 5777889
+ 1945187 words of memory out of 5000000
+ 43285 multiletter control sequences out of 15000+600000
  569847 words of font info for 79 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 101i,15n,107p,398b,631s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 101i,19n,107p,406b,677s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmex1
 0.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mmi10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmss10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmss12.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmss8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (17 pages, 4079292 bytes).
+cm/cmmi8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmss10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmss12.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmss8.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2024basic/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2024basic/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on mpc.pdf (20 pages, 5002507 bytes).
 PDF statistics:
- 578 PDF objects out of 1000 (max. 8388607)
- 482 compressed objects within 5 object streams
- 35 named destinations out of 1000 (max. 500000)
- 133 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 676 PDF objects out of 1000 (max. 8388607)
+ 564 compressed objects within 6 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 158 words of extra memory for PDF output out of 10000 (max. 10000000)
 
