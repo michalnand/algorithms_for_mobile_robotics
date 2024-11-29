@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  28 NOV 2024 18:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 09:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -953,12 +953,12 @@ Package pdftex.def Info: ../images/generic/smart_grid.png  used on input line 8
 
  <../images/generic/boston_dynamics.jpeg> <../images/generic/green_house.jpeg> 
 <../images/generic/hakuto.jpeg> <../images/generic/smart_grid.png>]
-<../diagrams/control/control-mpc_overview_0.png, id=87, 216.81pt x 99.7326pt>
+<../diagrams/control/control-mpc_overview_0.png, id=87, 216.81pt x 102.6234pt>
 File: ../diagrams/control/control-mpc_overview_0.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_overview_0.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_overview_0.png  used o
 n input line 95.
-(pdftex.def)             Requested size: 216.80946pt x 99.73235pt.
+(pdftex.def)             Requested size: 216.80946pt x 102.62314pt.
  [3
 
  <../diagrams/control/control-mpc_overview_0.png>]
@@ -1171,7 +1171,7 @@ ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (23 pages, 5252348 bytes).
+Output written on mpc.pdf (23 pages, 5252595 bytes).
 PDF statistics:
  765 PDF objects out of 1000 (max. 8388607)
  640 compressed objects within 7 object streams

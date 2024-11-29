@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-11-28T17:06:20.103Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.16 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="-kIS-AAWmAU0B8o3inur" version="22.1.16" type="device" pages="29">
+<mxfile host="Electron" modified="2024-11-29T08:10:56.203Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.16 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="yaA3pTS6CkrLwqXcHeS8" version="22.1.16" type="device" pages="29">
   <diagram id="r176BNMmEYuvNQ83fCSw" name="lqr">
-    <mxGraphModel dx="813" dy="653" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="1" shadow="0">
+    <mxGraphModel dx="894" dy="718" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -656,7 +656,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="x-4OZaidCykKQ15aiYPn" name="lqr_comp">
-    <mxGraphModel dx="4577" dy="5707" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="1" shadow="0">
+    <mxGraphModel dx="4194" dy="5399" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="1" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -2222,7 +2222,7 @@
             <mxPoint x="400" y="280" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ctc69QY5d5fJZqd_6zC1-4" value="step $$t$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="ctc69QY5d5fJZqd_6zC1-4" value="step $$n$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="370" y="270" width="60" height="20" as="geometry" />
         </mxCell>
         <mxCell id="ctc69QY5d5fJZqd_6zC1-5" value="" style="curved=1;endArrow=classic;html=1;rounded=0;strokeColor=#FF3333;" parent="1" edge="1">
@@ -2277,7 +2277,7 @@
             <mxPoint x="400" y="280" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jVLaYBRJJEnOVluYkz6L-5" value="step $$t$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="jVLaYBRJJEnOVluYkz6L-1" vertex="1">
+        <mxCell id="jVLaYBRJJEnOVluYkz6L-5" value="step $$n$$" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="jVLaYBRJJEnOVluYkz6L-1" vertex="1">
           <mxGeometry x="370" y="270" width="60" height="20" as="geometry" />
         </mxCell>
         <mxCell id="jVLaYBRJJEnOVluYkz6L-6" value="" style="curved=1;endArrow=classic;html=1;rounded=0;strokeColor=#FF3333;" parent="jVLaYBRJJEnOVluYkz6L-1" edge="1">
