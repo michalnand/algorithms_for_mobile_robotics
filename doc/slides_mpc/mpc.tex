@@ -514,6 +514,39 @@
 
 
 
+\begin{frame}
+  
+  \frametitle{\bf full algorithm - optimisation}
+  \centering{\includegraphics[scale=0.6]{../diagrams/control/control-mpc_opt_algo.png}}
+
+\end{frame}
+
+
+
+\begin{frame}
+  
+  \frametitle{\bf handling constrains}
+
+  most common cliping ranges: 
+ 
+  \begin{align*}
+    _\Delta\tilde{u}(n) &= clip(_{\Delta}u(n), _\Delta u_{min}, _\Delta u_{max}) \\
+    u(n) &= clip(u(n-1) + _\Delta\tilde{u}(n), u_{min}, u_{max})
+  \end{align*}
+
+  keep $u_{\omega}$ maximum possible and find constrains for $u_v$
+  \begin{align*}
+    v_{max} &= 2\pi R_{wheel}\frac{rpm_{max}}{60} \\
+    v_{upper} &= min(v_{max}, -0.5Lu_{omega} + v_{max}) \\
+    v_{lower} &= max(-v_{max}, -0.5Lu_{omega} - v_{max}) \\
+    \tilde{u_v} &= clip(u_v, v_{lower}, v_{upper})
+  \end{align*}
+ 
+
+\end{frame}
+
+
+
 
 
 

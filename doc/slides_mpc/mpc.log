@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 09:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 14:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1096,40 +1096,61 @@ Overfull \hbox (21.92444pt too wide) detected at line 446
 ] [20
 
 ]
-<../diagrams/control/control-mpc_algo.png, id=615, 456.0237pt x 384.4764pt>
+<../diagrams/control/control-mpc_algo.png, id=615, 456.0237pt x 383.7537pt>
 File: ../diagrams/control/control-mpc_algo.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_algo.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_algo.png  used on inpu
 t line 494.
-(pdftex.def)             Requested size: 273.61633pt x 230.6876pt.
+(pdftex.def)             Requested size: 273.61633pt x 230.25398pt.
  [21
 
  <../diagrams/control/control-mpc_algo.png>] [22
 
 ]
-<../images/books/lin_alg.jpg, id=670, 765.86125pt x 1003.75pt>
+<../diagrams/control/control-mpc_opt_algo.png, id=671, 524.6802pt x 414.1071pt>
+
+File: ../diagrams/control/control-mpc_opt_algo.png Graphic file (type png)
+<use ../diagrams/control/control-mpc_opt_algo.png>
+Package pdftex.def Info: ../diagrams/control/control-mpc_opt_algo.png  used on 
+input line 522.
+(pdftex.def)             Requested size: 314.81055pt x 248.46617pt.
+
+Overfull \hbox (7.52068pt too wide) in paragraph at lines 522--522
+ [][] 
+ []
+
+
+Overfull \vbox (11.32376pt too high) detected at line 522
+ []
+
+[23
+
+ <../diagrams/control/control-mpc_opt_algo.png>] [24
+
+]
+<../images/books/lin_alg.jpg, id=727, 765.86125pt x 1003.75pt>
 File: ../images/books/lin_alg.jpg Graphic file (type jpg)
 <use ../images/books/lin_alg.jpg>
-Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 545.
+Package pdftex.def Info: ../images/books/lin_alg.jpg  used on input line 578.
 (pdftex.def)             Requested size: 76.5906pt x 100.38087pt.
-<../images/books/kalman_filter.png, id=671, 476.78125pt x 710.655pt>
+<../images/books/kalman_filter.png, id=728, 476.78125pt x 710.655pt>
 File: ../images/books/kalman_filter.png Graphic file (type png)
 <use ../images/books/kalman_filter.png>
 Package pdftex.def Info: ../images/books/kalman_filter.png  used on input line 
-545.
+578.
 (pdftex.def)             Requested size: 71.5141pt x 106.59364pt.
-<../images/books/matrix.png, id=672, 575.14874pt x 745.78625pt>
+<../images/books/matrix.png, id=729, 575.14874pt x 745.78625pt>
 File: ../images/books/matrix.png Graphic file (type png)
 <use ../images/books/matrix.png>
-Package pdftex.def Info: ../images/books/matrix.png  used on input line 545.
+Package pdftex.def Info: ../images/books/matrix.png  used on input line 578.
 (pdftex.def)             Requested size: 86.26859pt x 111.86311pt.
-<../images/books/predictive_control.jpg, id=673, 667.49374pt x 1003.75pt>
+<../images/books/predictive_control.jpg, id=730, 667.49374pt x 1003.75pt>
 File: ../images/books/predictive_control.jpg Graphic file (type jpg)
 <use ../images/books/predictive_control.jpg>
 Package pdftex.def Info: ../images/books/predictive_control.jpg  used on input 
-line 545.
+line 578.
 (pdftex.def)             Requested size: 66.75328pt x 100.38087pt.
- [23
+ [25
 
  <../images/books/lin_alg.jpg> <../images/books/kalman_filter.png> <../images/b
 ooks/matrix.png> <../images/books/predictive_control.jpg>]
@@ -1151,10 +1172,10 @@ Package rerunfilecheck Info: File `mpc.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21651 strings out of 475567
- 424689 string characters out of 5777889
+ 21666 strings out of 475567
+ 425115 string characters out of 5777889
  1945187 words of memory out of 5000000
- 43312 multiletter control sequences out of 15000+600000
+ 43323 multiletter control sequences out of 15000+600000
  569847 words of font info for 79 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  101i,19n,107p,406b,721s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1171,10 +1192,10 @@ ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (23 pages, 5252595 bytes).
+Output written on mpc.pdf (25 pages, 5398468 bytes).
 PDF statistics:
- 765 PDF objects out of 1000 (max. 8388607)
- 640 compressed objects within 7 object streams
- 47 named destinations out of 1000 (max. 500000)
- 173 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 823 PDF objects out of 1000 (max. 8388607)
+ 692 compressed objects within 7 object streams
+ 51 named destinations out of 1000 (max. 500000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 
