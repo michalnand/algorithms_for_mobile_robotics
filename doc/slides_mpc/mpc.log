@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 14:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 17:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1096,31 +1096,31 @@ Overfull \hbox (21.92444pt too wide) detected at line 446
 ] [20
 
 ]
-<../diagrams/control/control-mpc_algo.png, id=615, 456.0237pt x 383.7537pt>
+<../diagrams/control/control-mpc_algo.png, id=615, 456.0237pt x 384.4764pt>
 File: ../diagrams/control/control-mpc_algo.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_algo.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_algo.png  used on inpu
 t line 494.
-(pdftex.def)             Requested size: 273.61633pt x 230.25398pt.
+(pdftex.def)             Requested size: 273.61633pt x 230.6876pt.
  [21
 
  <../diagrams/control/control-mpc_algo.png>] [22
 
 ]
-<../diagrams/control/control-mpc_opt_algo.png, id=671, 524.6802pt x 414.1071pt>
+<../diagrams/control/control-mpc_opt_algo.png, id=671, 524.6802pt x 415.5525pt>
 
 File: ../diagrams/control/control-mpc_opt_algo.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_opt_algo.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_opt_algo.png  used on 
 input line 522.
-(pdftex.def)             Requested size: 314.81055pt x 248.46617pt.
+(pdftex.def)             Requested size: 314.81055pt x 249.33342pt.
 
 Overfull \hbox (7.52068pt too wide) in paragraph at lines 522--522
  [][] 
  []
 
 
-Overfull \vbox (11.32376pt too high) detected at line 522
+Overfull \vbox (12.19101pt too high) detected at line 522
  []
 
 [23
@@ -1192,7 +1192,7 @@ ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (25 pages, 5398468 bytes).
+Output written on mpc.pdf (25 pages, 5401530 bytes).
 PDF statistics:
  823 PDF objects out of 1000 (max. 8388607)
  692 compressed objects within 7 object streams
