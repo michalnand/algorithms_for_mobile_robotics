@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 17:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.4.29)  29 NOV 2024 18:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1113,17 +1113,8 @@ File: ../diagrams/control/control-mpc_opt_algo.png Graphic file (type png)
 <use ../diagrams/control/control-mpc_opt_algo.png>
 Package pdftex.def Info: ../diagrams/control/control-mpc_opt_algo.png  used on 
 input line 522.
-(pdftex.def)             Requested size: 314.81055pt x 249.33342pt.
-
-Overfull \hbox (7.52068pt too wide) in paragraph at lines 522--522
- [][] 
- []
-
-
-Overfull \vbox (12.19101pt too high) detected at line 522
- []
-
-[23
+(pdftex.def)             Requested size: 299.07082pt x 236.86739pt.
+ [23
 
  <../diagrams/control/control-mpc_opt_algo.png>] [24
 
@@ -1192,7 +1183,7 @@ ts/type1/public/amsfonts/cm/cmssi12.pfb></usr/local/texlive/2024basic/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2024basic/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024basic/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on mpc.pdf (25 pages, 5401530 bytes).
+Output written on mpc.pdf (25 pages, 5400560 bytes).
 PDF statistics:
  823 PDF objects out of 1000 (max. 8388607)
  692 compressed objects within 7 object streams
