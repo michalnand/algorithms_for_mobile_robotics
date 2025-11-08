@@ -1,0 +1,614 @@
+% universal settings
+\documentclass[12pt,twoside,onecolumn,openany,extrafontsizes,dvipsnames]{memoir}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+\usepackage{subcaption}
+\usepackage{amsmath,mathtools}
+\usepackage{amsfonts} % For \mathbb
+\usepackage{amssymb}  % For additional symbols
+\usepackage{color}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{dark_gray}{rgb}{0.2,0.2,0.2}
+\definecolor{white}{rgb}{0.9,0.9,0.9}
+
+\lstdefinestyle{python_style}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\tiny,
+    language=Python,
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    frame=single,            % optional: add a box around the code
+    xleftmargin=0pt,
+    xrightmargin=0pt,
+    framexleftmargin=0pt,
+    framexrightmargin=0pt,
+    linewidth=\textwidth     % <-- force full width
+}
+
+\lstdefinestyle{cpp_style}{
+    language=C++,
+    basicstyle=\ttfamily\tiny,
+    backgroundcolor=\color{backcolour}, 
+    keywordstyle=\color{magenta}\ttfamily\tiny,
+    stringstyle=\color{codepurple}\ttfamily\tiny,
+    commentstyle=\color{codegreen}\ttfamily\tiny,
+    numbersep=10pt,
+    tabsize=4,
+}
+
+
+\lstdefinestyle{terminal_style}{
+    basicstyle=\ttfamily\tiny\color{white},
+    backgroundcolor=\color{dark_gray}, 
+    numbersep=10pt,
+    tabsize=4,
+}
+
+\lstset{style=python_style}
+
+
+
+\title{MPC notes}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\chapter{Model Predictive Control}
+
+We begin by defining the control problem. The robot must navigate along a desired trajectory $X_r$.  
+The robot’s motion is constrained by its own dynamics, typically expressed as a discrete-time state-space model.
+
+The Linear Quadratic Regulator (LQR) optimal control law can {\textbf{\textcolor{red}{only regulate}}} the system to a desired state $x_r$, which corresponds to a {\textbf{\textcolor{red}{single point on the trajectory}}}.  
+In contrast, Model Predictive Control (MPC) leverages the knowledge of {\textbf{\textcolor{red}{future desired states}}} $x_r$. At its input, the controller receives the entire reference trajectory \textcolor{red}{$X_r$}, covering several future time steps defined by the prediction horizon.
+
+Figure~\ref{fig:mpc_trajectory_tracking} illustrates the difference between LQR and MPC for a robot trajectory tracking task.
+
+MPC consists of two main components:
+\begin{itemize}
+    \item a model of the system dynamics,
+    \item and an optimizer.
+\end{itemize}
+
+The system dynamics model uses the current state $x(n)$ to predict the future states $\hat{x}(n+1), \hat{x}(n+2), \dots, \hat{x}(n+H_p)$ up to the prediction horizon $H_p$.  
+The controller takes as input the {\textbf{desired trajectory $X_r$}}, the {\textbf{current state $x(n)$}}, and the {\textbf{system model}}, and performs {\textbf{\textcolor{red}{optimization}}} 
+to compute an optimal sequence of control actions $U$. The working principle demonstrates figure~\ref{fig:mpc_working_principle}.
+Note in general model can be inperfect, and the predicted states as well.
+
+This optimization incrementally adjusts the control signal so that the predicted system trajectory $X$ follows the reference $X_r$ as closely as possible.  
+Such {\textbf{predictive behavior}} allows the controller to, for example, initiate braking or turning earlier, resulting in smoother motion and overall higher control performance.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/mpc/mpc-robot_tracking.png}
+    \caption{Comparison of LQR and MPC for robot trajectory tracking.}
+    \label{fig:mpc_trajectory_tracking}
+\end{figure}
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/mpc/mpc-mpc_overview_2.png}
+    \caption{MPC algorithm working principle}
+    \label{fig:mpc_working_principle}
+\end{figure}
+
+
+
+In following steps, we derivate {\textbf{\textcolor{red}{special case}}} of unconstrained MPC. 
+This allow us to completely avoid optimizer, and give us  {\textbf{\textcolor{red}{analytical solution}}}, 
+which is capable to run in real time (less than 10ms) in almost all nowadays hardware. 
+
+
+\newpage
+We begin by defining the notation and assumptions used throughout this derivation.
+
+\begin{itemize}
+    \item $n$ — discrete {\textbf{time step}}.
+    \item $N$ — number of  {\textbf{state variables}} (state dimension).
+    \item $M$ — number of  {\textbf{control inputs}} (input dimension).
+    \item $x(n)$ — {\textbf{system state}}, column vector of size $N \times 1$.
+    \item $u(n)$ — {\textbf{control input}}, column vector of size $M \times 1$.
+    \item $A$ — {\textbf{system matrix}}, $N \times N$.
+    \item $B$ — {\textbf{input matrix}}, $N \times M$.
+    \item $Q$ — positive semidefinite {\textbf{state weighting matrix}}, $N \times N$.
+    \item $R$ — positive semidefinite {\textbf{input weighting matrix}}, $M \times M$.
+\end{itemize}
+
+The discrete-time linear system dynamics are
+
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+For the MPC formulation, we define:
+\begin{itemize}
+    \item $H_p$ — {\textbf{prediction horizon}} (number of future steps predicted),
+    \item $H_c$ — {\textbf{control horizon}} (number of future control actions to optimize), 
+\end{itemize}
+with $H_p > H_c$.
+
+---
+
+\section{Stacked system formulation}
+
+We define the stacked vector of predicted future states - {\textbf{states trajectory}}
+\begin{align}
+    X =
+        \begin{bmatrix}
+            x(n+1) \\
+            x(n+2) \\
+            \vdots \\
+            x(n+H_p)
+        \end{bmatrix},
+\end{align}
+of total dimension $H_p N \times 1$.
+
+Similarly, we define the stacked vector of {\textbf{future control inputs}}
+\begin{align}
+    U =
+        \begin{bmatrix}
+            u(n) \\
+            u(n+1) \\
+            \vdots \\
+            u(n+H_c-1)
+        \end{bmatrix},
+\end{align}
+of size $H_c M \times 1$.
+
+The {\textbf{quadratic cost function}} is
+\begin{align}
+    \mathcal{L}(U) = (X_r - X)^\top \tilde{Q} (X_r - X) + U^\top \tilde{R} U,
+\end{align}
+subject to the system dynamics constraint
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+The weighting matrices $\tilde{Q}$ and $\tilde{R}$ are block-diagonal matrices constructed from $Q$ and $R$:
+\begin{align}
+    \tilde{Q} =
+        \begin{bmatrix}
+            Q & & &\\
+            & Q & &\\
+            & & \ddots & \\
+            & & & Q
+        \end{bmatrix}, \quad
+    \tilde{R} =
+        \begin{bmatrix}
+            R & & &\\
+            & R & &\\
+            & & \ddots & \\
+            & & & R
+        \end{bmatrix}.
+\end{align}
+Their dimensions are $\tilde{Q} \in \mathbb{R}^{H_p N \times H_p N}$ and $\tilde{R} \in \mathbb{R}^{H_c M \times H_c M}$.
+
+---
+
+\section{Prediction model formalism}
+
+We express the predicted future states as a function of the current state and future control sequence:
+
+\begin{align}
+    \begin{bmatrix}
+        x(n+1) \\
+        x(n+2) \\
+        \vdots \\
+        x(n+H_p)
+    \end{bmatrix}
+    &=
+    \begin{bmatrix}
+        A^1 \\
+        A^2 \\
+        \vdots \\
+        A^{H_p}
+    \end{bmatrix} x(n) \nonumber \\
+    &+
+    \begin{bmatrix}
+        A^0B     & 0        & 0     & \dots &   0 \\
+        A^1B     & A^0B     & 0     & \dots &   0 \\
+        A^2B     & A^1B     & A^0B  & \dots &   0 \\
+        \vdots   & \vdots   & \vdots& \ddots & 0 \\
+        A^{H_p-1}B & A^{H_p-2}B & \dots & A^{H_p-H_c}B & A^{H_p-H_c-1}B
+    \end{bmatrix}
+    \begin{bmatrix}
+        u(n) \\
+        u(n+1) \\
+        \vdots \\
+        u(n+H_c-1)
+    \end{bmatrix} \nonumber
+    \label{eq:mpc_matrix_form}
+\end{align}
+
+This compactly becomes
+\begin{align}
+    X = \Psi x(n) + \Theta U,
+\end{align}
+
+where
+
+\begin{align}
+\Psi =
+    \begin{bmatrix}
+        A^1 \\
+        A^2 \\
+        \vdots \\
+        A^{H_p}
+    \end{bmatrix}, \quad
+\Theta_{ij} =
+    \begin{cases*}
+        A^{i-j}B, & if $i \ge j$, \\
+        0, & otherwise.
+    \end{cases*} 
+\end{align}
+
+$\Psi$ has dimensions $H_p N \times N$ and $\Theta$ has dimensions $H_p N \times H_c M$.
+
+---
+
+\section{Understanding the Prediction Model}
+Let us break down what the recent expressions mean on an {\textbf{\textcolor{red}{intuitive level}}}.  
+{\textbf{The purpose of formulating the problem in a matrix framework is to express the objective loss function 
+in terms of the current state $x(n)$, the desired trajectory $X_r(n)$, and the sequence of control inputs $U$.}}  
+The following figure~\ref{fig:mpc_prediction_model} illustrates how the matrices $\Psi$ and $\Theta$ are constructed,
+and how they relate the current state $x(n)$ and the control sequence $U$ to the predicted future states.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/mpc/mpc-mpc_exp_0.png}
+    \caption{Prediction model representation.}
+    \label{fig:mpc_prediction_model}
+\end{figure}
+
+Let us first question what the terms inside the $\Psi$ and $\Theta$ matrices actually mean.
+
+---
+
+{\textbf{Projection of the Current State}}
+
+Assume we select the {\textbf{first row}} from $\Psi$ and $\Theta$, as shown in figure˜\ref{fig:mpc_exp_1}.  
+This single row tells us {\textbf{\textcolor{red}{how the current state $x(n)$ is projected into the next state $x(n+1)$}}}.  
+As we can see, this follows directly from the linear dynamic model
+
+\begin{align*}
+x_a(n+1) = A x(n),
+\end{align*}
+
+where $x_a$ represents the component of the next state due solely to the system dynamics.
+
+Similarly, the input $u(n)$ is projected via the first row of the matrix $\Theta$, as expected from the linear state-space model:
+\begin{align*}
+x_b(n+1) = B u(n),
+\end{align*}
+where $x_b$ represents the component due to control inputs.  
+Together, these two components reproduce the well-known discrete-time linear dynamical system:
+\begin{align*}
+x(n+1) = A x(n) + B u(n).
+\end{align*}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/mpc/mpc-mpc_exp_1.png}
+    \caption{Effect of $\Psi$ and $\Theta$ matrix terms.}
+    \label{fig:mpc_exp_1}
+\end{figure}
+
+---
+
+{\textbf{Extending the Prediction Horizon}}
+
+Next, let us consider the {\textbf{second row}} of matrix $\Psi$, which describes 
+how the {\textbf{current state $x(n)$}} is projected further into the future, producing the $A$-term for $x_a(n+2)$.  
+The current state $x(n)$ must be propagated twice to obtain $x_a(n+2)$:
+\begin{align*}
+x_a(n+1) &= A x(n), \\    
+x_a(n+2) &= A x_a(n+1) = A^2 x(n).
+\end{align*}
+
+This is why the {\textbf{second row of matrix $\Psi$ contains $A^2$}}.  
+In general, projecting the current state $x(n)$ $h$ steps into the future is expressed as:
+\begin{align*}
+x_a(n+h) = A^h x(n).
+\end{align*}
+
+---
+
+{\textbf{Projection of Control Inputs}}
+
+Now, let us apply the same reasoning to the {\textbf{second row}} of the matrix $\Theta$ and the future control input $u(n+1)$.  
+This describes how {\textbf{future control inputs}} are projected into future states through the $B$-terms:
+\begin{align*}
+x_b(n+1) &= B u(n), \\
+x_b(n+2) &= A B u(n) + B u(n+1).
+\end{align*}
+This expression directly shows how to construct the matrix $\Theta$.
+
+In summary, {\textbf{$\Psi$ projects the current state $x(n)$ into future states, whereas $\Theta$ projects the sequence of future control inputs $U$ into their effect on future states.}}
+
+---
+
+{\textbf{Intuitive View of the $\Theta$ Matrix}}
+
+Another way to understand $\Theta$ is to look at how each individual control input $u$ in the sequence $U$ affects future states.  
+This is demonstrated in figure~\ref{fig:mpc_exp_2}.
+
+Consider the {\textbf{first control input}} $u(n)$, marked in purple in the figure.  
+This term is projected into all future states $x(n+1), x(n+2), \dots$, which makes intuitive sense — the first control action influences the entire future trajectory.
+
+Now look at the {\textbf{second control input}} $u(n+1)$, marked in cyan.  
+In the second column of $\Theta$, the first term is zero, reflecting causality — the input $u(n+1)$ cannot affect any past state such as $x(n+1)$.
+
+Finally, examine the {\textbf{last control input}} $u(n+H_c-1)$, shown in blue.  
+The last column of $\Theta$ contains zeros except for the last few entries, meaning that the last control input only affects the final predicted state(s).
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/mpc/mpc-mpc_exp_2.png}
+    \caption{Effect of $\Theta$ matrix terms on predicted states.}
+    \label{fig:mpc_exp_2}
+\end{figure}
+
+---
+
+\noindent
+This intuitive view helps us understand how the prediction model aggregates both system dynamics and control inputs into a single compact matrix formulation, enabling MPC to efficiently predict and optimize future behavior.
+
+
+---
+
+\newpage
+\section{Optimization problem}
+
+Substitute the predicted state into the cost function:
+\begin{align}
+    \mathcal{L}(U) = (X_r - \Psi x(n) - \Theta U)^\top \tilde{Q} (X_r - \Psi x(n) - \Theta U) + U^\top \tilde{R} U.
+\end{align}
+
+Define the state–reference residual
+\begin{align}
+    S = X_r - \Psi x(n),
+\end{align}
+to obtain
+\begin{align}
+    \mathcal{L}(U) = U^\top \tilde{R} U + (S - \Theta U)^\top \tilde{Q} (S - \Theta U).
+\end{align}
+
+Expanding and collecting terms:
+\begin{align}
+    \mathcal{L}(U) = U^\top(\tilde{R} + \Theta^\top \tilde{Q} \Theta)U - 2U^\top \Theta^\top \tilde{Q} S + S^\top \tilde{Q} S.
+\end{align}
+
+The derivative terms are:
+\begin{align}  
+    \frac{\partial J}{\partial {{U}}} & : \\
+    \frac{\partial {{U}^T \tilde{R} {U} } }{\partial {{U}}} & = 2\tilde{R}{U} \nonumber \\
+    \frac{\partial { {U}^T\Theta^T\tilde{Q}\Theta{U}}}{\partial {{U}}} & = 2\Theta^T\tilde{Q}\Theta{U} \nonumber \\
+    \frac{\partial {- 2{U}^T \Theta^T\tilde{Q}S}}{\partial {{U}}} & = -2\Theta^T\tilde{Q}S \nonumber \\
+    \frac{\partial {S^T\tilde{Q}S}}{\partial {{U}}} & = 0 \nonumber \\
+    \label{eq:mpc_derivative}   
+\end{align}  
+
+---
+
+\section{Analytical solution}
+
+Taking the derivative with respect to $U$ and setting it to zero:
+\begin{align}
+    \frac{\partial \mathcal{L}}{\partial U} = 2(\tilde{R} + \Theta^\top \tilde{Q}\Theta)U - 2\Theta^\top \tilde{Q} S = 0.
+\end{align}
+
+
+
+Hence, the {\textbf{optimal control sequence for the unconstrained MPC problem is}}
+\begin{align}
+    U^* = (\tilde{R} + \Theta^\top \tilde{Q} \Theta)^{-1} \Theta^\top \tilde{Q} S,
+\end{align}
+which is equivalent to
+\begin{align}
+    U^* = (\tilde{R} + \Theta^\top \tilde{Q}\Theta)^{-1} \Theta^\top \tilde{Q} (X_r - \Psi x(n)).
+\end{align}
+
+\section{Remarks}
+
+\begin{itemize}
+    \item The matrices $\tilde{Q}$ and $\tilde{R}$ must be symmetric and positive semidefinite to guarantee convexity of the optimization problem.
+    \item If $H_c < H_p$, the remaining predicted inputs beyond $u(n+H_c-1)$ are assumed to be zero.
+    \item Actuator saturation can be applied by clipping $u(n)$ to its physical limits.
+    \item The presented derivation corresponds to the \emph{unconstrained} MPC case; if hard constraints on inputs or states are required, the same quadratic structure can be solved using a quadratic programming (QP) solver.
+\end{itemize}
+
+---
+
+\section{Algorithm implementation}
+
+Since all matrices are constant for a given system, we can precompute
+\begin{align}
+    \Sigma = (\tilde{R} + \Theta^\top \tilde{Q}\Theta)^{-1} \Theta^\top \tilde{Q}.
+\end{align}
+
+At each control step:
+\begin{align}
+    E(n) &= X_r(n) - \Psi x(n), \\
+    U(n) &= \Sigma E(n), \\
+    u(n) &= \text{first } M \text{ elements of } U(n).
+\end{align}
+
+The control signal $u(n)$ is then applied to the plant, and the process repeats at the next sampling instant.
+The overall idea of algorithm is in the following figure˜\ref{fig:mpc_block}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/mpc/mpc-mpc_algo.png}
+    \caption{Block diagram of unconstrained MPC algorithm}
+    \label{fig:mpc_block}
+\end{figure}
+
+\newpage
+
+\subsection{Python code example}
+
+First we construct all matrices, precompute $\Sigma$ and $\Theta$. 
+This is costly operation, hewever it can be done once in constructor :
+\begin{lstlisting}[style=python_style]
+"""
+A: (n_x, n_x)
+B: (n_x, n_u)
+Q: (n_x, n_x) (state cost)
+R: (n_u, n_u) (input cost)
+prediction_horizon  : Hp (how many future states)
+control_horizon     : Hc (how many future inputs we optimize; typically <= Hp)
+""" 
+def __init__(self, A, B, Q, R, prediction_horizon=16, control_horizon=4, u_max=1e10):
+
+    self.A      = A
+    self.B      = B
+    self.nx     = A.shape[0]
+    self.nu     = B.shape[1]
+    self.Hp     = prediction_horizon
+    self.Hc     = control_horizon
+    self.u_max  = u_max
+
+    # 1, build Phi and Theta
+    self.Phi, self.Theta = self._build_prediction_matrices(A, B, self.Hp, self.Hc)
+
+    # 2, build augmented tilde Q and tilde R, block-diagonal
+    self.Q_aug = numpy.kron(numpy.eye(self.Hp), Q)
+    self.R_aug = numpy.kron(numpy.eye(self.Hc), R)
+
+    # Precompute solver matrices: G and Sigma
+    G = self.Theta.T @ self.Q_aug @ self.Theta + self.R_aug
+    
+    # use solve later for stability; but precompute factorization if desired
+    # here we compute Sigma by solving G Sigma^T = Theta^T Q_aug  (do via solve)
+    # Sigma has shape (n_u*Hc, n_x*Hp)
+    # Solve H @ Sigma = Theta.T @ Q_aug
+    # Sigma = numpy.linalg.solve(H, Theta.T @ Q_aug)
+    self.Sigma  = numpy.linalg.solve(G, self.Theta.T @ self.Q_aug)
+    self.Sigma0 = self.Sigma[:self.nu, :]
+
+
+def _build_prediction_matrices(self, A, B, Hp, Hc):
+    nx = A.shape[0]
+    nu = B.shape[1]
+    # precompute A powers: A^0 ... A^Hp
+    A_pows = [numpy.eye(nx)]
+    for i in range(1, Hp + 1):
+        A_pows.append(A_pows[-1] @ A)
+
+    # Phi: (nx*Hp, nx) stacked [A; A^2; ...; A^Hp]
+    Phi = numpy.zeros((nx * Hp, nx))
+    for i in range(Hp):
+        Phi[i * nx:(i + 1) * nx, :] = A_pows[i + 1]  # A^(i+1)
+
+    # Theta: (nx*Hp, nu*Hc) where block (i,j) is A^(i-j) B for i>=j, else 0
+    Theta = numpy.zeros((nx * Hp, nu * Hc))
+    for i in range(Hp):
+        for j in range(Hc):
+            if i >= j:
+                # A^{i-j} B
+                Theta[i * nx:(i + 1) * nx, j * nu:(j + 1) * nu] = A_pows[i - j] @ B
+            else:
+                # remains zero
+                pass
+
+    return Phi, Theta
+\end{lstlisting}
+
+\newpage
+Main controll loop is straightforward. We precomputed almost everything, in fast running loop 
+we have to perform only two matrix multiplications. The shape of $Xr$ numpy matrix is $(NH_p, 1)$, shape of matrix $x$ is $N, 1$, function returns 
+column vector $u$ of shape $(M, 1)$ :
+
+\begin{lstlisting}[style=python_style]
+def forward_traj(self, Xr, x):
+    # residual
+    s = Xr - self.Phi @ x
+
+    # compute only first control
+    u0 = self.Sigma0 @ s
+    u0 = numpy.clip(u0, -self.u_max, self.u_max)
+
+    return u0
+\end{lstlisting}
+---
+
+
+\section{Tracking problem example}
+
+We assume simple 2D moving sphere with inertia, system is basically two servos with inertia, 
+having two paramters, time constant $\tau$ and some amplification $k$. 
+We assume continuous state space model $dx = Ax + Bu$.
+
+State $x$ is then basically position and velocity :
+
+\begin{align}
+    x =
+        \begin{bmatrix}
+            x_{pos} \\
+            y_{pos} \\
+            x_{vel} \\
+            y_{vel} \\
+        \end{bmatrix}
+\end{align}
+
+System dynamics matrices $A$ and $B$ are : 
+
+\begin{align}
+    A &=
+        \begin{bmatrix}
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 \\
+            0 & 0 & -\frac{1}{\tau} & 0 \\
+            0 & 0 & 0 & -\frac{1}{\tau} \\
+        \end{bmatrix} \\
+    B &=
+        \begin{bmatrix}
+            0 & 0 \\
+            0 & 0 \\    
+            \frac{k}{\tau} & 0 \\
+            0 & \frac{k}{\tau} \\
+        \end{bmatrix}
+\end{align}
+
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.7]{../images/mpc/mpc_plots-lqr.png}
+    \caption{LQR response for servo control}
+    \label{fig:servo_lqr_response}
+\end{figure}
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.7]{../images/mpc/mpc_plots-mpc.png}
+    \caption{MPC response for servo control}
+    \label{fig:servo_mpc_response}
+\end{figure}
+
+
+\end{document}
+

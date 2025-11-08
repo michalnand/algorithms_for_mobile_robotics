@@ -1,0 +1,283 @@
+% universal settings
+\documentclass[12pt,twoside,onecolumn,openany,extrafontsizes,dvipsnames]{memoir}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+\usepackage{subcaption}
+\usepackage{amsmath,mathtools}
+\usepackage{amsfonts} % For \mathbb
+\usepackage{amssymb}  % For additional symbols
+\usepackage{color}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{dark_gray}{rgb}{0.2,0.2,0.2}
+\definecolor{white}{rgb}{0.9,0.9,0.9}
+
+\lstdefinestyle{python_style}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\tiny,
+    language=Python,
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false
+}
+
+\lstdefinestyle{cpp_style}{
+    language=C++,
+    basicstyle=\ttfamily\tiny,
+    backgroundcolor=\color{backcolour}, 
+    keywordstyle=\color{magenta}\ttfamily\tiny,
+    stringstyle=\color{codepurple}\ttfamily\tiny,
+    commentstyle=\color{codegreen}\ttfamily\tiny,
+    numbersep=10pt,
+    tabsize=4,
+}
+
+
+\lstdefinestyle{terminal_style}{
+    basicstyle=\ttfamily\tiny\color{white},
+    backgroundcolor=\color{dark_gray}, 
+    numbersep=10pt,
+    tabsize=4,
+}
+
+\lstset{style=python_style}
+
+
+
+\title{MPC notes}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\chapter{Model predictive control}
+
+First we define input assumptions
+
+\begin{itemize}
+    \item $n$ is discrete time step
+    \item $N$ is number of states, system order
+    \item $M$ is number of inputs
+    \item $x$ is system state, column vector of shape $N \times 1$
+    \item $u$ is control input, column vector of shape $M \times 1$
+    \item $A$ is matrix, $N \times N$
+    \item $B$ is matrix, $N \times M$
+    \item $Q$ is positive semidefinite matrix (mostly diagonal), $N \times N$
+    \item $R$ is positive semidefinite matrix (mostly diagonal), $M \times M$
+\end{itemize}
+
+We define discrete linear dynamical system as 
+
+\begin{align}
+    x(n+1) = Ax(n) + Bu(n)
+\end{align}
+
+For MPC problem we also define prediction horizon horizon $H_p$ steps, and control horizon $H_c$ steps, s.t. $H_p > H_c$.
+
+There is given trajectory of predicted states $X$ and reference trajectory to follow $Xr$, both defined as
+
+\begin{align}
+    X& = 
+        \begin{bmatrix}
+            x(n+1) \\
+            x(n+2) \\
+            \dots \\
+            x(n+H_p)
+        \end{bmatrix}
+\end{align}
+
+of result shape $H_p N \times 1$
+
+Objective of MPC is to find sequence of control inputs $U$, defined as 
+
+\begin{align}
+    U& = 
+        \begin{bmatrix}
+            u(n) \\
+            u(n+1) \\
+            \dots \\
+            u(n+H_c-1)
+        \end{bmatrix}
+\end{align}
+
+of result shape $H_c M \times 1$, which minimize following quadratic cost function
+
+\begin{align}   
+    J(U) &= (X_r - X)^T \tilde{Q} (X_r - X) + U^T\tilde{R}U, \\
+    s.t. \; x(n+1) &= Ax(n) + Bu(n)
+\end{align}
+
+The matrices $\tilde{Q}$ and $\tilde{R}$ are semidefinite (mostly diagonal only) matrices, weighting loss terms.
+Matrices are obtained from block stacking matrices $Q$ and $R$ as 
+
+\begin{align}
+    \tilde{Q}& = 
+        \begin{bmatrix}
+            Q & & &\\
+            & Q & &\\
+            & & \dots & \\
+            & & & Q
+        \end{bmatrix}
+\end{align}
+
+
+\begin{align}
+    \tilde{R}& = 
+        \begin{bmatrix}
+            R & & &\\
+            & R & &\\
+            & & \dots & \\
+            & & & R
+        \end{bmatrix}
+\end{align}
+
+shape of matrix $\tilde{Q}$ is $H_pN \times H_pN$, shape of matrix $\tilde{R}$ is $H_cM \times H_cM$.
+\\
+\\
+\textbf{Step 1 : } To solve for $U$ we rewrite problem using current state $x(n)$, known system dynamics - matrices $A$, $B$ and known 
+required trajectory $Xr$.
+
+Prediction of future states is defined as
+\begin{align}
+    \begin{bmatrix}
+        x(n+1) \\
+        x(n+2) \\
+        \dots \\
+        x(n+H_p)
+    \end{bmatrix} &= 
+    \begin{bmatrix}
+        A^1 \\
+        A^2 \\
+        \dots \\
+        A^H_p
+    \end{bmatrix} x(n) + \\
+    &\begin{bmatrix}
+        A^0B     & 0        & 0     & \dots &   0 \\
+        A^1B     & A^0B     & 0     & \dots &   0 \\
+        A^2B     & A^1B     & A^0B  & \dots &   0 \\
+        \dots    & \dots    & \dots & \dots &   0 \\
+        A^{H_p-1}B   & A^{H_p-2}B  & \dots   & A^{H_p-H_c}B & A^{H_p-H_c-1}B \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        u(n) \\
+        u(n+1) \\
+        \dots \\
+        u(n+H_c-1)
+    \end{bmatrix} \nonumber
+    \label{eq:mpc_matrix_form} 
+\end{align}
+
+Written in compact matrix form as 
+
+\begin{align}
+    X = \Psi x(n) + \Theta U
+\end{align}
+
+
+Matrix $\Psi$ is in general of shape $H_pN \times N$, defined as 
+\begin{align}
+\Psi =
+\begin{bmatrix}
+        A^1 \\
+        A^2 \\
+        \dots \\
+        A^H_p
+    \end{bmatrix} 
+\end{align}
+
+Matrix $\Theta$ is in general of shape $H_pN \times H_cM$, defined as 
+
+\begin{align}
+\Theta_{ij} = 
+    \begin{cases*}
+      A^{i-j}B & if $i \geq  j$, \\
+      0,       & otherwise
+    \end{cases*}
+\end{align}
+\\
+\\
+\textbf{Step 2 : } Start with quadratic loss (cost) function
+        
+\begin{align}
+    J(U) &= (X_r - X)^T \tilde{Q} (X_r - X) + U^T\tilde{R}U, \\
+    \label{eq:mpc_loss_b}
+\end{align}
+
+after substitution $S$
+\begin{align*}
+    S = X_r - \Psi\X
+\end{align*}
+
+we obtain 
+\begin{align}
+    J(U) &= {U}^T \tilde{R} {U} + (S -  \Theta {U} )^T \tilde{Q} (S -  \Theta {U} ) \\
+                &= {U}^T \tilde{R} {U} \nonumber
+                + S^T\tilde{Q}S - S^T \tilde{Q} \Theta {U} \nonumber
+                - {U}^T \Theta^T\tilde{Q}S + {U}^T\Theta^T\tilde{Q}\Theta{U} \nonumber
+\end{align}
+\\
+\\
+\textbf{Step 3 : } Find derivative with respect to ${U}$ 
+
+\begin{align}  
+    \frac{\partial J}{\partial {{U}}} & : \\
+    \frac{\partial {{U}^T \tilde{R} {U} } }{\partial {{U}}} & = 2\tilde{R}{U} \nonumber \\
+    \frac{\partial {S^T\tilde{Q}S}}{\partial {{U}}} & = 0 \nonumber \\
+    \frac{\partial {- S^T \tilde{Q} \Theta {U} }}{\partial {{U}}} & = -\Theta^T\tilde{Q}S \nonumber \\
+    \frac{\partial {- {U}^T \Theta^T\tilde{Q}S}}{\partial {{U}}} & = -\Theta^T\tilde{Q}S \nonumber \\
+    \frac{\partial { {U}^T\Theta^T\tilde{Q}\Theta{U}}}{\partial {{U}}} & = 2\Theta^T\tilde{Q}\Theta{U} \nonumber
+    \label{eq:mpc_derivative}   
+\end{align}  
+
+    
+put derivative equal to zero, and solve
+
+\begin{align}
+    \frac{\partial J}{\partial {{U}}} & = 2 \tilde{R} {U} - 2\Theta^T\tilde{Q}S + 2\Theta^T\tilde{Q}\Theta{U} \\
+    0 &= 2 \tilde{R} {U} - 2\Theta^T\tilde{Q}S + 2\Theta^T\tilde{Q}\Theta{U} \nonumber \\
+    (\tilde{R} + \Theta^T\tilde{Q}\Theta){U}  &= \Theta^T\tilde{Q}S \nonumber 
+    \label{eq:mpc_zero_solving} 
+\end{align}  
+
+and \textbf{obtain solution for unconstrained model predictive control}
+\begin{align}   
+    {U} &= (\tilde{R} + \Theta^T\tilde{Q}\Theta)^{-1} \Theta^T\tilde{Q}S \\
+    \label{eq:mpc_solution} \nonumber
+\end{align}  
+
+\textbf{Step 4 : } \textbf{model predictive control - full algorithmAAAA} \\
+given matrices : $\tilde{Q}, \tilde{R}, \Theta, \Phi$ \\
+initialization (precompute) :
+\begin{align}       
+    \Sigma &= (\tilde{R} + \Theta^T\tilde{Q}\Theta)^{-1} \Theta^T\tilde{Q} \\
+    \label{eq:mpc_fast_solution_1}
+\end{align}
+
+\textbf{in loop process controller step :}
+\begin{align}
+    E(n) &= X_r(n) - \Phi x(n) \\
+    u(n) &= \Sigma E(n) \nonumber \\
+    \label{eq:mpc_fast_solution_2}
+\end{align}
+
+
+\end{document}
+

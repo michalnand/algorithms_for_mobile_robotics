@@ -1,0 +1,300 @@
+% universal settings
+\documentclass[12pt,twoside,onecolumn,openany,extrafontsizes,dvipsnames]{memoir}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+
+\usepackage{subcaption}
+\usepackage{amsmath,mathtools}
+\usepackage{amsfonts} % For \mathbb
+\usepackage{amssymb}  % For additional symbols
+\usepackage{color}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{dark_gray}{rgb}{0.2,0.2,0.2}
+\definecolor{white}{rgb}{0.9,0.9,0.9}
+
+\lstdefinestyle{python_style}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\tiny,
+    language=Python,
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false
+}
+
+\lstdefinestyle{cpp_style}{
+    language=C++,
+    basicstyle=\ttfamily\tiny,
+    backgroundcolor=\color{backcolour}, 
+    keywordstyle=\color{magenta}\ttfamily\tiny,
+    stringstyle=\color{codepurple}\ttfamily\tiny,
+    commentstyle=\color{codegreen}\ttfamily\tiny,
+    numbersep=10pt,
+    tabsize=4,
+}
+
+
+\lstdefinestyle{terminal_style}{
+    basicstyle=\ttfamily\tiny\color{white},
+    backgroundcolor=\color{dark_gray}, 
+    numbersep=10pt,
+    tabsize=4,
+}
+
+\lstset{style=python_style}
+
+
+
+\title{MPC notes}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\chapter{Model Predictive Control}
+
+We begin by defining the notation and assumptions used throughout this derivation.
+
+\begin{itemize}
+    \item $n$ — discrete time step.
+    \item $N$ — number of state variables (state dimension).
+    \item $M$ — number of control inputs (input dimension).
+    \item $x(n)$ — system state, column vector of size $N \times 1$.
+    \item $u(n)$ — control input, column vector of size $M \times 1$.
+    \item $A$ — system matrix, $N \times N$.
+    \item $B$ — input matrix, $N \times M$.
+    \item $Q$ — positive semidefinite state weighting matrix, $N \times N$.
+    \item $R$ — positive semidefinite input weighting matrix, $M \times M$.
+\end{itemize}
+
+The discrete-time linear system dynamics are
+
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+For the MPC formulation, we define:
+\begin{itemize}
+    \item $H_p$ — prediction horizon (number of future steps predicted),
+    \item $H_c$ — control horizon (number of future control actions to optimize), 
+\end{itemize}
+with $H_p > H_c$.
+
+---
+
+\section{Stacked system formulation}
+
+We define the stacked vector of predicted future states
+\begin{align}
+    X =
+        \begin{bmatrix}
+            x(n+1) \\
+            x(n+2) \\
+            \vdots \\
+            x(n+H_p)
+        \end{bmatrix},
+\end{align}
+of total dimension $H_p N \times 1$.
+
+Similarly, we define the stacked vector of future control inputs
+\begin{align}
+    U =
+        \begin{bmatrix}
+            u(n) \\
+            u(n+1) \\
+            \vdots \\
+            u(n+H_c-1)
+        \end{bmatrix},
+\end{align}
+of size $H_c M \times 1$.
+
+The quadratic cost function is
+\begin{align}
+    J(U) = (X_r - X)^\top \tilde{Q} (X_r - X) + U^\top \tilde{R} U,
+\end{align}
+subject to the system dynamics constraint
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+The weighting matrices $\tilde{Q}$ and $\tilde{R}$ are block-diagonal matrices constructed from $Q$ and $R$:
+\begin{align}
+    \tilde{Q} =
+        \begin{bmatrix}
+            Q & & &\\
+            & Q & &\\
+            & & \ddots & \\
+            & & & Q
+        \end{bmatrix}, \quad
+    \tilde{R} =
+        \begin{bmatrix}
+            R & & &\\
+            & R & &\\
+            & & \ddots & \\
+            & & & R
+        \end{bmatrix}.
+\end{align}
+Their dimensions are $\tilde{Q} \in \mathbb{R}^{H_p N \times H_p N}$ and $\tilde{R} \in \mathbb{R}^{H_c M \times H_c M}$.
+
+---
+
+\section{Prediction model}
+
+We express the predicted future states as a function of the current state and future control sequence:
+
+\begin{align}
+    \begin{bmatrix}
+        x(n+1) \\
+        x(n+2) \\
+        \vdots \\
+        x(n+H_p)
+    \end{bmatrix}
+    &=
+    \begin{bmatrix}
+        A^1 \\
+        A^2 \\
+        \vdots \\
+        A^{H_p}
+    \end{bmatrix} x(n) \\
+    &+
+    \begin{bmatrix}
+        A^0B     & 0        & 0     & \dots &   0 \\
+        A^1B     & A^0B     & 0     & \dots &   0 \\
+        A^2B     & A^1B     & A^0B  & \dots &   0 \\
+        \vdots   & \vdots   & \vdots& \ddots & 0 \\
+        A^{H_p-1}B & A^{H_p-2}B & \dots & A^{H_p-H_c}B & A^{H_p-H_c-1}B
+    \end{bmatrix}
+    \begin{bmatrix}
+        u(n) \\
+        u(n+1) \\
+        \vdots \\
+        u(n+H_c-1)
+    \end{bmatrix} \nonumber
+    \label{eq:mpc_matrix_form}
+\end{align}
+
+This compactly becomes
+\begin{align}
+    X = \Psi x(n) + \Theta U,
+\end{align}
+
+where
+
+\begin{align}
+\Psi =
+    \begin{bmatrix}
+        A^1 \\
+        A^2 \\
+        \vdots \\
+        A^{H_p}
+    \end{bmatrix}, \quad
+\Theta_{ij} =
+    \begin{cases*}
+        A^{i-j}B, & if $i \ge j$, \\
+        0, & otherwise.
+    \end{cases*} 
+\end{align}
+
+$\Psi$ has dimensions $H_p N \times N$ and $\Theta$ has dimensions $H_p N \times H_c M$.
+
+---
+
+\section{Optimization problem}
+
+Substitute the predicted state into the cost function:
+\begin{align}
+    J(U) = (X_r - \Psi x(n) - \Theta U)^\top \tilde{Q} (X_r - \Psi x(n) - \Theta U) + U^\top \tilde{R} U.
+\end{align}
+
+Define the state–reference residual
+\begin{align}
+    S = X_r - \Psi x(n),
+\end{align}
+to obtain
+\begin{align}
+    J(U) = U^\top \tilde{R} U + (S - \Theta U)^\top \tilde{Q} (S - \Theta U).
+\end{align}
+
+Expanding and collecting terms:
+\begin{align}
+    J(U) = U^\top(\tilde{R} + \Theta^\top \tilde{Q} \Theta)U - 2U^\top \Theta^\top \tilde{Q} S + S^\top \tilde{Q} S.
+\end{align}
+
+\begin{align}  
+    \frac{\partial J}{\partial {{U}}} & : \\
+    \frac{\partial {{U}^T \tilde{R} {U} } }{\partial {{U}}} & = 2\tilde{R}{U} \nonumber \\
+    \frac{\partial { {U}^T\Theta^T\tilde{Q}\Theta{U}}}{\partial {{U}}} & = 2\Theta^T\tilde{Q}\Theta{U} \nonumber \\
+    \frac{\partial {- 2{U}^T \Theta^T\tilde{Q}S}}{\partial {{U}}} & = -2\Theta^T\tilde{Q}S \nonumber \\
+    \frac{\partial {S^T\tilde{Q}S}}{\partial {{U}}} & = 0 \nonumber \\
+    \label{eq:mpc_derivative}   
+\end{align}  
+
+---
+
+\section{Analytical solution}
+
+Taking the derivative with respect to $U$ and setting it to zero:
+\begin{align}
+    \frac{\partial J}{\partial U} = 2(\tilde{R} + \Theta^\top \tilde{Q}\Theta)U - 2\Theta^\top \tilde{Q} S = 0.
+\end{align}
+
+
+
+Hence, the optimal control sequence for the unconstrained MPC problem is
+\begin{align}
+    U^* = (\tilde{R} + \Theta^\top \tilde{Q} \Theta)^{-1} \Theta^\top \tilde{Q} S,
+\end{align}
+which is equivalent to
+\begin{align}
+    U^* = (\tilde{R} + \Theta^\top \tilde{Q}\Theta)^{-1} \Theta^\top \tilde{Q} (X_r - \Psi x(n)).
+\end{align}
+
+---
+
+\section{Fast implementation}
+
+Since all matrices are constant for a given system, we can precompute
+\begin{align}
+    \Sigma = (\tilde{R} + \Theta^\top \tilde{Q}\Theta)^{-1} \Theta^\top \tilde{Q}.
+\end{align}
+
+At each control step:
+\begin{align}
+    E(n) &= X_r(n) - \Psi x(n), \\
+    U(n) &= \Sigma E(n), \\
+    u(n) &= \text{first } M \text{ elements of } U(n).
+\end{align}
+
+The control signal $u(n)$ is then applied to the plant, and the process repeats at the next sampling instant.
+
+---
+
+\section{Remarks}
+
+\begin{itemize}
+    \item The matrices $\tilde{Q}$ and $\tilde{R}$ must be symmetric and positive semidefinite to guarantee convexity of the optimization problem.
+    \item If $H_c < H_p$, the remaining predicted inputs beyond $u(n+H_c-1)$ are assumed to be zero.
+    \item Actuator saturation can be applied by clipping $u(n)$ to its physical limits.
+    \item The presented derivation corresponds to the \emph{unconstrained} MPC case; if hard constraints on inputs or states are required, the same quadratic structure can be solved using a quadratic programming (QP) solver.
+\end{itemize}
+
+
+\end{document}
+
