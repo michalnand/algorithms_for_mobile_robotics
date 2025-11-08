@@ -68,7 +68,10 @@
 
 
 
-\title{MPC notes}
+\title{\textbf{MPC without MSc} \\[2cm]
+\centering\includegraphics[width=12cm]{../images/illustrations/cover_2.png}
+} 
+\author{Michal Chovanec, PhD.}
 \date{\today}
 
 
@@ -554,60 +557,176 @@ def forward_traj(self, Xr, x):
 \end{lstlisting}
 ---
 
+\newpage
 
-\section{Tracking problem example}
+\section{Tracking Problem Example}
 
-We assume simple 2D moving sphere with inertia, system is basically two servos with inertia, 
-having two paramters, time constant $\tau$ and some amplification $k$. 
-We assume continuous state space model $dx = Ax + Bu$.
+We consider a simple 2D moving sphere with inertia.  
+The goal is to follow a given reference trajectory $X_r$, as shown in 
+figure~\ref{fig:example_trajectory_tracking}.  
+We control two input forces, $u_x$ and $u_y$.
 
-State $x$ is then basically position and velocity :
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.7]{../diagrams/examples/examples-trajectory.png}
+    \caption{Trajectory tracking example.}
+    \label{fig:example_trajectory_tracking}
+\end{figure}
 
+The system behaves as {\textbf{two independent servos with first-order inertia}}, characterized by a time constant $\tau$ and an amplification factor $k$.  
+We assume a continuous state-space model $\dot{x} = \bar{A}x + \bar{B}u$, which we later discretize to design a controller.  
+This allows us to demonstrate the complete process, from a physical model to a working MPC controller.
+
+We arbitrarily set the parameters as:
+\begin{itemize}
+    \item discretization step: $dt = 0.01$ s,
+    \item time constant: $\tau = 0.5$ s,
+    \item amplification: $k = 0.3$.
+\end{itemize}
+
+The state vector $x$ contains position and velocity in both axes:
+\[
+x =
+\begin{bmatrix}
+x_{\text{pos}} \\
+y_{\text{pos}} \\
+x_{\text{vel}} \\
+y_{\text{vel}}
+\end{bmatrix}.
+\]
+
+The continuous system matrices $\bar{A}$ and $\bar{B}$ are:
 \begin{align}
-    x =
+    \bar{A} &=
         \begin{bmatrix}
-            x_{pos} \\
-            y_{pos} \\
-            x_{vel} \\
-            y_{vel} \\
-        \end{bmatrix}
+            0 & 0 & 1 & 0 \\
+            0 & 0 & 0 & 1 \\
+            0 & 0 & -\tfrac{1}{\tau} & 0 \\
+            0 & 0 & 0 & -\tfrac{1}{\tau}
+        \end{bmatrix}, &
+    \bar{B} &=
+        \begin{bmatrix}
+            0 & 0 \\
+            0 & 0 \\    
+            \tfrac{k}{\tau} & 0 \\
+            0 & \tfrac{k}{\tau}
+        \end{bmatrix}.
 \end{align}
 
-System dynamics matrices $A$ and $B$ are : 
+After discretization for time step $dt$, we obtain discrete-time matrices $A$ and $B$, which are used only for controller synthesis.  
+The physical system itself is simulated in continuous time using a Runge–Kutta 4 (RK4) ODE solver, to stay close to realistic behavior.
 
 \begin{align}
     A &=
         \begin{bmatrix}
-            0 & 0 & 1 & 0 \\
-            0 & 0 & 0 & 1 \\
-            0 & 0 & -\frac{1}{\tau} & 0 \\
-            0 & 0 & 0 & -\frac{1}{\tau} \\
-        \end{bmatrix} \\
+            1 & 0 & 0.00990099 & 0 \\
+            0 & 1 & 0 & 0.00990099 \\
+            0 & 0 & 0.98019802 & 0 \\
+            0 & 0 & 0 & 0.98019802
+        \end{bmatrix}, &
     B &=
         \begin{bmatrix}
             0 & 0 \\
             0 & 0 \\    
-            \frac{k}{\tau} & 0 \\
-            0 & \frac{k}{\tau} \\
-        \end{bmatrix}
+            5.9406 \times 10^{-3} & 0 \\
+            0 & 5.9406 \times 10^{-3}
+        \end{bmatrix}.
 \end{align}
 
+---
+
+{\textbf{Simulation Setup}}
+
+The complete simulation workflow is illustrated in figure~\ref{fig:example_tracking_simulation_flowchart}.
+
+\begin{figure}[!htb]    
+    \centering
+    \includegraphics[scale=0.7]{../diagrams/examples/examples-mpc_synthesis.png}
+    \caption{Simulation flow chart for MPC tracking.}
+    \label{fig:example_tracking_simulation_flowchart}
+\end{figure}
+
+We start with a continuous-time linear dynamic model, used directly by the simulator including visualization and the RK4 solver.  
+For controller synthesis, the model is discretized using a bilinear (Tustin) transformation for time step $dt$.
+
+{\textbf{The controller requires weighting matrices $Q$ and $R$, and the prediction and control horizons $H_p$ and $H_c$.}}  
+For realism, we also include a maximum control limit $u_{\max}$ to represent actuator saturation — since {\textbf{real actuators are always limited}}.
+
+In our example we set:
+\begin{itemize}
+    \item state weighting: $Q = \text{diag}(10000, 10000, 0, 0)$,
+    \item control weighting: $R = \text{diag}(1, 1)$,
+    \item prediction horizon: $H_p = 64$,
+    \item control horizon: $H_c = 4$,
+    \item output clamping : $u_{max} = 10$.
+\end{itemize}
+
+These parameters fully define the MPC controller.
+
+---
+
+{\textbf{Main Simulation Loop}}
+
+
+The main loop executes the simulation in the following steps:
+\begin{enumerate}
+    \item The required trajectory $X_r$ is generated procedurally, assuming the current time step and a total horizon length $H_p$.
+    \item The current state $x(n)$ is read from the simulator.
+    \item The controller computes the optimal control input $u(n)$.
+    \item The physical simulator performs one RK4 integration step, producing the next state $x(n+1)$.
+    \item Data for $X_r$, $x$, and $u$ are stored for later analysis and plotting.
+\end{enumerate}
+
+---
+
+{\textbf{Simulation Results}}
+
+The first result, shown in figure~\ref{fig:servo_lqr_response}, presents a step response for an LQR controller used as a baseline.  
+The controller output is plotted on first chart, labeled as \textbf{input X}. Note the output is saturated, and clamped into $u_{max}$ value.
+In middle chart is plotted servo position labeled as \textbf{position X}, \textcolor{red}{red color} is plotted required value $x_r$, 
+\textcolor{cyan}{cyan color} is plotted real observed system output. For completness we plot also servo 
+velocity on bottom chart, labeled as \textbf{velocity X}. This velocity is not controlled - matrix $Q$ is giving zero weights for velocity terms,
+however, natural behaviour is, as soon position is at setpoint, velocity is zero.
+The controller begins acting only after the reference $x_r$ changes from $0$ to $1$.  
+LQR control is purely reactive — it acts based on the current error between $x(n)$ and the instantaneous reference $x_r(n)$.
 
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.7]{../images/mpc/mpc_plots-lqr.png}
-    \caption{LQR response for servo control}
+    \caption{Step response for LQR control.}
     \label{fig:servo_lqr_response}
 \end{figure}
 
+The MPC controller, on the other hand, receives not only the current reference but the {\textbf{entire sequence}} of future reference states $x_r$ over the prediction horizon $H_p = 64$.
+This allows MPC to {\textbf{anticipate}} future motion and adjust its control signal proactively rather than reactively.  
+The result is smoother control effort, reduced overshoot, and more accurate trajectory tracking.
+
+This behavior is shown in figure~\ref{fig:servo_mpc_response}, where \textbf{MPC begins acting before the reference step occurs} — the control anticipates the upcoming change.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.7]{../images/mpc/mpc_plots-mpc.png}
-    \caption{MPC response for servo control}
+    \caption{Step response for MPC control.}
     \label{fig:servo_mpc_response}
 \end{figure}
+
+---
+
+
+{\textbf{Discussion and Benefits}}
+
+In summary, the example highlights several advantages of Model Predictive Control:
+
+\begin{itemize}
+    \item \textbf{Predictive behavior:} MPC optimizes future control inputs using knowledge of the reference trajectory, rather than reacting only to current error.
+    \item \textbf{Smooth actuation:} Because control inputs are planned ahead, actuator signals are smoother and exhibit less oscillation.
+    \item \textbf{Constraint handling:} MPC naturally incorporates input or state constraints (such as actuator limits or safety zones) into the optimization.
+    \item \textbf{Improved tracking performance:} MPC reduces steady-state error and overshoot while maintaining robustness against model imperfections.
+\end{itemize}
+
+Thus, even for a simple system, MPC demonstrates superior performance and provides a solid foundation for more complex multi-variable or nonlinear systems.
+
 
 
 \end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  8 NOV 2025 12:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  8 NOV 2025 21:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -670,20 +670,20 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (./mpc.aux)
 \openout1 = `mpc.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
  (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count350
@@ -710,65 +710,68 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \c@lstlisting=\count356
+<../images/illustrations/cover_2.png, id=1, 1541.76pt x 1027.84pt>
+File: ../images/illustrations/cover_2.png Graphic file (type png)
+<use ../images/illustrations/cover_2.png>
+Package pdftex.def Info: ../images/illustrations/cover_2.png  used on input lin
+e 79.
+(pdftex.def)             Requested size: 341.43306pt x 227.61543pt.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 7
-6.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 7
-6.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-76.
+79.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-76.
+79.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 76.
+(Font)              <14.4> on input line 79.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 76.
+(Font)              <10> on input line 79.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 76.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 76.
+(Font)              <7> on input line 79.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 79.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 76.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 79.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-LaTeX Warning: No \author given.
-
-
-
 [1
 
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
-al/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
+al/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <../images/illustratio
+ns/cover_2.png (PNG copy)>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 80.
+(Font)              <12> on input line 83.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 80.
+(Font)              <8> on input line 83.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 80.
+(Font)              <6> on input line 83.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 9
-0.
+3.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -783,10 +786,10 @@ l/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/local/texlive/202
 File: ../diagrams/mpc/mpc-robot_tracking.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-robot_tracking.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-robot_tracking.png  used on input 
-line 104.
+line 107.
 (pdftex.def)             Requested size: 492.59299pt x 277.51717pt.
 
-Overfull \hbox (109.59299pt too wide) in paragraph at lines 104--105
+Overfull \hbox (109.59299pt too wide) in paragraph at lines 107--108
  [][] 
  []
 
@@ -794,10 +797,10 @@ Overfull \hbox (109.59299pt too wide) in paragraph at lines 104--105
 File: ../diagrams/mpc/mpc-mpc_overview_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_overview_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_overview_2.png  used on input 
-line 112.
+line 115.
 (pdftex.def)             Requested size: 405.2907pt x 164.7758pt.
 
-Overfull \hbox (22.2907pt too wide) in paragraph at lines 112--113
+Overfull \hbox (22.2907pt too wide) in paragraph at lines 115--116
  [][] 
  []
 
@@ -807,7 +810,7 @@ Overfull \hbox (22.2907pt too wide) in paragraph at lines 112--113
 
 [4{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc} <../dia
 grams/mpc/mpc-mpc_overview_2.png>]
-Overfull \hbox (0.11948pt too wide) in paragraph at lines 189--190
+Overfull \hbox (0.11948pt too wide) in paragraph at lines 192--193
 []\T1/lmr/m/n/12 The weight-ing ma-tri-ces $[]$ and $[]$ are block-diagonal ma-
 tri-ces con-structed
  []
@@ -815,7 +818,7 @@ tri-ces con-structed
 
 
 [5{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
-Overfull \hbox (48.34099pt too wide) detected at line 243
+Overfull \hbox (48.34099pt too wide) detected at line 246
 []
  []
 
@@ -823,10 +826,10 @@ Overfull \hbox (48.34099pt too wide) detected at line 243
 File: ../diagrams/mpc/mpc-mpc_exp_0.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_0.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_0.png  used on input line 
-280.
+283.
 (pdftex.def)             Requested size: 387.36772pt x 203.51259pt.
 
-Overfull \hbox (4.36772pt too wide) in paragraph at lines 280--281
+Overfull \hbox (4.36772pt too wide) in paragraph at lines 283--284
  [][] 
  []
 
@@ -839,7 +842,7 @@ Overfull \hbox (4.36772pt too wide) in paragraph at lines 280--281
 File: ../diagrams/mpc/mpc-mpc_exp_1.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_1.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line 
-313.
+316.
 (pdftex.def)             Requested size: 339.95853pt x 163.61948pt.
 
 
@@ -848,7 +851,7 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line
 File: ../diagrams/mpc/mpc-mpc_exp_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line 
-368.
+371.
 (pdftex.def)             Requested size: 339.95853pt x 190.79305pt.
 
 
@@ -861,10 +864,10 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line
 File: ../diagrams/mpc/mpc-mpc_algo.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_algo.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_algo.png  used on input line 4
-63.
+66.
 (pdftex.def)             Requested size: 416.85391pt x 282.7206pt.
 
-Overfull \hbox (33.85391pt too wide) in paragraph at lines 463--464
+Overfull \hbox (33.85391pt too wide) in paragraph at lines 466--467
  [][] 
  []
 
@@ -872,43 +875,43 @@ Overfull \hbox (33.85391pt too wide) in paragraph at lines 463--464
 
 [12]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-74.
+77.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Overfull \hbox (14.80405pt too wide) in paragraph at lines 481--482
+Overfull \hbox (14.80405pt too wide) in paragraph at lines 484--485
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 [][][][][] 
  []
 
 
-Overfull \hbox (50.50441pt too wide) in paragraph at lines 483--485
+Overfull \hbox (50.50441pt too wide) in paragraph at lines 486--488
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
 
 [13 <../diagrams/mpc/mpc-mpc_algo.png>]
-Overfull \hbox (35.20425pt too wide) in paragraph at lines 494--496
+Overfull \hbox (35.20425pt too wide) in paragraph at lines 497--499
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (4.60394pt too wide) in paragraph at lines 503--504
+Overfull \hbox (4.60394pt too wide) in paragraph at lines 506--507
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (25.00415pt too wide) in paragraph at lines 504--505
+Overfull \hbox (25.00415pt too wide) in paragraph at lines 507--508
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (40.3043pt too wide) in paragraph at lines 531--532
+Overfull \hbox (40.3043pt too wide) in paragraph at lines 534--535
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][] 
  []
@@ -916,36 +919,64 @@ Overfull \hbox (40.3043pt too wide) in paragraph at lines 531--532
 
 
 [14]
-<../images/mpc/mpc_plots-lqr.png, id=77, 375.804pt x 354.123pt>
+
+[15]
+<../diagrams/examples/examples-trajectory.png, id=80, 311.4837pt x 245.718pt>
+File: ../diagrams/examples/examples-trajectory.png Graphic file (type png)
+<use ../diagrams/examples/examples-trajectory.png>
+Package pdftex.def Info: ../diagrams/examples/examples-trajectory.png  used on 
+input line 571.
+(pdftex.def)             Requested size: 218.0371pt x 172.00142pt.
+
+
+[16 <../diagrams/examples/examples-trajectory.png>]
+Overfull \hbox (19.00627pt too wide) detected at line 634
+[]
+ []
+
+<../diagrams/examples/examples-mpc_synthesis.png, id=85, 477.7047pt x 383.7537p
+t>
+File: ../diagrams/examples/examples-mpc_synthesis.png Graphic file (type png)
+<use ../diagrams/examples/examples-mpc_synthesis.png>
+Package pdftex.def Info: ../diagrams/examples/examples-mpc_synthesis.png  used 
+on input line 644.
+(pdftex.def)             Requested size: 334.391pt x 268.62575pt.
+
+
+[17]
+
+[18 <../diagrams/examples/examples-mpc_synthesis.png>]
+<../images/mpc/mpc_plots-lqr.png, id=93, 375.804pt x 354.123pt>
 File: ../images/mpc/mpc_plots-lqr.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-lqr.png>
-Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 59
-9.
+Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 69
+6.
 (pdftex.def)             Requested size: 263.061pt x 247.8844pt.
-<../images/mpc/mpc_plots-mpc.png, id=78, 375.804pt x 368.577pt>
+
+
+[19 <../images/mpc/mpc_plots-lqr.png>]
+<../images/mpc/mpc_plots-mpc.png, id=99, 375.804pt x 368.577pt>
 File: ../images/mpc/mpc_plots-mpc.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-mpc.png>
-Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 60
-7.
+Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 70
+9.
 (pdftex.def)             Requested size: 263.061pt x 258.00212pt.
 
 
-[15]
+[20 <../images/mpc/mpc_plots-mpc.png>]
 
-[16 <../images/mpc/mpc_plots-lqr.png>]
-
-[17 <../images/mpc/mpc_plots-mpc.png>] (./mpc.aux)
+[21] (./mpc.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 12410 strings out of 473190
- 194146 string characters out of 5715800
+ 12438 strings out of 473190
+ 195389 string characters out of 5715800
  873058 words of memory out of 5000000
- 35483 multiletter control sequences out of 15000+600000
- 636460 words of font info for 87 fonts, out of 8000000 for 9000
+ 35511 multiletter control sequences out of 15000+600000
+ 639458 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  85i,16n,93p,396b,1946s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/lo
@@ -954,17 +985,16 @@ e/2025/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2025/tex
 mf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texlive/2025/texmf-dist/fon
 ts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/pu
 blic/lm/lmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr
-17.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr
-/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmri12.pfb></usr/local/tex
-live/2025/texmf-dist/fonts/type1/public/lm/lmro12.pfb></usr/local/texlive/2025/
-texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025/texmf-dist
-/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
-1/public/lm/lmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/am
-sfonts/symbols/msbm10.pfb>
-Output written on mpc.pdf (17 pages, 1212178 bytes).
+8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmri12.pfb></us
+r/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmro12.pfb></usr/local/te
+xlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025
+/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2025/texmf-dist
+/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
+1/public/amsfonts/symbols/msbm10.pfb>
+Output written on mpc.pdf (21 pages, 5089439 bytes).
 PDF statistics:
- 161 PDF objects out of 1000 (max. 8388607)
- 94 compressed objects within 1 object stream
+ 174 PDF objects out of 1000 (max. 8388607)
+ 100 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
