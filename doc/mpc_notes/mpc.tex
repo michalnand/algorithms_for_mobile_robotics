@@ -25,11 +25,11 @@
 
 \lstdefinestyle{python_style}{
     backgroundcolor=\color{backcolour},   
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
     basicstyle=\ttfamily\tiny,
+    commentstyle=\color{codegreen}\tiny,
+    keywordstyle=\color{magenta}\tiny,
+    numberstyle=\tiny\color{codegray}\tiny,
+    stringstyle=\color{codepurple}\tiny,
     language=Python,
     numbers=left,
     stepnumber=1,
@@ -38,11 +38,14 @@
     showspaces=false,
     showstringspaces=false,
     frame=single,            % optional: add a box around the code
-    xleftmargin=0pt,
-    xrightmargin=0pt,
+    xleftmargin=-0.1\textwidth,
+    xrightmargin=-0.1\textwidth,
     framexleftmargin=0pt,
     framexrightmargin=0pt,
-    linewidth=\textwidth     % <-- force full width
+    linewidth=\textwidth,     % <-- force full width
+    breaklines=true,         % allow line breaking
+    breakatwhitespace=true,  % break lines only at white space
+    postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, % visual cue for line break (optional)
 }
 
 \lstdefinestyle{cpp_style}{
@@ -405,7 +408,7 @@ Expanding and collecting terms:
 
 The derivative terms are:
 \begin{align}  
-    \frac{\partial J}{\partial {{U}}} & : \\
+    \frac{\partial \mathcal{L}}{\partial {{U}}} & : \\
     \frac{\partial {{U}^T \tilde{R} {U} } }{\partial {{U}}} & = 2\tilde{R}{U} \nonumber \\
     \frac{\partial { {U}^T\Theta^T\tilde{Q}\Theta{U}}}{\partial {{U}}} & = 2\Theta^T\tilde{Q}\Theta{U} \nonumber \\
     \frac{\partial {- 2{U}^T \Theta^T\tilde{Q}S}}{\partial {{U}}} & = -2\Theta^T\tilde{Q}S \nonumber \\
@@ -458,9 +461,6 @@ At each control step:
     u(n) &= \text{first } M \text{ elements of } U(n).
 \end{align}
 
-The control signal $u(n)$ is then applied to the plant, and the process repeats at the next sampling instant.
-The overall idea of algorithm is in the following figure˜\ref{fig:mpc_block}.
-
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.8]{../diagrams/mpc/mpc-mpc_algo.png}
@@ -468,20 +468,26 @@ The overall idea of algorithm is in the following figure˜\ref{fig:mpc_block}.
     \label{fig:mpc_block}
 \end{figure}
 
-\newpage
+The control signal $u(n)$ is then applied to the plant, and the process repeats at the next sampling instant.
+The overall idea of algorithm is in the following figure˜\ref{fig:mpc_block}.
 
+
+
+\clearpage
 \subsection{Python code example}
 
 First we construct all matrices, precompute $\Sigma$ and $\Theta$. 
 This is costly operation, hewever it can be done once in constructor :
+
 \begin{lstlisting}[style=python_style]
 """
 A: (n_x, n_x)
 B: (n_x, n_u)
 Q: (n_x, n_x) (state cost)
 R: (n_u, n_u) (input cost)
-prediction_horizon  : Hp (how many future states)
-control_horizon     : Hc (how many future inputs we optimize; typically <= Hp)
+prediction_horizon  : Hp, how many future states
+control_horizon     : Hc, how many future inputs we optimize; 
+                    typically <= Hp
 """ 
 def __init__(self, A, B, Q, R, prediction_horizon=16, control_horizon=4, u_max=1e10):
 
@@ -494,7 +500,7 @@ def __init__(self, A, B, Q, R, prediction_horizon=16, control_horizon=4, u_max=1
     self.u_max  = u_max
 
     # 1, build Phi and Theta
-    self.Phi, self.Theta = self._build_prediction_matrices(A, B, self.Hp, self.Hc)
+    self.Phi, self.Theta = self._init_matrices(A, B, self.Hp, self.Hc)
 
     # 2, build augmented tilde Q and tilde R, block-diagonal
     self.Q_aug = numpy.kron(numpy.eye(self.Hp), Q)
@@ -512,7 +518,7 @@ def __init__(self, A, B, Q, R, prediction_horizon=16, control_horizon=4, u_max=1
     self.Sigma0 = self.Sigma[:self.nu, :]
 
 
-def _build_prediction_matrices(self, A, B, Hp, Hc):
+def _init_matrices(self, A, B, Hp, Hc):
     nx = A.shape[0]
     nu = B.shape[1]
     # precompute A powers: A^0 ... A^Hp
@@ -539,7 +545,6 @@ def _build_prediction_matrices(self, A, B, Hp, Hc):
     return Phi, Theta
 \end{lstlisting}
 
-\newpage
 Main controll loop is straightforward. We precomputed almost everything, in fast running loop 
 we have to perform only two matrix multiplications. The shape of $Xr$ numpy matrix is $(NH_p, 1)$, shape of matrix $x$ is $N, 1$, function returns 
 column vector $u$ of shape $(M, 1)$ :
