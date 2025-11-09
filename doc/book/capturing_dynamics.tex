@@ -1,0 +1,689 @@
+\chapter{Capturing dynamics}
+
+\section{State space models}
+        A convenient mathematical framework for describing the dynamics of a system is the \textbf{state space model}.  
+        Such a model captures how the system’s internal state evolves over time in response to inputs, and how these inputs affect the outputs.
+
+        In other words, the state space model represents the relationship between:
+        \begin{itemize}
+            \item the \textbf{state vector} $x(n)$ (which describes the internal condition of the system),
+            \item the \textbf{input vector} $u(n)$ (the control or excitation applied to the system),
+            \item and optionally, the \textbf{output vector} $y(n)$ (the measured quantities).
+        \end{itemize}
+
+
+        \subsection{System State}
+
+            The system state is represented as a column vector with $N$ elements:
+            \begin{align}
+                x(n) &= 
+                \begin{bmatrix} 
+                    x_{0}(n) \\ 
+                    x_{1}(n) \\ 
+                    \vdots \\ 
+                    x_{N-1}(n) 
+                \end{bmatrix}
+            \end{align}
+
+            The number of rows in this vector, $N$, is called the \textbf{system order}.
+
+
+
+
+        \subsection{Examples of System States}
+
+            \paragraph{Single-State Example:}  
+            For a simple first-order system, such as a motor where we only consider its angular velocity $\omega(n)$, the state vector contains a single element:
+            \begin{align}
+                x(n) &= 
+                \begin{bmatrix} 
+                    \omega(n) 
+                \end{bmatrix}
+            \end{align}
+
+            \paragraph{Second-Order Example:}  
+            If we model a servo motor with rotational inertia, the state vector might include both the motor’s velocity and position:
+            \begin{itemize}
+                \item Motor shaft velocity $\omega(n)$ [rad/s]
+                \item Motor shaft angle $\theta(n)$ [rad]
+            \end{itemize}
+
+            \begin{align}
+                x(n) &= 
+                \begin{bmatrix} 
+                    \omega(n) \\ 
+                    \theta(n) 
+                \end{bmatrix}
+            \end{align}
+
+            \paragraph{Extended Example:}  
+            A more accurate servo model might also include the motor current $i(n)$:
+            \begin{align}
+                x(n) &= 
+                \begin{bmatrix} 
+                    i(n) \\ 
+                    \omega(n) \\ 
+                    \theta(n) 
+                \end{bmatrix}
+            \end{align}
+
+            \paragraph{Mobile Robot Example:}  
+            For a robot moving in a 2D plane, the state could describe its position and orientation:
+            \begin{align}
+                x(n) &= 
+                \begin{bmatrix} 
+                    x'(n) \\ 
+                    y'(n) \\ 
+                    \theta(n) 
+                \end{bmatrix}
+            \end{align}
+
+
+        \subsection{System Inputs}
+
+            The system is controlled by $M$ inputs, grouped into the \textbf{input vector} $u(n)$:
+            \begin{align}
+                u(n) &= 
+                \begin{bmatrix} 
+                    u_{0}(n) \\ 
+                    u_{1}(n) \\ 
+                    \vdots \\ 
+                    u_{M-1}(n) 
+                \end{bmatrix}
+            \end{align}
+
+            For a single-input system, such as a current-controlled motor:
+            \begin{align}
+                u(n) &= 
+                \begin{bmatrix} 
+                    i(n) 
+                \end{bmatrix}
+            \end{align}
+
+            A differential-drive robot with two independently driven wheels would have two inputs:
+            \begin{align}
+                u(n) &= 
+                \begin{bmatrix} 
+                    i_{\text{left}}(n) \\ 
+                    i_{\text{right}}(n) 
+                \end{bmatrix}
+            \end{align}
+
+
+        \subsection{Discrete-Time State Space Model}
+
+            The relationship between the current state $x(n)$, the control input $u(n)$, and the next state $x(n+1)$ can be expressed as a \textbf{linear discrete-time state space model}:
+            \begin{align}
+                x(n+1) &= A\,x(n) + B\,u(n)
+            \end{align}
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.6]{../diagrams/control_generic/control_generic-discrete_dynamics.png}
+                \caption{Matrix dimensions in a discrete-time state space model.}
+                \label{fig:state_space_model_matrices_shapes}
+            \end{figure}
+
+            This form can describe the dynamics of any \textbf{linear system}.  
+            In some cases, the full state $x(n)$ cannot be measured directly.  
+            Instead, we observe only the system output:
+            \begin{align}
+                y(n) &= C\,x(n)
+            \end{align}
+            where matrix $C$ has $K$ rows and $N$ columns, mapping the internal state to observable outputs.  
+            In this section, we assume full-state measurements are available.
+
+
+
+        \subsection{Continuous-Time Model and Discretization}
+
+            Physical systems are often described by \textbf{continuous-time state space equations}:
+            \begin{align}
+                \frac{dx(t)}{dt} &= \bar{A}\,x(t) + \bar{B}\,u(t)
+            \end{align}
+
+            The matrices $\bar{A}$ and $\bar{B}$ differ from their discrete-time counterparts $A$ and $B$.  
+            They can be related through a \textbf{bilinear (Tustin) transformation}:
+            \begin{align}
+                S_a &= \left(I - \frac{\Delta T}{2}\bar{A}\right)^{-1} \\
+                S_b &= I + \frac{\Delta T}{2}\bar{A} \\
+                A   &= S_a\,S_b \\
+                B   &= S_a\,\bar{B}\,\Delta T
+            \end{align}
+
+            Here, $\Delta T$ is the sampling period.  
+            This method converts a continuous (physical) model into a discrete form suitable for digital control.
+
+            The following Python code implements this discretization process:
+
+
+
+        \begin{lstlisting}[style=python_style]
+def c2d(a, b, c, dt):
+    i = numpy.eye(a.shape[0])
+    
+    tmp_a = numpy.linalg.inv(i - (0.5*dt)*a)
+    tmp_b = i + (0.5*dt)*a
+
+    a_disc  = tmp_a@tmp_b
+    b_disc  = (tmp_a*dt)@b
+
+    return a_disc, b_disc, c
+        \end{lstlisting}
+       
+      \section{System Examples}
+
+        \subsection{First-Order Dynamical System}
+
+        In this section, we demonstrate a simple \textbf{first-order dynamical system}.  
+        Such systems appear frequently in both mechanical and electrical domains.  
+        Common real-world examples include:
+        \begin{itemize}
+            \item the angular velocity dynamics of a DC motor,  
+            \item the voltage response of an RC circuit,  
+            \item the thermal response of a heating element,  
+            \item or the water level in a tank with a constant inflow and proportional outflow.
+        \end{itemize}
+
+
+        \subsubsection{System Definition}
+
+        A first-order system can be described by two key parameters:
+        \begin{itemize}
+            \item the \textbf{time constant} $\tau$, which determines how quickly the system responds (its settling time),
+            \item the \textbf{gain} $k$, which defines how strongly the input $u$ affects the output (or state) $x$.
+        \end{itemize}
+
+        In this case, both the input $u$ and the state $x$ are single scalar quantities.  
+        The continuous-time model is given by:
+        \begin{align}
+            \frac{dx(t)}{dt} &= -\frac{1}{\tau}x(t) + \frac{k}{\tau}u(t)
+            \label{eq:example_first_order}
+        \end{align}
+
+        Here, the system matrices have dimensions $1\times1$:
+        \begin{align}
+            \bar{A} &= \begin{bmatrix} -\frac{1}{\tau} \end{bmatrix}, &
+            \bar{B} &= \begin{bmatrix} \frac{k}{\tau} \end{bmatrix}
+        \end{align}
+
+
+        \subsubsection{Simulation Setup}
+
+        To visualize how this system behaves, we can simulate its response to a \textbf{unit step input}, where:
+        \begin{align}
+            u(t) = 1
+        \end{align}
+
+        We simulate for $1000$ steps using a discretization step of $\Delta t = 0.01$ seconds,  
+        which corresponds to a total simulation time of 10 seconds.  
+        The initial condition is set to $x(0) = 0$.
+
+        A simple (naive) implementation in Python looks like this:
+
+        \begin{lstlisting}[style=python_style]
+        x = numpy.zeros((1, 1))   # initial state
+        u = numpy.ones((1, 1))    # constant input = 1
+
+        for n in range(num_steps):
+            dx = A @ x + B @ u    # update step
+            x  = x + dx * dt      # integration
+        \end{lstlisting}
+
+
+        \subsubsection{Numerical Integration Methods}
+
+        The update step $x = x + dx \cdot dt$ performs \textbf{Euler integration},  
+        also known as the \textbf{forward Euler method}.  
+        This approach is conceptually simple but can accumulate significant numerical error,  
+        especially for stiff or higher-order systems.  
+        To achieve stable and accurate results, $\Delta t$ must be very small —  
+        which increases the number of simulation steps dramatically.
+
+        More advanced numerical solvers, such as the \textbf{Runge–Kutta methods} (commonly RK4),  
+        provide much better stability and accuracy for the same time step size.  
+        These solvers are standard in modern simulation environments and control design tools.
+
+        If we define \textbf{system forward func} as :
+
+        \begin{lstlisting}[style=python_style]
+def forward_func(x, u):
+    dx = A@x + B@u
+    y  = C@x
+
+    return dx, y
+        \end{lstlisting}
+
+        The ODE solvers can be implemented straightforward.  The naive Euler method is :
+        
+        \begin{lstlisting}[style=python_style]
+def ODESolverEuler(forward_func, x, u, dt):
+    dx, y  = forward_func(x, u)
+    return x + dx*dt, y
+        \end{lstlisting}
+
+        And commonly more used (and prefered for ballance between accuracy and speed), Runge Kutta RK4 method is :
+        
+        \begin{lstlisting}[style=python_style]
+def ODESolverRK4(forward_func, x, u, dt):
+    k1, y1  = forward_func(x, u) 
+    k1      = k1*dt  
+
+    k2, y2  = forward_func(x + 0.5*k1, u + 0.5*dt)
+    k2      = k2*dt
+
+    k3, y3  = forward_func(x + 0.5*k2, u + 0.5*dt)
+    k3      = k3*dt
+
+    k4, y4  = forward_func(x + k3, u + dt)
+    k4      = k4*dt
+
+    x_new   = x + (1.0/6.0)*(1.0*k1 + 2.0*k2 + 2.0*k3 + 1.0*k4)
+    y       = (1.0/6.0)*(1.0*y1 + 2.0*y2 + 2.0*y3 + 1.0*y4)
+    
+    return x_new, y
+        \end{lstlisting}
+
+
+    The entire simulation is then single for loop, calling one step of dynamical system inside solver.
+    Every loop iteration is one small discrete simulation step.
+        \begin{lstlisting}[style=python_style]
+
+def simulate(n, m, dt, n_steps):
+    # input and 
+    u = numpy.zeros((m, 1))
+    x = numpy.zeros((n, 1))
+
+    # log results
+    t_result = []
+    u_result = []
+    x_result = []
+    y_result = []
+
+    for n in range(n_steps):
+        # here the input into system is obtained
+        # e.g. from controller, path planner, user input
+        u = obtain_controll()
+
+        # solver step
+        x, y = ODESolverRK4(forward_func, x, u, dt)
+
+        # optional visualisation
+        visualise(n, u, x, y)
+   
+        # log results
+        t_result.append(n*dt)
+        u_result.append(u[:, 0])
+        x_result.append(x[:, 0])
+        y_result.append(y[:, 0])
+
+    t_result = numpy.array(t_result)
+    u_result = numpy.array(u_result)
+    x_result = numpy.array(x_result)    
+    y_result = numpy.array(y_result)  
+
+    return t_result, u_result, x_result, y_result
+        \end{lstlisting}
+
+
+
+
+       
+
+
+        \subsubsection{Response Analysis}
+
+        Figure~\ref{fig:example_first_order} shows several step responses for different values of  
+        the time constant $\tau$ and gain $k$.
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../images/plots/first_order_example.png}
+            \caption{Step responses of a first-order system for different values of $\tau$ and $k$.}
+            \label{fig:example_first_order}
+        \end{figure}
+
+        From these plots, we can observe that:
+        \begin{itemize}
+            \item Increasing $\tau$ makes the system respond more slowly — it takes longer to reach the steady state.  
+            This behavior can be interpreted as the system having more inertia or lag.
+            \item Increasing $k$ scales the steady-state value of $x(t)$.  
+            For a step input of $u = 1$, the steady-state output is $x_{\text{ss}} = k \cdot u = k$.
+            \item The system always approaches the steady-state value \textbf{exponentially},  
+            following the general solution:
+            \begin{align}
+                x(t) = k\,u\left(1 - e^{-t/\tau}\right)
+            \end{align}
+        \end{itemize}   
+
+        Thus, the parameters $\tau$ and $k$ completely determine how the system responds to changes in input:  
+        $\tau$ controls the speed, while $k$ controls the magnitude.
+
+
+        \subsubsection{Practical Insight}
+
+        Understanding this basic model is important because many complex systems can be approximated  
+        by combinations of such first-order dynamics.  
+        For example, the motor’s current loop, the temperature of an actuator,  
+        or even the airflow in a ventilation system can each be modeled as a first-order process.  
+        This simplicity makes first-order models a cornerstone of control theory and system identification.
+
+
+\section{First order identification}   
+        Process of system identification is finding matrices $A$, $B$ (and $C$). From this model 
+        can be sythetised controller, or system able to plan multiple steps ahead.
+
+        Goal is to find parameters of DC motor. Motor velocity model, can be approximated as 1st linear order system. 
+        Real system is of course non-linear. The photo of example system is on fig \ref{fig:wheel_drive_detail}.
+        Control loop hardware consists of motor driver (H-driver, DRV8212), motor (Pololu HP 1:30 gear), and quadrature magnetic encoder (2x DRV5013),
+        fig \ref{fig:motor_identification_process}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-motor_control_photo.png}
+            \caption{Wheel drive hardware detail}
+            \label{fig:wheel_drive_detail}
+        \end{figure}
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../diagrams/identification/identification.png}
+            \caption{Motor identification process}
+            \label{fig:motor_identification_process}
+        \end{figure}
+
+        Input signal $u(n)$ can be generated arbitrarily. Mostly used is square wave, to capture
+        high frequency dynamics. Algorithm is from observed motor velocity $x(n)$ and given input $u(n)$
+        estimating model parameters.
+
+        Before real motor testing, we focus on simulation example.
+        Our simulated motor will have following parameters
+
+        \begin{itemize}
+            \item sampling frequency 4kHz, $\Delta T = 1/4000$
+            \item maximum control input $u_{max} = 2$
+            \item motor constant $k = 17$
+            \item motor time constat $\tau = 29$ milliseconds
+        \end{itemize}
+
+        Motor state is single variable, angular velocity $\omega(t)$. Model have two parameters $\alpha$, $\beta$. 
+        First order continuos model becomes
+
+        \begin{align}
+            \frac{d\omega(t)}{dt} &= \alpha \omega(t) + \beta u(t) \label{eq:first_order_system_a} \\
+            \alpha &= -\frac{1}{\tau}  \label{eq:first_order_system_b}  \\
+            \beta &= \frac{k}{\tau}  \label{eq:first_order_system_c} 
+        \end{align}
+
+        with given parameters $k$ and $\tau$ becomes $\alpha = -34.48$ and $\beta = 586.2$.
+
+        Unit step response is obtained by setting $u(n) = 1$, and solving using any differential 
+        equation solver. The simplest is Euler method, which works well for small $dt$ and low order 
+        systems. Much accurate is commonly used Runge-Kutta 4 method.
+
+        \begin{figure}[!htb]
+            \centering
+            \includegraphics[scale=0.6]{../images/motor_control/motor_step_response.png}
+            \caption{Motor step response}
+            \label{fig:motor_step_response}
+        \end{figure}
+
+        Our goal is to generate input $u(t)$ and by observing system output $x(t)$ estimate parameters
+        $k$ and $\tau$.
+
+        We start with simplest identification method, which works only for 1st order non-oscilating systems.
+        Method have two main steps
+        \begin{enumerate}
+            \item steady state value estimation
+            \item time constant estimation
+        \end{enumerate}
+
+        \subsection{Steady state estimation}
+
+            We drive motor on different input levels, e.g. ranging from 10\% ... 100\%. Observing steady 
+            state velocity the motor constant $k$ can be estimated.
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.6]{../images/motor_control/motor_constant_estimation.png}
+                \caption{Motor constant estimation}
+                \label{fig:motor_constant_estimation}
+            \end{figure}
+
+            Algorithm for estimating motor constant :
+
+            \begin{enumerate}
+                \item choose constant motor input $u \in (0, u_{max} \rangle$
+                \item run motor, and wait for velocity steady state
+                \item measure velocity  
+                \item estimate $\hat{k} = x/u$
+                \item repeats to estimate average $\hat{k}$
+            \end{enumerate}
+
+            In following code we choose 10 different input levels. After setting, we wait 500steps
+            to steady state, then we measure output velocity. Finally, we average results.
+
+            \begin{lstlisting}[style=python_style]
+# input levels
+u_values = u_max*numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
+
+# reset dynamical system into zero state
+ds.reset()
+
+for j in range(len(u_values)):
+
+    x_mean = []
+    for i in range(1000):
+
+        # convert scalar u to column vector
+        u    = u_values[j]
+        u    = numpy.array([[u]])
+        
+        # compute dynamical system one step
+        x, _ = ds.forward_state(u)
+
+        # after steady state, store x
+        if i > 500:
+            x_mean.append(x[0][0])
+
+    x_mean = numpy.array(x_mean)
+    x_mean = x_mean.mean()
+
+    k_est = x_mean/u_values[j]
+
+    print(u_values[j], k_est)
+
+k_mean = k_est.mean()
+
+# average k estimate
+print("k_mean = ", k_mean)
+            \end{lstlisting}
+
+        In our example the resulted $\hat{k}$ is $16.995$, which very close to real value $17$.
+        Accuracy depends on velocity estimation noise (encoder noise) and how many samples we average.
+        
+        \subsection{Time constant estimation}
+
+            Second parameter is time constant $\tau$. Most textbooks uses measuring time at which system 
+            reaches $63.2\%$ of $x_{max}$. Where $x_{max}$ is motor velocity on choosen $u$, a.k.a. steady 
+            state velocity at $u$. This method suffers to noise, and precise timing. Here we presents 
+            more accurate method, briging system into natural frequency resonance.
+            Algorithm is as follow :
+        
+            \begin{enumerate}
+                \item choose $u_{set}$, and set $u_{in} = u_{set}$
+                \item repeat $n_{steps}$, each step duration is $\Delta T$
+                    \begin{enumerate}
+                        \item $if\ u_{in} > 0\ and\ x(n) > 0.632ku_{in}$ \\
+                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{set}$
+                        \item $else\ if\ u_{in} < 0\ and\ x(n) < 0.632ku_{in}$ \\
+                            increment $n_{HalfPeriods}$, and set $u_{in} = u_{set}$
+                    \end{enumerate}
+            \end{enumerate}
+
+            The time constant $\hat{\tau}$ can be now estimated by 
+
+            \begin{align}   
+                \hat{\tau} = \frac{2}{\pi}\frac{n_{steps}}{n_{HalfPeriods}}{\Delta T}
+            \end{align}
+
+            Where $\Delta T$ is sampling period, ratio ${n_{steps}} : {n_{HalfPeriods}}$ is
+            estimating system frequency. In core, this method is nothing more than  period 
+            duration estimation. The resulted time plot is on fig.  \ref{fig:motor_time_constant_estimation}.
+            Result for our simulated motor is $\hat{\tau} = 27.44[ms]$, which is good estimation of real value $29 [ms]$.
+
+            \begin{figure}[!htb]
+                \centering
+                \includegraphics[scale=0.6]{../images/motor_control/motor_time_constant_estimation.png}
+                \caption{Motor time constant estimation}
+                \label{fig:motor_time_constant_estimation}
+            \end{figure}
+            
+            Using equations \ref{eq:first_order_system_b} and \ref{eq:first_order_system_c} we can estimate $\hat{\alpha}$ and $\hat{\beta}$ as
+            $\hat{\alpha} = -36.443$ and $\hat{\beta} = 619.372$
+
+          
+
+        \subsection{Real motor identification}
+            For implementation in real system, the code must runs in real time. With relative high 
+            sampling frequency 4kHz, the code is written in c++. Interface is universal, with few key functions.
+
+            \begin{itemize}
+                \item timer.delay\_ms(unsigned int time) - waits given milliseconds
+                \item float x = motor\_control.get\_right\_velocity() - return meassured wheel velocity
+                \item motor\_control.set\_right\_torque(float x) - sets the PWM value, depends on sign the rotation direction can be controlled
+            \end{itemize}
+
+            This functions needs to be customised for user application.
+
+            \newpage
+            First we estimate motor constant $k$ :
+            
+            \begin{lstlisting}[style=cpp_style]
+//1, estimate motor constant k, on different input values
+uint32_t n_steps = 500;
+
+float u_values[10] = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0};
+
+float k_mean     = 0.0;
+float x_var_mean = 0.0;
+
+for (unsigned int j = 0; j < 10; j++)
+{
+    //run motor with desired input and wait for steady state
+    float u_in = u_values[j];
+
+    motor_control.set_right_torque(u_in*MOTOR_CONTROL_MAX_TORQUE); 
+    timer.delay_ms(500);    
+
+    //estimate average velocity
+    float x_mean = 0.0;
+    for (unsigned int i = 0; i < n_steps; i++)
+    {
+        float x = motor_control.get_right_velocity();
+        x_mean+= x;
+        timer.delay_ms(1); 
+    }
+    x_mean = x_mean/n_steps;    
+
+    //estimate average variance - encoder noise
+    float x_var = 0.0;
+    for (unsigned int i = 0; i < n_steps; i++)
+    {
+        float x = motor_control.get_right_velocity();
+        x_var+= (x - x_mean)*(x - x_mean);
+        timer.delay_ms(1);
+    }
+    x_var = x_var/n_steps;  
+
+    float k = x_mean/u_in;
+    k_mean+= x_mean/u_in;   
+    x_var_mean+= x_var;
+
+    terminal << "u_in   = " << u_in << "\n";
+    terminal << "k      = " << k << "\n";
+    terminal << "x_mean = " << x_mean << "\n";
+    terminal << "x_var  = " << x_var << "\n";
+    terminal << "\n\n";
+}   
+
+//print summary results
+k_mean     = k_mean/10.0;
+x_var_mean = x_var_mean/10.0;
+
+terminal << "k          = " << k_mean << "\n";
+terminal << "x_var_mean = " << x_var_mean << "\n";
+        \end{lstlisting}
+    
+        \newpage
+        Second we estimate motor time constant $\tau$ :
+        \begin{lstlisting}[style=cpp_style]
+//2, estimate time constant by oscilating motor
+float u_in = 0.25;
+uint32_t periods = 0; 
+
+n_steps = 2000;
+
+for (unsigned int i = 0; i < n_steps; i++)
+{
+    motor_control.set_right_torque(u_in*MOTOR_CONTROL_MAX_TORQUE);
+    float x = motor_control.get_right_velocity()*60.0/(2.0*PI);
+
+    if (u_in > 0.0) 
+    {
+        if (x > 0.632*k_mean*u_in)
+        {
+            u_in = -u_in;
+            periods++;
+        }
+    }
+    else
+    {
+        if (x < 0.632*k_mean*u_in)
+        {
+            u_in = -u_in;
+            periods++;  
+        }
+    }
+
+    timer.delay_ms(1);
+}
+
+float t_period = (2*n_steps/periods)/PI;
+terminal << "periods = " << periods << "\n";
+terminal << "tau     = " << t_period << "[ms]\n";
+terminal << "\n\n";
+
+        \end{lstlisting}
+
+        \newpage
+        Average motor constant is $k = 80.056$, and time constant is $\tau = 9.230[ms]$.
+        Terminal output :
+        \begin{lstlisting}[style=terminal_style]
+...
+
+u_in   =  0.800
+k      =  87.194
+x_mean =  69.755
+x_var  =  19.236
+
+
+u_in   =  0.900
+k      =  86.440
+x_mean =  77.796
+x_var  =  18.124
+
+
+u_in   =  1.000
+k      =  85.750
+x_mean =  85.750
+x_var  =  7.554
+
+
+k          =  80.056
+x_var_mean =  170.903
+
+
+periods = 136
+tau     =  9.230[ms]
+        \end{lstlisting}
