@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  9 NOV 2025 20:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  10 NOV 2025 20:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -803,67 +803,71 @@ Overfull \hbox (13.76535pt too wide) in paragraph at lines 341--342
 [8]
 
 [9 <../images/plots/first_order_example.png>]
+Overfull \hbox (6.88992pt too wide) in paragraph at lines 381--382
+[]\T1/lmr/m/n/12 The con-trol loop hard-ware con-sists of a mo-tor driver (H-br
+idge DRV8212),
+ []
+
 <../diagrams/control_generic/control_generic-motor_control_photo.png, id=50, 28
 9.08pt x 202.356pt>
 File: ../diagrams/control_generic/control_generic-motor_control_photo.png Graph
 ic file (type png)
 <use ../diagrams/control_generic/control_generic-motor_control_photo.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-motor_cont
-rol_photo.png  used on input line 383.
+rol_photo.png  used on input line 385.
 (pdftex.def)             Requested size: 231.2643pt x 161.88501pt.
 <../diagrams/identification/identification.png, id=51, 452.4102pt x 333.1647pt>
 
 File: ../diagrams/identification/identification.png Graphic file (type png)
 <use ../diagrams/identification/identification.png>
 Package pdftex.def Info: ../diagrams/identification/identification.png  used on
- input line 390.
+ input line 392.
 (pdftex.def)             Requested size: 271.44821pt x 199.90036pt.
 
 
 [10 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
-<../images/motor_control/motor_step_response.png, id=56, 570.933pt x 137.313pt>
+
+[11 <../diagrams/identification/identification.png>]
+<../images/motor_control/motor_step_response.png, id=60, 570.933pt x 137.313pt>
 
 File: ../images/motor_control/motor_step_response.png Graphic file (type png)
 <use ../images/motor_control/motor_step_response.png>
 Package pdftex.def Info: ../images/motor_control/motor_step_response.png  used 
-on input line 426.
+on input line 429.
 (pdftex.def)             Requested size: 342.56244pt x 82.38843pt.
-
-
-[11 <../diagrams/identification/identification.png>]
 <../images/motor_control/motor_constant_estimation.png, id=61, 392.4261pt x 298
 .4751pt>
 File: ../images/motor_control/motor_constant_estimation.png Graphic file (type 
 png)
 <use ../images/motor_control/motor_constant_estimation.png>
 Package pdftex.def Info: ../images/motor_control/motor_constant_estimation.png 
- used on input line 448.
+ used on input line 451.
 (pdftex.def)             Requested size: 235.45747pt x 179.08643pt.
 
 
-[12 <../images/motor_control/motor_step_response.png> <../images/motor_control/
-motor_constant_estimation.png>]
+[12 <../images/motor_control/motor_step_response.png>]
 
-[13]
+[13 <../images/motor_control/motor_constant_estimation.png>]
 <../images/motor_control/motor_time_constant_estimation.png, id=71, 394.5942pt 
 x 298.4751pt>
 File: ../images/motor_control/motor_time_constant_estimation.png Graphic file (
 type png)
 <use ../images/motor_control/motor_time_constant_estimation.png>
 Package pdftex.def Info: ../images/motor_control/motor_time_constant_estimation
-.png  used on input line 537.
+.png  used on input line 542.
 (pdftex.def)             Requested size: 236.75833pt x 179.08643pt.
 
 
-[14 <../images/motor_control/motor_time_constant_estimation.png>]
-Overfull \hbox (5.19196pt too wide) in paragraph at lines 553--554
-[]\T1/lmr/m/n/12 float x = mo-tor_control.get_right_velocity() - re-turn me-as-
-sured wheel
+[14]
+Overfull \hbox (11.18236pt too wide) in paragraph at lines 559--560
+[]\T1/lmtt/m/n/12 motor_control.set_right_torque(float x) \T1/lmr/m/n/12 ^^V se
+ts the PWM torque
  []
 
 
 
-[15] (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+[15 <../images/motor_control/motor_time_constant_estimation.png>]
+(/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -876,27 +880,21 @@ File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 [16]
 
 [17]
-Overfull \hbox (6.64046pt too wide) in paragraph at lines 660--662
-[]\T1/lmr/m/n/12 Average mo-tor con-stant is $\OML/lmm/m/it/12 k \OT1/lmr/m/n/1
-2 = 80\OML/lmm/m/it/12 :\OT1/lmr/m/n/12 056$\T1/lmr/m/n/12 , and time con-stant
- is $\OML/lmm/m/it/12 ^^\ \OT1/lmr/m/n/12 = 9\OML/lmm/m/it/12 :\OT1/lmr/m/n/12 
-230[\OML/lmm/m/it/12 ms\OT1/lmr/m/n/12 ]$\T1/lmr/m/n/12 .
- []
 
-)
+[18])
 
-[18]
+[19]
 \openout2 = `mpc.aux'.
 
  (./mpc.tex
 
-[19
+[20
 
 
 
 
 ]
-<../diagrams/mpc/mpc-robot_tracking.png, id=92, 615.7404pt x 346.896pt>
+<../diagrams/mpc/mpc-robot_tracking.png, id=96, 615.7404pt x 346.896pt>
 File: ../diagrams/mpc/mpc-robot_tracking.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-robot_tracking.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-robot_tracking.png  used on input 
@@ -907,7 +905,7 @@ Overfull \hbox (109.59299pt too wide) in paragraph at lines 27--28
  [][] 
  []
 
-<../diagrams/mpc/mpc-mpc_overview_2.png, id=93, 506.6127pt x 205.9695pt>
+<../diagrams/mpc/mpc-mpc_overview_2.png, id=97, 506.6127pt x 205.9695pt>
 File: ../diagrams/mpc/mpc-mpc_overview_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_overview_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_overview_2.png  used on input 
@@ -920,9 +918,9 @@ Overfull \hbox (22.2907pt too wide) in paragraph at lines 35--36
 
 
 
-[20 <../diagrams/mpc/mpc-robot_tracking.png>]
+[21 <../diagrams/mpc/mpc-robot_tracking.png>]
 
-[21 <../diagrams/mpc/mpc-mpc_overview_2.png>]
+[22 <../diagrams/mpc/mpc-mpc_overview_2.png>]
 Overfull \hbox (0.11948pt too wide) in paragraph at lines 112--113
 []\T1/lmr/m/n/12 The weight-ing ma-tri-ces $[]$ and $[]$ are block-diagonal ma-
 tri-ces con-structed
@@ -930,12 +928,12 @@ tri-ces con-structed
 
 
 
-[22]
+[23]
 Overfull \hbox (48.34099pt too wide) detected at line 166
 []
  []
 
-<../diagrams/mpc/mpc-mpc_exp_0.png, id=107, 484.209pt x 254.3904pt>
+<../diagrams/mpc/mpc-mpc_exp_0.png, id=111, 484.209pt x 254.3904pt>
 File: ../diagrams/mpc/mpc-mpc_exp_0.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_0.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_0.png  used on input line 
@@ -948,10 +946,10 @@ Overfull \hbox (4.36772pt too wide) in paragraph at lines 203--204
 
 
 
-[23]
+[24]
 
-[24 <../diagrams/mpc/mpc-mpc_exp_0.png>]
-<../diagrams/mpc/mpc-mpc_exp_1.png, id=115, 424.9476pt x 204.5241pt>
+[25 <../diagrams/mpc/mpc-mpc_exp_0.png>]
+<../diagrams/mpc/mpc-mpc_exp_1.png, id=120, 424.9476pt x 204.5241pt>
 File: ../diagrams/mpc/mpc-mpc_exp_1.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_1.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line 
@@ -959,8 +957,8 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line
 (pdftex.def)             Requested size: 339.95853pt x 163.61948pt.
 
 
-[25 <../diagrams/mpc/mpc-mpc_exp_1.png>]
-<../diagrams/mpc/mpc-mpc_exp_2.png, id=121, 424.9476pt x 238.491pt>
+[26 <../diagrams/mpc/mpc-mpc_exp_1.png>]
+<../diagrams/mpc/mpc-mpc_exp_2.png, id=125, 424.9476pt x 238.491pt>
 File: ../diagrams/mpc/mpc-mpc_exp_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line 
@@ -968,12 +966,12 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line
 (pdftex.def)             Requested size: 339.95853pt x 190.79305pt.
 
 
-[26 <../diagrams/mpc/mpc-mpc_exp_2.png>]
-
-[27]
+[27 <../diagrams/mpc/mpc-mpc_exp_2.png>]
 
 [28]
-<../diagrams/mpc/mpc-mpc_algo.png, id=132, 521.0667pt x 353.4003pt>
+
+[29]
+<../diagrams/mpc/mpc-mpc_algo.png, id=136, 521.0667pt x 353.4003pt>
 File: ../diagrams/mpc/mpc-mpc_algo.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_algo.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_algo.png  used on input line 3
@@ -986,16 +984,16 @@ Overfull \hbox (33.85391pt too wide) in paragraph at lines 383--384
 
 
 
-[29]
+[30]
 
-[30 <../diagrams/mpc/mpc-mpc_algo.png>]
+[31 <../diagrams/mpc/mpc-mpc_algo.png>]
 
-[31
+[32
 
 ]
 
-[32]
-<../diagrams/examples/examples-trajectory.png, id=148, 311.4837pt x 245.718pt>
+[33]
+<../diagrams/examples/examples-trajectory.png, id=152, 311.4837pt x 245.718pt>
 File: ../diagrams/examples/examples-trajectory.png Graphic file (type png)
 <use ../diagrams/examples/examples-trajectory.png>
 Package pdftex.def Info: ../diagrams/examples/examples-trajectory.png  used on 
@@ -1003,12 +1001,12 @@ input line 493.
 (pdftex.def)             Requested size: 218.0371pt x 172.00142pt.
 
 
-[33 <../diagrams/examples/examples-trajectory.png>]
+[34 <../diagrams/examples/examples-trajectory.png>]
 Overfull \hbox (19.00627pt too wide) detected at line 556
 []
  []
 
-<../diagrams/examples/examples-mpc_synthesis.png, id=153, 477.7047pt x 383.7537
+<../diagrams/examples/examples-mpc_synthesis.png, id=157, 477.7047pt x 383.7537
 pt>
 File: ../diagrams/examples/examples-mpc_synthesis.png Graphic file (type png)
 <use ../diagrams/examples/examples-mpc_synthesis.png>
@@ -1017,10 +1015,10 @@ on input line 566.
 (pdftex.def)             Requested size: 334.391pt x 268.62575pt.
 
 
-[34]
+[35]
 
-[35 <../diagrams/examples/examples-mpc_synthesis.png>]
-<../images/mpc/mpc_plots-lqr.png, id=161, 375.804pt x 354.123pt>
+[36 <../diagrams/examples/examples-mpc_synthesis.png>]
+<../images/mpc/mpc_plots-lqr.png, id=165, 375.804pt x 354.123pt>
 File: ../images/mpc/mpc_plots-lqr.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-lqr.png>
 Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 61
@@ -1028,8 +1026,8 @@ Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 61
 (pdftex.def)             Requested size: 263.061pt x 247.8844pt.
 
 
-[36 <../images/mpc/mpc_plots-lqr.png>]
-<../images/mpc/mpc_plots-mpc.png, id=166, 375.804pt x 368.577pt>
+[37 <../images/mpc/mpc_plots-lqr.png>]
+<../images/mpc/mpc_plots-mpc.png, id=171, 375.804pt x 368.577pt>
 File: ../images/mpc/mpc_plots-mpc.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-mpc.png>
 Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 63
@@ -1037,22 +1035,22 @@ Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 63
 (pdftex.def)             Requested size: 263.061pt x 258.00212pt.
 
 
-[37 <../images/mpc/mpc_plots-mpc.png>])
+[38 <../images/mpc/mpc_plots-mpc.png>])
 
-[38] (./main.aux (./capturing_dynamics.aux) (./mpc.aux))
+[39] (./main.aux (./capturing_dynamics.aux) (./mpc.aux))
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 12128 strings out of 473190
- 190999 string characters out of 5715800
+ 12135 strings out of 473190
+ 191139 string characters out of 5715800
  1011206 words of memory out of 5000000
- 35187 multiletter control sequences out of 15000+600000
+ 35194 multiletter control sequences out of 15000+600000
  640459 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 85i,17n,93p,397b,1851s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 85i,17n,93p,397b,1861s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2025/tex
@@ -1063,12 +1061,13 @@ blic/lm/lmr12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmr
 r/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmro12.pfb></usr/local/te
 xlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025
 /texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2025/texmf-dist
-/fonts/type1/public/lm/lmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
-1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (38 pages, 3598399 bytes).
+/fonts/type1/public/lm/lmtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/typ
+e1/public/lm/lmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/a
+msfonts/symbols/msbm10.pfb>
+Output written on main.pdf (39 pages, 3622619 bytes).
 PDF statistics:
- 245 PDF objects out of 1000 (max. 8388607)
- 139 compressed objects within 2 object streams
+ 253 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  91 words of extra memory for PDF output out of 10000 (max. 10000000)
 

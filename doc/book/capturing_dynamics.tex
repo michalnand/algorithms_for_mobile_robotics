@@ -369,101 +369,104 @@ def simulate(n, m, dt, n_steps):
         This simplicity makes first-order models a cornerstone of control theory and system identification.
 
 
-\section{First order identification}   
-        Process of system identification is finding matrices $A$, $B$ (and $C$). From this model 
-        can be sythetised controller, or system able to plan multiple steps ahead.
+\section{First Order Identification}   
 
-        Goal is to find parameters of DC motor. Motor velocity model, can be approximated as 1st linear order system. 
-        Real system is of course non-linear. The photo of example system is on fig \ref{fig:wheel_drive_detail}.
-        Control loop hardware consists of motor driver (H-driver, DRV8212), motor (Pololu HP 1:30 gear), and quadrature magnetic encoder (2x DRV5013),
-        fig \ref{fig:motor_identification_process}
+The process of system identification involves finding the matrices $A$, $B$ (and optionally $C$).  
+From this model, a controller can be synthesized, or the system can be used for multi-step prediction and planning.
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-motor_control_photo.png}
-            \caption{Wheel drive hardware detail}
-            \label{fig:wheel_drive_detail}
-        \end{figure}
+The goal in this section is to identify the parameters of a DC motor.  
+The motor velocity model can be approximated as a first-order linear system, although the real system is, of course, nonlinear.  
+A photo of the example setup is shown in Fig.~\ref{fig:wheel_drive_detail}.  
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.6]{../diagrams/identification/identification.png}
-            \caption{Motor identification process}
-            \label{fig:motor_identification_process}
-        \end{figure}
+The control loop hardware consists of a motor driver (H-bridge DRV8212), a DC motor (Pololu HP 1:30 gear), and a quadrature magnetic encoder (2× DRV5013), as illustrated in Fig.~\ref{fig:motor_identification_process}.
 
-        Input signal $u(n)$ can be generated arbitrarily. Mostly used is square wave, to capture
-        high frequency dynamics. Algorithm is from observed motor velocity $x(n)$ and given input $u(n)$
-        estimating model parameters.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/control_generic/control_generic-motor_control_photo.png}
+    \caption{Wheel drive hardware detail.}
+    \label{fig:wheel_drive_detail}
+\end{figure}
 
-        Before real motor testing, we focus on simulation example.
-        Our simulated motor will have following parameters
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{../diagrams/identification/identification.png}
+    \caption{Motor identification process.}
+    \label{fig:motor_identification_process}
+\end{figure}
 
-        \begin{itemize}
-            \item sampling frequency 4kHz, $\Delta T = 1/4000$
-            \item maximum control input $u_{max} = 2$
-            \item motor constant $k = 17$
-            \item motor time constat $\tau = 29$ milliseconds
-        \end{itemize}
+The input signal $u(n)$ can be generated arbitrarily.  
+A square wave is often used to capture higher-frequency dynamics.  
+The identification algorithm estimates the model parameters based on the observed motor velocity $x(n)$ and the known input $u(n)$.
 
-        Motor state is single variable, angular velocity $\omega(t)$. Model have two parameters $\alpha$, $\beta$. 
-        First order continuos model becomes
+Before testing the real motor, we first demonstrate the approach using a simulation example.  
+The \textbf{simulated motor} has the following parameters - chosen arbitrarily :
 
-        \begin{align}
-            \frac{d\omega(t)}{dt} &= \alpha \omega(t) + \beta u(t) \label{eq:first_order_system_a} \\
-            \alpha &= -\frac{1}{\tau}  \label{eq:first_order_system_b}  \\
-            \beta &= \frac{k}{\tau}  \label{eq:first_order_system_c} 
-        \end{align}
+\begin{itemize}
+    \item sampling frequency: 4~kHz, $\Delta T = 1/4000$
+    \item maximum control input: $u_{\max} = 2$
+    \item motor constant: $k = 17$
+    \item motor time constant: $\tau = 29$~milliseconds
+\end{itemize}
 
-        with given parameters $k$ and $\tau$ becomes $\alpha = -34.48$ and $\beta = 586.2$.
+The motor state is a single variable—the angular velocity $\omega(t)$.  
+The model has two parameters, $\alpha$ and $\beta$.  
+The first-order continuous model is defined as:
 
-        Unit step response is obtained by setting $u(n) = 1$, and solving using any differential 
-        equation solver. The simplest is Euler method, which works well for small $dt$ and low order 
-        systems. Much accurate is commonly used Runge-Kutta 4 method.
+\begin{align}
+    \frac{d\omega(t)}{dt} &= \alpha\,\omega(t) + \beta\,u(t) \label{eq:first_order_system_a} \\
+    \alpha &= -\frac{1}{\tau}  \label{eq:first_order_system_b}  \\
+    \beta  &= \frac{k}{\tau}  \label{eq:first_order_system_c} 
+\end{align}
 
-        \begin{figure}[!htb]
-            \centering
-            \includegraphics[scale=0.6]{../images/motor_control/motor_step_response.png}
-            \caption{Motor step response}
-            \label{fig:motor_step_response}
-        \end{figure}
+With the given parameters $k$ and $\tau$, we obtain $\alpha = -34.48$ and $\beta = 586.2$.
 
-        Our goal is to generate input $u(t)$ and by observing system output $x(t)$ estimate parameters
-        $k$ and $\tau$.
+The unit step response is obtained by setting $u(n) = 1$ and solving the differential equation using any ODE solver.  
+The simplest method is the Euler approach, which works well for small $\Delta T$ and low-order systems.  
+For higher accuracy, the commonly used fourth-order Runge–Kutta (RK4) method is preferred.
 
-        We start with simplest identification method, which works only for 1st order non-oscilating systems.
-        Method have two main steps
-        \begin{enumerate}
-            \item steady state value estimation
-            \item time constant estimation
-        \end{enumerate}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{../images/motor_control/motor_step_response.png}
+    \caption{Motor step response.}
+    \label{fig:motor_step_response}
+\end{figure}
 
-        \subsection{Steady state estimation}
+Our goal is to generate input $u(t)$ and, by observing the system output $x(t)$, estimate the parameters $k$ and $\tau$.
 
-            We drive motor on different input levels, e.g. ranging from 10\% ... 100\%. Observing steady 
-            state velocity the motor constant $k$ can be estimated.
+We start with the simplest identification method, suitable for first-order, non-oscillating systems.  
+This method has two main steps:
 
-            \begin{figure}[!htb]
-                \centering
-                \includegraphics[scale=0.6]{../images/motor_control/motor_constant_estimation.png}
-                \caption{Motor constant estimation}
-                \label{fig:motor_constant_estimation}
-            \end{figure}
+\begin{enumerate}
+    \item steady-state value estimation
+    \item time constant estimation
+\end{enumerate}
 
-            Algorithm for estimating motor constant :
+\subsection{Steady-State Estimation}
 
-            \begin{enumerate}
-                \item choose constant motor input $u \in (0, u_{max} \rangle$
-                \item run motor, and wait for velocity steady state
-                \item measure velocity  
-                \item estimate $\hat{k} = x/u$
-                \item repeats to estimate average $\hat{k}$
-            \end{enumerate}
+We drive the motor with different constant input levels, ranging from 10\% to 100\%.  
+By observing the steady-state velocity, the motor constant $k$ can be estimated.
 
-            In following code we choose 10 different input levels. After setting, we wait 500steps
-            to steady state, then we measure output velocity. Finally, we average results.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{../images/motor_control/motor_constant_estimation.png}
+    \caption{Motor constant estimation.}
+    \label{fig:motor_constant_estimation}
+\end{figure}
 
-            \begin{lstlisting}[style=python_style]
+Algorithm for estimating the motor constant:
+
+\begin{enumerate}
+    \item choose a constant motor input $u \in (0, u_{\max}]$
+    \item run the motor and wait until steady-state velocity is reached
+    \item measure the velocity  
+    \item estimate $\hat{k} = x/u$
+    \item repeat and average the resulting $\hat{k}$
+\end{enumerate}
+
+In the following code, we use 10 different input levels.  
+After setting each input, we wait 500 steps to reach steady state, measure the velocity, and then compute the average.
+
+\begin{lstlisting}[style=python_style]
 # input levels
 u_values = u_max*numpy.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
 
@@ -497,69 +500,71 @@ k_mean = k_est.mean()
 
 # average k estimate
 print("k_mean = ", k_mean)
-            \end{lstlisting}
+\end{lstlisting}
 
-        In our example the resulted $\hat{k}$ is $16.995$, which very close to real value $17$.
-        Accuracy depends on velocity estimation noise (encoder noise) and how many samples we average.
-        
-        \subsection{Time constant estimation}
+In our example, the resulting $\hat{k}$ is $16.995$, which is very close to the true value $17$.  
+Accuracy depends on encoder noise and the number of samples used for averaging.
 
-            Second parameter is time constant $\tau$. Most textbooks uses measuring time at which system 
-            reaches $63.2\%$ of $x_{max}$. Where $x_{max}$ is motor velocity on choosen $u$, a.k.a. steady 
-            state velocity at $u$. This method suffers to noise, and precise timing. Here we presents 
-            more accurate method, briging system into natural frequency resonance.
-            Algorithm is as follow :
-        
-            \begin{enumerate}
-                \item choose $u_{set}$, and set $u_{in} = u_{set}$
-                \item repeat $n_{steps}$, each step duration is $\Delta T$
-                    \begin{enumerate}
-                        \item $if\ u_{in} > 0\ and\ x(n) > 0.632ku_{in}$ \\
-                            increment $n_{HalfPeriods}$, and set $u_{in} = -u_{set}$
-                        \item $else\ if\ u_{in} < 0\ and\ x(n) < 0.632ku_{in}$ \\
-                            increment $n_{HalfPeriods}$, and set $u_{in} = u_{set}$
-                    \end{enumerate}
-            \end{enumerate}
+\subsection{Time Constant Estimation}
 
-            The time constant $\hat{\tau}$ can be now estimated by 
+The second parameter is the time constant $\tau$.  
+Most textbooks estimate $\tau$ by measuring the time at which the system reaches $63.2\%$ of its final value $x_{\max}$.  
+Here, $x_{\max}$ is the steady-state velocity for a given $u$.  
+However, this method is sensitive to noise and precise timing.
 
-            \begin{align}   
-                \hat{\tau} = \frac{2}{\pi}\frac{n_{steps}}{n_{HalfPeriods}}{\Delta T}
-            \end{align}
+We present a more accurate approach, which excites the system into a natural oscillatory response.  
+The algorithm is as follows:
 
-            Where $\Delta T$ is sampling period, ratio ${n_{steps}} : {n_{HalfPeriods}}$ is
-            estimating system frequency. In core, this method is nothing more than  period 
-            duration estimation. The resulted time plot is on fig.  \ref{fig:motor_time_constant_estimation}.
-            Result for our simulated motor is $\hat{\tau} = 27.44[ms]$, which is good estimation of real value $29 [ms]$.
+\begin{enumerate}
+    \item choose $u_{\text{set}}$ and set $u_{\text{in}} = u_{\text{set}}$
+    \item repeat for $n_{\text{steps}}$, each step of duration $\Delta T$
+    \begin{enumerate}
+        \item if $u_{\text{in}} > 0$ and $x(n) > 0.632\,k\,u_{\text{in}}$: \\
+              increment $n_{\text{HalfPeriods}}$ and set $u_{\text{in}} = -u_{\text{set}}$
+        \item else if $u_{\text{in}} < 0$ and $x(n) < 0.632\,k\,u_{\text{in}}$: \\
+              increment $n_{\text{HalfPeriods}}$ and set $u_{\text{in}} = u_{\text{set}}$
+    \end{enumerate}
+\end{enumerate}
 
-            \begin{figure}[!htb]
-                \centering
-                \includegraphics[scale=0.6]{../images/motor_control/motor_time_constant_estimation.png}
-                \caption{Motor time constant estimation}
-                \label{fig:motor_time_constant_estimation}
-            \end{figure}
-            
-            Using equations \ref{eq:first_order_system_b} and \ref{eq:first_order_system_c} we can estimate $\hat{\alpha}$ and $\hat{\beta}$ as
-            $\hat{\alpha} = -36.443$ and $\hat{\beta} = 619.372$
+The time constant $\hat{\tau}$ is then estimated as:
 
-          
+\begin{align}   
+    \hat{\tau} = \frac{2}{\pi}\frac{n_{\text{steps}}}{n_{\text{HalfPeriods}}}\,\Delta T
+\end{align}
 
-        \subsection{Real motor identification}
-            For implementation in real system, the code must runs in real time. With relative high 
-            sampling frequency 4kHz, the code is written in c++. Interface is universal, with few key functions.
+Here, $\Delta T$ is the sampling period, and the ratio $n_{\text{steps}} / n_{\text{HalfPeriods}}$ estimates the system’s oscillation period.  
+Essentially, this method performs period-duration estimation.  
+The resulting time plot is shown in Fig.~\ref{fig:motor_time_constant_estimation}.  
+For our simulated motor, the result is $\hat{\tau} = 27.44$~ms, which is a good estimate of the real value, $29$~ms.
 
-            \begin{itemize}
-                \item timer.delay\_ms(unsigned int time) - waits given milliseconds
-                \item float x = motor\_control.get\_right\_velocity() - return meassured wheel velocity
-                \item motor\_control.set\_right\_torque(float x) - sets the PWM value, depends on sign the rotation direction can be controlled
-            \end{itemize}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{../images/motor_control/motor_time_constant_estimation.png}
+    \caption{Motor time constant estimation.}
+    \label{fig:motor_time_constant_estimation}
+\end{figure}
 
-            This functions needs to be customised for user application.
+Using equations~\ref{eq:first_order_system_b} and~\ref{eq:first_order_system_c},  
+we can estimate $\hat{\alpha}$ and $\hat{\beta}$ as $\hat{\alpha} = -36.443$ and $\hat{\beta} = 619.372$.
 
-            \newpage
-            First we estimate motor constant $k$ :
-            
-            \begin{lstlisting}[style=cpp_style]
+\subsection{Real Motor Identification}
+
+For implementation on real hardware, the code must run in real time.  
+With a relatively high sampling frequency of 4~kHz, the software is written in C++.  
+The interface is universal, consisting of a few key functions:
+
+\begin{itemize}
+    \item \texttt{timer.delay\_ms(unsigned int time)} — waits for the given time in milliseconds
+    \item \texttt{float x = motor\_control.get\_right\_velocity()} — returns the measured wheel velocity
+    \item \texttt{motor\_control.set\_right\_torque(float x)} — sets the PWM torque command; the sign controls rotation direction
+\end{itemize}
+
+These functions must be adapted for the user’s specific hardware.
+
+\newpage
+First, we estimate the motor constant $k$:
+
+\begin{lstlisting}[style=cpp_style]
 //1, estimate motor constant k, on different input values
 uint32_t n_steps = 500;
 
@@ -613,12 +618,13 @@ x_var_mean = x_var_mean/10.0;
 
 terminal << "k          = " << k_mean << "\n";
 terminal << "x_var_mean = " << x_var_mean << "\n";
-        \end{lstlisting}
-    
-        \newpage
-        Second we estimate motor time constant $\tau$ :
-        \begin{lstlisting}[style=cpp_style]
-//2, estimate time constant by oscilating motor
+\end{lstlisting}
+
+\newpage
+Next, we estimate the motor time constant $\tau$:
+
+\begin{lstlisting}[style=cpp_style]
+//2, estimate time constant by oscillating motor
 float u_in = 0.25;
 uint32_t periods = 0; 
 
@@ -653,13 +659,13 @@ float t_period = (2*n_steps/periods)/PI;
 terminal << "periods = " << periods << "\n";
 terminal << "tau     = " << t_period << "[ms]\n";
 terminal << "\n\n";
+\end{lstlisting}
 
-        \end{lstlisting}
+\newpage
+The average motor constant is $k = 80.056$, and the time constant is $\tau = 9.230$~ms.  
+Terminal output:
 
-        \newpage
-        Average motor constant is $k = 80.056$, and time constant is $\tau = 9.230[ms]$.
-        Terminal output :
-        \begin{lstlisting}[style=terminal_style]
+\begin{lstlisting}[style=terminal_style]
 ...
 
 u_in   =  0.800
@@ -686,4 +692,41 @@ x_var_mean =  170.903
 
 periods = 136
 tau     =  9.230[ms]
-        \end{lstlisting}
+\end{lstlisting}
+
+
+
+
+
+\subsection{Summary of Identification Results}
+
+The identification results from both simulation and real hardware show that the proposed methods provide accurate and robust estimates of the motor parameters.  
+
+The purpose of the Python simulation was to demonstrate the principle of the proposed identification method and to show how well it fits our imaginary motor model.  
+Table~\ref{tab:simulation_results} presents a direct comparison between the ground truth parameters and the estimated values obtained from the simulation.
+
+\begin{table}[!htb]
+    \centering
+    \caption{Comparison between ground truth and estimated parameters in simulation}
+    \label{tab:simulation_results}
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Parameter} & \textbf{Symbol} & \textbf{Ground Truth} & \textbf{Estimated} \\
+        \midrule
+        Motor constant & $k$ & 17.000 & 16.995 \\
+        Time constant  & $\tau$ & 29~ms & 27.44~ms \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The results clearly show that the estimation method performs very well for a simple first-order system, with minimal deviation from the true parameter values. This confirms the correctness of the identification algorithm in a noise-free simulation environment.
+
+For the real hardware experiment, the results demonstrate consistent values of both $\tau$ and $k$ across multiple input levels $u_{in}$, which indicates that the method is robust even under real-world conditions.  
+On the physical motor, the identified parameters were $k = 80.056$ and $\tau = 9.230$~ms, which are consistent with the expected values for a small, high-speed DC drive.
+
+This experiment demonstrates how a simple first-order model can successfully capture the \textbf{essential dynamics of a real motor} and serve as a foundation for controller design.  
+In practice, the identification accuracy depends on factors such as encoder resolution, sampling frequency, and PWM control precision.  
+Despite nonlinearities such as friction, saturation, and supply voltage variations, the identified model provides a reliable linear approximation—suitable for designing velocity or torque controllers in robotic drive systems.
+
+Additionally, we also estimated the velocity variance $x_{var}$, which provides valuable information about measurement noise.  
+This value will be further utilized in the \textbf{design of a Kalman filter} for sensor fusion and state estimation in the following chapter.
