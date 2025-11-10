@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  10 NOV 2025 20:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  10 NOV 2025 20:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -633,39 +633,155 @@ Package: eso-pic 2023/05/03 v3.0c eso-pic (RN)
 \ESO@tempdima=\dimen267
 \ESO@tempdimb=\dimen268
 )
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen269
+\Hy@linkcounter=\count346
+\Hy@pagecounter=\count347
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count348
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Hyper figures OFF on input line 4157.
+Package hyperref Info: Link nesting OFF on input line 4162.
+Package hyperref Info: Hyper index ON on input line 4165.
+Package hyperref Info: Plain pages OFF on input line 4172.
+Package hyperref Info: Backreferencing OFF on input line 4177.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4424.
+\c@Hy@tempcnt=\count349
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen270
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count350
+\Field@Width=\dimen271
+\Fld@charsize=\dimen272
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring OFF on input line 6062.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count351
+\c@Item=\count352
+\c@Hfootnote=\count353
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2024-11-05 v7.01l Hyperref driver for pdfTeX
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
+kage
+with kernel methods
+)
+\Fld@listcount=\count354
+\c@bookmark@seq@number=\count355
+
+(/usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+85.
+)
+\Hy@SectionHShift=\skip194
+) (/usr/local/texlive/2025/texmf-dist/tex/latex/memoir/memhfixc.sty
+Package: memhfixc 2025/03/06 v1.23 hyperref package fixes for memoir class
+\c@memhycontfloat=\count356
+\c@mem@Hpagenote=\count357
+)
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 (./main.aux (./capturing_dynamics.aux) (./mpc.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
 
 (/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count346
-\scratchdimen=\dimen269
+\scratchcounter=\count358
+\scratchdimen=\dimen273
 \scratchbox=\box62
-\nofMPsegments=\count347
-\nofMParguments=\count348
+\nofMPsegments=\count359
+\nofMParguments=\count360
 \everyMPshowfont=\toks33
-\MPscratchCnt=\count349
-\MPscratchDim=\dimen270
-\MPnumerator=\count350
-\makeMPintoPDFobject=\count351
+\MPscratchCnt=\count361
+\MPscratchDim=\dimen274
+\MPnumerator=\count362
+\makeMPintoPDFobject=\count363
 \everyMPtoPDFconversion=\toks34
 ) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -677,57 +793,64 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count352
+\c@lstlisting=\count364
+Package hyperref Info: Link coloring OFF on input line 79.
+
+(./main.out) (./main.out)
+\@outlinefile=\write4
+\openout4 = `main.out'.
+
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 8
-6.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 8
-6.
+9.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-86.
+89.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-86.
+89.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 86.
+(Font)              <14.4> on input line 89.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 86.
+(Font)              <10> on input line 89.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 86.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 86.
+(Font)              <7> on input line 89.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 89.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 86.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 89.
 
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 
-<../images/illustrations/cover_4.jpg, id=1, 2168.1pt x 3854.4pt>
+<../images/illustrations/cover_4.jpg, id=56, 2168.1pt x 3854.4pt>
 File: ../images/illustrations/cover_4.jpg Graphic file (type jpg)
 <use ../images/illustrations/cover_4.jpg>
 Package pdftex.def Info: ../images/illustrations/cover_4.jpg  used on input lin
-e 89.
+e 91.
 (pdftex.def)             Requested size: 614.27586pt x 794.92102pt.
 [1
 
@@ -761,7 +884,7 @@ onts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2025/texmf-dist/fonts/enc/d
 vips/lm/lm-mathsy.enc}]
 
 [3]
-<../diagrams/control_generic/control_generic-discrete_dynamics.png, id=23, 405.
+<../diagrams/control_generic/control_generic-discrete_dynamics.png, id=93, 405.
 4347pt x 151.767pt>
 File: ../diagrams/control_generic/control_generic-discrete_dynamics.png Graphic
  file (type png)
@@ -787,7 +910,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 [6]
 
 [7]
-<../images/plots/first_order_example.png, id=42, 661.2705pt x 477.7047pt>
+<../images/plots/first_order_example.png, id=183, 661.2705pt x 477.7047pt>
 File: ../images/plots/first_order_example.png Graphic file (type png)
 <use ../images/plots/first_order_example.png>
 Package pdftex.def Info: ../images/plots/first_order_example.png  used on input
@@ -808,16 +931,16 @@ Overfull \hbox (6.88992pt too wide) in paragraph at lines 381--382
 idge DRV8212),
  []
 
-<../diagrams/control_generic/control_generic-motor_control_photo.png, id=50, 28
-9.08pt x 202.356pt>
+<../diagrams/control_generic/control_generic-motor_control_photo.png, id=236, 2
+89.08pt x 202.356pt>
 File: ../diagrams/control_generic/control_generic-motor_control_photo.png Graph
 ic file (type png)
 <use ../diagrams/control_generic/control_generic-motor_control_photo.png>
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-motor_cont
 rol_photo.png  used on input line 385.
 (pdftex.def)             Requested size: 231.2643pt x 161.88501pt.
-<../diagrams/identification/identification.png, id=51, 452.4102pt x 333.1647pt>
-
+<../diagrams/identification/identification.png, id=237, 452.4102pt x 333.1647pt
+>
 File: ../diagrams/identification/identification.png Graphic file (type png)
 <use ../diagrams/identification/identification.png>
 Package pdftex.def Info: ../diagrams/identification/identification.png  used on
@@ -828,15 +951,15 @@ Package pdftex.def Info: ../diagrams/identification/identification.png  used on
 [10 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
 
 [11 <../diagrams/identification/identification.png>]
-<../images/motor_control/motor_step_response.png, id=60, 570.933pt x 137.313pt>
-
+<../images/motor_control/motor_step_response.png, id=253, 570.933pt x 137.313pt
+>
 File: ../images/motor_control/motor_step_response.png Graphic file (type png)
 <use ../images/motor_control/motor_step_response.png>
 Package pdftex.def Info: ../images/motor_control/motor_step_response.png  used 
 on input line 429.
 (pdftex.def)             Requested size: 342.56244pt x 82.38843pt.
-<../images/motor_control/motor_constant_estimation.png, id=61, 392.4261pt x 298
-.4751pt>
+<../images/motor_control/motor_constant_estimation.png, id=254, 392.4261pt x 29
+8.4751pt>
 File: ../images/motor_control/motor_constant_estimation.png Graphic file (type 
 png)
 <use ../images/motor_control/motor_constant_estimation.png>
@@ -848,8 +971,8 @@ Package pdftex.def Info: ../images/motor_control/motor_constant_estimation.png
 [12 <../images/motor_control/motor_step_response.png>]
 
 [13 <../images/motor_control/motor_constant_estimation.png>]
-<../images/motor_control/motor_time_constant_estimation.png, id=71, 394.5942pt 
-x 298.4751pt>
+<../images/motor_control/motor_time_constant_estimation.png, id=312, 394.5942pt
+ x 298.4751pt>
 File: ../images/motor_control/motor_time_constant_estimation.png Graphic file (
 type png)
 <use ../images/motor_control/motor_time_constant_estimation.png>
@@ -894,7 +1017,7 @@ File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 
 
 ]
-<../diagrams/mpc/mpc-robot_tracking.png, id=96, 615.7404pt x 346.896pt>
+<../diagrams/mpc/mpc-robot_tracking.png, id=479, 615.7404pt x 346.896pt>
 File: ../diagrams/mpc/mpc-robot_tracking.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-robot_tracking.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-robot_tracking.png  used on input 
@@ -905,7 +1028,7 @@ Overfull \hbox (109.59299pt too wide) in paragraph at lines 27--28
  [][] 
  []
 
-<../diagrams/mpc/mpc-mpc_overview_2.png, id=97, 506.6127pt x 205.9695pt>
+<../diagrams/mpc/mpc-mpc_overview_2.png, id=480, 506.6127pt x 205.9695pt>
 File: ../diagrams/mpc/mpc-mpc_overview_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_overview_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_overview_2.png  used on input 
@@ -933,7 +1056,7 @@ Overfull \hbox (48.34099pt too wide) detected at line 166
 []
  []
 
-<../diagrams/mpc/mpc-mpc_exp_0.png, id=111, 484.209pt x 254.3904pt>
+<../diagrams/mpc/mpc-mpc_exp_0.png, id=505, 484.209pt x 254.3904pt>
 File: ../diagrams/mpc/mpc-mpc_exp_0.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_0.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_0.png  used on input line 
@@ -949,7 +1072,7 @@ Overfull \hbox (4.36772pt too wide) in paragraph at lines 203--204
 [24]
 
 [25 <../diagrams/mpc/mpc-mpc_exp_0.png>]
-<../diagrams/mpc/mpc-mpc_exp_1.png, id=120, 424.9476pt x 204.5241pt>
+<../diagrams/mpc/mpc-mpc_exp_1.png, id=521, 424.9476pt x 204.5241pt>
 File: ../diagrams/mpc/mpc-mpc_exp_1.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_1.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line 
@@ -958,7 +1081,7 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line
 
 
 [26 <../diagrams/mpc/mpc-mpc_exp_1.png>]
-<../diagrams/mpc/mpc-mpc_exp_2.png, id=125, 424.9476pt x 238.491pt>
+<../diagrams/mpc/mpc-mpc_exp_2.png, id=528, 424.9476pt x 238.491pt>
 File: ../diagrams/mpc/mpc-mpc_exp_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line 
@@ -971,7 +1094,7 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line
 [28]
 
 [29]
-<../diagrams/mpc/mpc-mpc_algo.png, id=136, 521.0667pt x 353.4003pt>
+<../diagrams/mpc/mpc-mpc_algo.png, id=549, 521.0667pt x 353.4003pt>
 File: ../diagrams/mpc/mpc-mpc_algo.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_algo.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_algo.png  used on input line 3
@@ -993,7 +1116,7 @@ Overfull \hbox (33.85391pt too wide) in paragraph at lines 383--384
 ]
 
 [33]
-<../diagrams/examples/examples-trajectory.png, id=152, 311.4837pt x 245.718pt>
+<../diagrams/examples/examples-trajectory.png, id=654, 311.4837pt x 245.718pt>
 File: ../diagrams/examples/examples-trajectory.png Graphic file (type png)
 <use ../diagrams/examples/examples-trajectory.png>
 Package pdftex.def Info: ../diagrams/examples/examples-trajectory.png  used on 
@@ -1006,7 +1129,7 @@ Overfull \hbox (19.00627pt too wide) detected at line 556
 []
  []
 
-<../diagrams/examples/examples-mpc_synthesis.png, id=157, 477.7047pt x 383.7537
+<../diagrams/examples/examples-mpc_synthesis.png, id=662, 477.7047pt x 383.7537
 pt>
 File: ../diagrams/examples/examples-mpc_synthesis.png Graphic file (type png)
 <use ../diagrams/examples/examples-mpc_synthesis.png>
@@ -1018,7 +1141,7 @@ on input line 566.
 [35]
 
 [36 <../diagrams/examples/examples-mpc_synthesis.png>]
-<../images/mpc/mpc_plots-lqr.png, id=165, 375.804pt x 354.123pt>
+<../images/mpc/mpc_plots-lqr.png, id=681, 375.804pt x 354.123pt>
 File: ../images/mpc/mpc_plots-lqr.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-lqr.png>
 Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 61
@@ -1027,7 +1150,7 @@ Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 61
 
 
 [37 <../images/mpc/mpc_plots-lqr.png>]
-<../images/mpc/mpc_plots-mpc.png, id=171, 375.804pt x 368.577pt>
+<../images/mpc/mpc_plots-mpc.png, id=690, 375.804pt x 368.577pt>
 File: ../images/mpc/mpc_plots-mpc.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-mpc.png>
 Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 63
@@ -1042,15 +1165,17 @@ Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 63
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 20848CB824353A3343A34D6028675C8F;2149.
  ) 
 Here is how much of TeX's memory you used:
- 12135 strings out of 473190
- 191139 string characters out of 5715800
- 1011206 words of memory out of 5000000
- 35194 multiletter control sequences out of 15000+600000
+ 18677 strings out of 473190
+ 291306 string characters out of 5715800
+ 1110611 words of memory out of 5000000
+ 41208 multiletter control sequences out of 15000+600000
  640459 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 85i,17n,93p,397b,1861s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 85i,17n,93p,397b,2079s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/lo
 cal/texlive/2025/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texliv
 e/2025/texmf-dist/fonts/type1/public/lm/lmmi12.pfb></usr/local/texlive/2025/tex
@@ -1064,10 +1189,10 @@ xlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025
 /fonts/type1/public/lm/lmtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/typ
 e1/public/lm/lmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/a
 msfonts/symbols/msbm10.pfb>
-Output written on main.pdf (39 pages, 3622619 bytes).
+Output written on main.pdf (39 pages, 3636648 bytes).
 PDF statistics:
- 253 PDF objects out of 1000 (max. 8388607)
- 144 compressed objects within 2 object streams
- 0 named destinations out of 1000 (max. 500000)
- 91 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 872 PDF objects out of 1000 (max. 8388607)
+ 757 compressed objects within 8 object streams
+ 459 named destinations out of 1000 (max. 500000)
+ 195 words of extra memory for PDF output out of 10000 (max. 10000000)
 
