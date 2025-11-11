@@ -1,0 +1,13 @@
+\chapter{System identification}
+
+In this chapter we leverage state space models for describing mathematical model of robot.
+We consider differential drive robot, with two independently controller wheels. 
+For comfort the state of robot will be its linear distance $x$, linear velocity $v$, 
+robot angle $\theta$ and angular rate $\omega$.
+This coordinate system differs from more used cartesian, however, it allow us to avoid 
+non-linear model (containing sine, cosine rotation matrix), and further we can use 
+fully linear state space model, and linear controller. 
+
+Note, the upprt level of controll, e.g. path planener, will probaly still needs to works 
+within cartesian coordinates, however, this controll loop is running relatively slow, 
+so the excesive computations doesn't matter. 

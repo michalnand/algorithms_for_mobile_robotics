@@ -72,8 +72,8 @@
 
 
 %%%%%%%%%% BOOK INFORMATION %%%%%%%%%%
-\title{\huge{\textbf{\textcolor{white}{{Hands-On Control and Algorithms for Robots} \\[2cm]}}}}
-\author{\large{\textbf{\textcolor{white}{Michal Chovanec, PhD.}}}}
+%%%\title{\huge{\textbf{\textcolor{white}{{Hands-On Control and Algorithms for Robots} \\[2cm]}}}}
+%%%\author{\large{\textbf{\textcolor{white}{Michal Chovanec, PhD.}}}}
 
 
 \begin{document}    
@@ -85,10 +85,29 @@
   }
 }
 
+\title{
+  \vspace*{3cm} % adjust vertical spacing
+  \colorbox{black}{
+    \parbox{\textwidth}{
+      \centering
+      \Huge\bfseries\textcolor{white}{Hands-On Control and Algorithms for Robots}
+    }
+  }
+  \\[1.5cm]
+  \colorbox{black}{
+    \parbox{0.6\textwidth}{
+      \centering
+      \Large\bfseries\textcolor{white}{Michal Chovanec, PhD.}
+    }
+  }
+}
+\date{}
 \maketitle
 \ClearShipoutPictureBG % <-- remove background for subsequent pages
 
-\include{capturing_dynamics} 
+\include{robot_modelling}
+\include{capturing_dynamics}
+\include{system_identification} 
 \include{mpc}   
 
 \end{document}

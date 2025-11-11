@@ -1,0 +1,247 @@
+\chapter{Robot Construction}
+
+\subsection{Hardware}
+
+some HW examples, schematic, photos
+
+\subsection{Sensors}
+
+sensor chosing
+
+\subsection{Motors}
+
+drivers, motor chosing, DC, BLDC
+
+\subsection{Robot Modelling}
+
+The first step in controlling a robot is to understand its mathematical model.  
+Every movement of a robot—at every tiny time step—is governed by its equations of motion.  
+As a simple yet powerful example, let us consider a \textbf{two-wheel differential drive robot}.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/robot/robot-differential_drive.png}
+    \caption{Differential drive robot geometry and notation.}
+    \label{fig:differential_drive_robot}
+\end{figure}
+
+Figure~\ref{fig:differential_drive_robot} shows a schematic of such a robot.  
+The center of the robot is denoted by $O$, and the distance between the two driving wheels is $L$ [m].  
+Each wheel produces a linear velocity, denoted $v_l$ and $v_r$ [m/s] for the left and right wheel respectively.  
+If the wheels are rotating with angular velocities $\omega_l$ and $\omega_r$ [rad/s],  
+then the corresponding linear velocities can be expressed as
+
+\[
+v_l = \omega_l r, \quad v_r = \omega_r r,
+\]
+where $r$ [m] is the wheel radius.
+
+In practical robotics, motor speed is often measured in revolutions per minute (rpm).  
+The relationship between angular velocity in radians per second and rpm is given by
+
+\[
+\omega = rpm \cdot \frac{2\pi}{60}.
+\]
+
+Knowing the individual wheel velocities, we can express the \textbf{robot's linear velocity} $v$ as the average of both wheels:
+
+\[
+v = \frac{1}{2}(v_l + v_r).
+\]
+
+The corresponding \textbf{linear displacement} $d$ [m] evolves over time as
+
+\[
+\frac{d d}{d t} = v.
+\]
+
+Similarly, the \textbf{robot's angular rate} $\omega$ [rad/s] and \textbf{orientation angle} $\theta$ [rad] are related by
+
+\[
+\omega = \frac{v_r - v_l}{L}, \quad \frac{d\theta}{dt} = \omega.
+\]
+
+These two variables — linear and angular velocities — fully describe the planar motion of a differential drive robot.
+
+
+\textbf{Control Inputs}
+
+In practice, the control inputs to the robot are the individual motor commands,  
+denoted $u_{\text{left}}$ and $u_{\text{right}}$.  
+However, it is often more convenient to work with combined control variables:
+the \textbf{linear velocity command} $u_v$ and the \textbf{angular velocity command} $u_{\omega}$, defined as
+
+\begin{align}
+u_{\text{left}}  &= u_v - u_{\omega}, \nonumber \\
+u_{\text{right}} &= u_v + u_{\omega}.
+\end{align}
+
+This formulation allows independent control of forward motion and rotation,  
+which greatly simplifies controller design and enables linear control strategies.
+
+
+
+\textbf{Instantaneous Center of Rotation (ICR)}
+
+In the diagram, point $C$ represents the \textbf{instantaneous center of rotation (ICR)}.  
+This point lies on the axis connecting the two wheels,  
+and its distance from the robot’s center $O$ depends on the ratio between left and right wheel velocities.
+
+The distance $D$ from $O$ to the ICR is given by
+
+\[
+D = \frac{L}{2} \cdot \frac{v_l + v_r}{v_r - v_l}.
+\]
+
+When both wheels move at the same speed ($v_l = v_r$), the denominator becomes zero,  
+and thus $D \to \infty$ — which corresponds to straight-line motion.
+
+
+
+\subsection{Motion Formalism}
+
+The \textbf{state-space model} is commonly used to describe how a robot's trajectory evolves over time.  
+A physical system can be represented by a continuous-time state-space model, where the state is expressed as $x(t)$.  
+However, for our purposes — particularly for controller implementation in digital systems — a \textbf{discrete-time model} is more convenient, denoted as $x(n)$.
+
+
+For a very simple case, such as a slowly moving robot with negligible inertia, the state can be represented using only two quantities:  
+the \textbf{linear displacement} $d$ [m] and the \textbf{orientation angle} $\theta$ [rad]:
+
+\begin{align}
+    x(n) &= 
+    \begin{bmatrix} 
+        d(n) \\[4pt] 
+        \theta(n)
+    \end{bmatrix}.
+\end{align}
+
+However, a real robot — especially one that moves quickly or has non-negligible inertia — cannot be accurately modeled in this minimal form.  
+When the motors are turned off, the robot does not stop instantaneously due to its momentum.  
+To capture this physical behavior, we extend the state vector by including the \textbf{robot's linear velocity} $v$ [m/s]  
+and the \textbf{robot's angular rate} $\omega$ [rad/s], leading to the following definition:
+
+\begin{align}
+    x(n) &= 
+    \begin{bmatrix} 
+        d(n) \\[4pt] 
+        \theta(n) \\[4pt] 
+        v(n) \\[4pt] 
+        \omega(n)
+    \end{bmatrix}.
+\end{align}
+
+
+In a similar way, we define the \textbf{control input vector} $u(n)$ as:
+
+\begin{align}
+    u(n) &= 
+    \begin{bmatrix} 
+        u_v(n) \\[4pt] 
+        u_{\omega}(n)
+    \end{bmatrix},
+    \label{eq:robot_input}
+\end{align}
+
+where $u_v$ and $u_{\omega}$ represent the commanded linear and angular control inputs, respectively.  
+In this book, we assume that
+
+\begin{align}
+    \textcolor{red}{u \text{ is unit-less, in the range } \langle -1, 1 \rangle,}
+\end{align}
+
+meaning that these commands are normalized.  
+They can later be mapped to real-world actuator quantities — for example, motor RPM, PWM duty cycle, or desired wheel velocity — depending on the specific hardware configuration.
+
+Let us now describe the relationship between the robot's state $x$ and control input $u$,  
+starting with a simplified (inertia-free) model that does not include velocity terms:
+
+\begin{align}
+    d(n+1) &= d(n) + b_0 \, u_v(n), \nonumber \\
+    \theta(n+1) &= \theta(n) + b_1 \, u_{\omega}(n).
+    \label{eq:simple_dynamics}
+\end{align}
+
+These two equations are completely independent:  
+the first describes how the robot's position changes,  
+while the second describes how its orientation evolves.  
+The constant $b_0$ expresses how strongly the linear control $u_v$ affects forward motion —  
+it depends on motor speed, wheel diameter, and control step length.  
+Similarly, $b_1$ expresses how efficiently the robot turns —  
+it depends on the same motor characteristics and the wheelbase $L$.  
+
+\textbf{Higher motor speed or larger wheel radius} increases $b_0$,  
+while a \textbf{larger wheelbase} decreases $b_1$ because the robot must rotate more slowly for the same wheel speed difference.
+
+
+\textbf{Practical estimation of $b_0$ and $b_1$:}
+
+If we know the maximum wheel speed at full control input $u = 1$, denoted $RPM_{\text{max}}$,  
+and the wheel radius $r$ [m], along with the control sampling period $\Delta T$ [s],  
+we can estimate the corresponding maximum linear and angular velocities as:
+
+\begin{align}
+    v_{\text{max}} &= 2\pi \frac{RPM_{\text{max}} \, r}{60}, \nonumber \\[4pt]
+    \omega_{\text{max}} &= 4\pi \frac{RPM_{\text{max}} \, r}{60L}.
+\end{align}
+
+From these relations, we can approximate the discrete-time model parameters as:
+
+\begin{align}
+    b_0 &= v_{\text{max}} \, \Delta T, \nonumber \\[4pt]
+    b_1 &= \omega_{\text{max}} \, \Delta T.
+\end{align}
+
+This allows us to estimate a simple, inertia-free model directly from basic geometric parameters and motor specifications.  
+Although this model is only approximate, it works well for low-speed motion or when a rough dynamic approximation is sufficient.
+
+
+\textbf{Matrix form of the state-space model:}
+
+In conventional control theory, the discrete-time state-space model is expressed compactly as:
+
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+Rewriting the simplified dynamics from Eq.~\ref{eq:simple_dynamics} in this formalism yields:
+
+\begin{align}   
+    \begin{bmatrix} 
+        d(n+1) \\[4pt] 
+        \theta(n+1)
+    \end{bmatrix} &=
+    \underbrace{\begin{bmatrix} 
+        1 & 0\\[4pt] 
+        0 & 1
+    \end{bmatrix}}_{A}
+    \begin{bmatrix} 
+        d(n) \\[4pt] 
+        \theta(n)
+    \end{bmatrix}
+    +
+    \underbrace{\begin{bmatrix} 
+        b_0 & 0 \\[4pt] 
+        0   & b_1
+    \end{bmatrix}}_{B}
+    \begin{bmatrix} 
+        u_v(n) \\[4pt] 
+        u_{\omega}(n)
+    \end{bmatrix}.
+\end{align}
+
+
+\textbf{Commentary:}
+
+This simple kinematic model forms the foundation of robot motion control.  
+Although it ignores acceleration dynamics, wheel slip, and mechanical delays,  
+it is extremely useful for initial controller design, algorithm prototyping, and understanding how inputs affect motion.  
+In later chapters, we will extend this formulation to include velocity dynamics, actuator limitations, and state estimation,  
+which together lead to more realistic and robust control architectures.
+The more details how state space models works can be found in chapter the \textbf{Capturing dynamics}.
+
+
+
+
+\subsection{Creating simulator}
