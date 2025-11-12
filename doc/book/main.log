@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  11 NOV 2025 21:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.11.7)  12 NOV 2025 09:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -748,8 +748,8 @@ Package: memhfixc 2025/03/06 v1.23 hyperref package fixes for memoir class
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
-(./main.aux (./robot_modelling.aux) (./capturing_dynamics.aux)
-(./system_identification.aux) (./mpc.aux))
+(./main.aux (./robot_construction.aux) (./robot_modelling.aux)
+(./capturing_dynamics.aux) (./system_identification.aux) (./mpc.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
@@ -859,7 +859,7 @@ LaTeX Warning: No \author given.
 
 
 
-<../images/illustrations/cover_4.jpg, id=64, 2168.1pt x 3854.4pt>
+<../images/illustrations/cover_4.jpg, id=68, 2168.1pt x 3854.4pt>
 File: ../images/illustrations/cover_4.jpg Graphic file (type jpg)
 <use ../images/illustrations/cover_4.jpg>
 Package pdftex.def Info: ../images/illustrations/cover_4.jpg  used on input lin
@@ -870,44 +870,54 @@ e 108.
 {/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
 al/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc} <../images/illustratio
 ns/cover_4.jpg>]
-\openout2 = `robot_modelling.aux'.
+\openout2 = `robot_construction.aux'.
 
- (./robot_modelling.tex
-<../diagrams/robot/robot-differential_drive.png, id=72, 295.5843pt x 199.4652pt
->
-File: ../diagrams/robot/robot-differential_drive.png Graphic file (type png)
-<use ../diagrams/robot/robot-differential_drive.png>
-Package pdftex.def Info: ../diagrams/robot/robot-differential_drive.png  used o
-n input line 24.
-(pdftex.def)             Requested size: 236.46776pt x 159.57237pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 30.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 30.
-
+ (./robot_construction.tex)
 
 [2
 
 
-{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+]
+\openout2 = `robot_modelling.aux'.
 
-[3{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/
-texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc} <../diagrams/robot/ro
-bot-differential_drive.png>]
+ (./robot_modelling.tex
+<../diagrams/robot/robot-differential_drive.png, id=83, 295.5843pt x 199.4652pt
+>
+File: ../diagrams/robot/robot-differential_drive.png Graphic file (type png)
+<use ../diagrams/robot/robot-differential_drive.png>
+Package pdftex.def Info: ../diagrams/robot/robot-differential_drive.png  used o
+n input line 10.
+(pdftex.def)             Requested size: 236.46776pt x 159.57237pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 16.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 16.
 
-[4]
-Overfull \hbox (3.46672pt too wide) in paragraph at lines 154--156
+
+[3
+
+
+
+
+{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc} <../diagr
+ams/robot/robot-differential_drive.png>]
+
+[4{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/
+texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
+
+[5{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+Overfull \hbox (3.46672pt too wide) in paragraph at lines 140--142
 []\T1/lmr/m/n/12 meaning that these com-mands are nor-mal-ized. They can later 
 be mapped
  []
 
 
 
-[5{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
+[6]
 
-[6])
+[7])
 
-[7]
+[8]
 \openout2 = `capturing_dynamics.aux'.
 
  (./capturing_dynamics.tex
@@ -918,15 +928,15 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 9
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
-[8
+[9
 
 
 
 
 {/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}]
 
-[9]
-<../diagrams/control_generic/control_generic-discrete_dynamics.png, id=150, 405
+[10]
+<../diagrams/control_generic/control_generic-discrete_dynamics.png, id=157, 405
 .4347pt x 151.767pt>
 File: ../diagrams/control_generic/control_generic-discrete_dynamics.png Graphic
  file (type png)
@@ -936,7 +946,7 @@ ynamics.png  used on input line 122.
 (pdftex.def)             Requested size: 243.26268pt x 91.06088pt.
 
 
-[10 <../diagrams/control_generic/control_generic-discrete_dynamics.png>]
+[11 <../diagrams/control_generic/control_generic-discrete_dynamics.png>]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
 61.
 
@@ -947,12 +957,12 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 162.
 
 
-[11]
-
 [12]
 
 [13]
-<../images/plots/first_order_example.png, id=237, 661.2705pt x 477.7047pt>
+
+[14]
+<../images/plots/first_order_example.png, id=244, 661.2705pt x 477.7047pt>
 File: ../images/plots/first_order_example.png Graphic file (type png)
 <use ../images/plots/first_order_example.png>
 Package pdftex.def Info: ../images/plots/first_order_example.png  used on input
@@ -965,15 +975,15 @@ Overfull \hbox (13.76535pt too wide) in paragraph at lines 341--342
 
 
 
-[14]
+[15]
 
-[15 <../images/plots/first_order_example.png>]
+[16 <../images/plots/first_order_example.png>]
 Overfull \hbox (6.88992pt too wide) in paragraph at lines 381--382
 []\T1/lmr/m/n/12 The con-trol loop hard-ware con-sists of a mo-tor driver (H-br
 idge DRV8212),
  []
 
-<../diagrams/control_generic/control_generic-motor_control_photo.png, id=291, 2
+<../diagrams/control_generic/control_generic-motor_control_photo.png, id=298, 2
 89.08pt x 202.356pt>
 File: ../diagrams/control_generic/control_generic-motor_control_photo.png Graph
 ic file (type png)
@@ -981,7 +991,7 @@ ic file (type png)
 Package pdftex.def Info: ../diagrams/control_generic/control_generic-motor_cont
 rol_photo.png  used on input line 385.
 (pdftex.def)             Requested size: 231.2643pt x 161.88501pt.
-<../diagrams/identification/identification.png, id=292, 452.4102pt x 333.1647pt
+<../diagrams/identification/identification.png, id=299, 452.4102pt x 333.1647pt
 >
 File: ../diagrams/identification/identification.png Graphic file (type png)
 <use ../diagrams/identification/identification.png>
@@ -990,17 +1000,17 @@ Package pdftex.def Info: ../diagrams/identification/identification.png  used on
 (pdftex.def)             Requested size: 271.44821pt x 199.90036pt.
 
 
-[16 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
+[17 <../diagrams/control_generic/control_generic-motor_control_photo.png>]
 
-[17 <../diagrams/identification/identification.png>]
-<../images/motor_control/motor_step_response.png, id=308, 570.933pt x 137.313pt
+[18 <../diagrams/identification/identification.png>]
+<../images/motor_control/motor_step_response.png, id=315, 570.933pt x 137.313pt
 >
 File: ../images/motor_control/motor_step_response.png Graphic file (type png)
 <use ../images/motor_control/motor_step_response.png>
 Package pdftex.def Info: ../images/motor_control/motor_step_response.png  used 
 on input line 429.
 (pdftex.def)             Requested size: 342.56244pt x 82.38843pt.
-<../images/motor_control/motor_constant_estimation.png, id=309, 392.4261pt x 29
+<../images/motor_control/motor_constant_estimation.png, id=316, 392.4261pt x 29
 8.4751pt>
 File: ../images/motor_control/motor_constant_estimation.png Graphic file (type 
 png)
@@ -1010,10 +1020,10 @@ Package pdftex.def Info: ../images/motor_control/motor_constant_estimation.png
 (pdftex.def)             Requested size: 235.45747pt x 179.08643pt.
 
 
-[18 <../images/motor_control/motor_step_response.png>]
+[19 <../images/motor_control/motor_step_response.png>]
 
-[19 <../images/motor_control/motor_constant_estimation.png>]
-<../images/motor_control/motor_time_constant_estimation.png, id=366, 394.5942pt
+[20 <../images/motor_control/motor_constant_estimation.png>]
+<../images/motor_control/motor_time_constant_estimation.png, id=373, 394.5942pt
  x 298.4751pt>
 File: ../images/motor_control/motor_time_constant_estimation.png Graphic file (
 type png)
@@ -1023,7 +1033,7 @@ Package pdftex.def Info: ../images/motor_control/motor_time_constant_estimation
 (pdftex.def)             Requested size: 236.75833pt x 179.08643pt.
 
 
-[20]
+[21]
 Overfull \hbox (11.18236pt too wide) in paragraph at lines 559--560
 []\T1/lmtt/m/n/12 motor_control.set_right_torque(float x) \T1/lmr/m/n/12 ^^V se
 ts the PWM torque
@@ -1031,7 +1041,7 @@ ts the PWM torque
 
 
 
-[21 <../images/motor_control/motor_time_constant_estimation.png>]
+[22 <../images/motor_control/motor_time_constant_estimation.png>]
 (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
@@ -1042,18 +1052,18 @@ File: lstlang1.sty 2024/09/23 1.10c listings language file
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 )
 
-[22]
-
 [23]
 
-[24])
+[24]
 
-[25]
+[25])
+
+[26]
 \openout2 = `system_identification.aux'.
 
  (./system_identification.tex)
 
-[26
+[27
 
 
 
@@ -1063,13 +1073,13 @@ File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 
  (./mpc.tex
 
-[27
+[28
 
 
 
 
 ]
-<../diagrams/mpc/mpc-robot_tracking.png, id=538, 615.7404pt x 346.896pt>
+<../diagrams/mpc/mpc-robot_tracking.png, id=545, 615.7404pt x 346.896pt>
 File: ../diagrams/mpc/mpc-robot_tracking.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-robot_tracking.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-robot_tracking.png  used on input 
@@ -1080,7 +1090,7 @@ Overfull \hbox (109.59299pt too wide) in paragraph at lines 27--28
  [][] 
  []
 
-<../diagrams/mpc/mpc-mpc_overview_2.png, id=539, 506.6127pt x 205.9695pt>
+<../diagrams/mpc/mpc-mpc_overview_2.png, id=546, 506.6127pt x 205.9695pt>
 File: ../diagrams/mpc/mpc-mpc_overview_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_overview_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_overview_2.png  used on input 
@@ -1093,9 +1103,9 @@ Overfull \hbox (22.2907pt too wide) in paragraph at lines 35--36
 
 
 
-[28 <../diagrams/mpc/mpc-robot_tracking.png>]
+[29 <../diagrams/mpc/mpc-robot_tracking.png>]
 
-[29 <../diagrams/mpc/mpc-mpc_overview_2.png>]
+[30 <../diagrams/mpc/mpc-mpc_overview_2.png>]
 Overfull \hbox (0.11948pt too wide) in paragraph at lines 112--113
 []\T1/lmr/m/n/12 The weight-ing ma-tri-ces $[]$ and $[]$ are block-diagonal ma-
 tri-ces con-structed
@@ -1103,12 +1113,12 @@ tri-ces con-structed
 
 
 
-[30]
+[31]
 Overfull \hbox (48.34099pt too wide) detected at line 166
 []
  []
 
-<../diagrams/mpc/mpc-mpc_exp_0.png, id=563, 484.209pt x 254.3904pt>
+<../diagrams/mpc/mpc-mpc_exp_0.png, id=571, 484.209pt x 254.3904pt>
 File: ../diagrams/mpc/mpc-mpc_exp_0.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_0.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_0.png  used on input line 
@@ -1121,10 +1131,10 @@ Overfull \hbox (4.36772pt too wide) in paragraph at lines 203--204
 
 
 
-[31]
+[32]
 
-[32 <../diagrams/mpc/mpc-mpc_exp_0.png>]
-<../diagrams/mpc/mpc-mpc_exp_1.png, id=579, 424.9476pt x 204.5241pt>
+[33 <../diagrams/mpc/mpc-mpc_exp_0.png>]
+<../diagrams/mpc/mpc-mpc_exp_1.png, id=586, 424.9476pt x 204.5241pt>
 File: ../diagrams/mpc/mpc-mpc_exp_1.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_1.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line 
@@ -1132,8 +1142,8 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_1.png  used on input line
 (pdftex.def)             Requested size: 339.95853pt x 163.61948pt.
 
 
-[33 <../diagrams/mpc/mpc-mpc_exp_1.png>]
-<../diagrams/mpc/mpc-mpc_exp_2.png, id=586, 424.9476pt x 238.491pt>
+[34 <../diagrams/mpc/mpc-mpc_exp_1.png>]
+<../diagrams/mpc/mpc-mpc_exp_2.png, id=593, 424.9476pt x 238.491pt>
 File: ../diagrams/mpc/mpc-mpc_exp_2.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_exp_2.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line 
@@ -1141,12 +1151,12 @@ Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_exp_2.png  used on input line
 (pdftex.def)             Requested size: 339.95853pt x 190.79305pt.
 
 
-[34 <../diagrams/mpc/mpc-mpc_exp_2.png>]
-
-[35]
+[35 <../diagrams/mpc/mpc-mpc_exp_2.png>]
 
 [36]
-<../diagrams/mpc/mpc-mpc_algo.png, id=607, 521.0667pt x 353.4003pt>
+
+[37]
+<../diagrams/mpc/mpc-mpc_algo.png, id=616, 521.0667pt x 353.4003pt>
 File: ../diagrams/mpc/mpc-mpc_algo.png Graphic file (type png)
 <use ../diagrams/mpc/mpc-mpc_algo.png>
 Package pdftex.def Info: ../diagrams/mpc/mpc-mpc_algo.png  used on input line 3
@@ -1159,16 +1169,16 @@ Overfull \hbox (33.85391pt too wide) in paragraph at lines 383--384
 
 
 
-[37]
+[38]
 
-[38 <../diagrams/mpc/mpc-mpc_algo.png>]
+[39 <../diagrams/mpc/mpc-mpc_algo.png>]
 
-[39
+[40
 
 ]
 
-[40]
-<../diagrams/examples/examples-trajectory.png, id=712, 311.4837pt x 245.718pt>
+[41]
+<../diagrams/examples/examples-trajectory.png, id=719, 311.4837pt x 245.718pt>
 File: ../diagrams/examples/examples-trajectory.png Graphic file (type png)
 <use ../diagrams/examples/examples-trajectory.png>
 Package pdftex.def Info: ../diagrams/examples/examples-trajectory.png  used on 
@@ -1176,12 +1186,12 @@ input line 493.
 (pdftex.def)             Requested size: 218.0371pt x 172.00142pt.
 
 
-[41 <../diagrams/examples/examples-trajectory.png>]
+[42 <../diagrams/examples/examples-trajectory.png>]
 Overfull \hbox (19.00627pt too wide) detected at line 556
 []
  []
 
-<../diagrams/examples/examples-mpc_synthesis.png, id=721, 477.7047pt x 383.7537
+<../diagrams/examples/examples-mpc_synthesis.png, id=728, 477.7047pt x 383.7537
 pt>
 File: ../diagrams/examples/examples-mpc_synthesis.png Graphic file (type png)
 <use ../diagrams/examples/examples-mpc_synthesis.png>
@@ -1190,10 +1200,10 @@ on input line 566.
 (pdftex.def)             Requested size: 334.391pt x 268.62575pt.
 
 
-[42]
+[43]
 
-[43 <../diagrams/examples/examples-mpc_synthesis.png>]
-<../images/mpc/mpc_plots-lqr.png, id=741, 375.804pt x 354.123pt>
+[44 <../diagrams/examples/examples-mpc_synthesis.png>]
+<../images/mpc/mpc_plots-lqr.png, id=748, 375.804pt x 354.123pt>
 File: ../images/mpc/mpc_plots-lqr.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-lqr.png>
 Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 61
@@ -1201,8 +1211,8 @@ Package pdftex.def Info: ../images/mpc/mpc_plots-lqr.png  used on input line 61
 (pdftex.def)             Requested size: 263.061pt x 247.8844pt.
 
 
-[44 <../images/mpc/mpc_plots-lqr.png>]
-<../images/mpc/mpc_plots-mpc.png, id=749, 375.804pt x 368.577pt>
+[45 <../images/mpc/mpc_plots-lqr.png>]
+<../images/mpc/mpc_plots-mpc.png, id=756, 375.804pt x 368.577pt>
 File: ../images/mpc/mpc_plots-mpc.png Graphic file (type png)
 <use ../images/mpc/mpc_plots-mpc.png>
 Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 63
@@ -1210,22 +1220,22 @@ Package pdftex.def Info: ../images/mpc/mpc_plots-mpc.png  used on input line 63
 (pdftex.def)             Requested size: 263.061pt x 258.00212pt.
 
 
-[45 <../images/mpc/mpc_plots-mpc.png>])
+[46 <../images/mpc/mpc_plots-mpc.png>])
 
-[46] (./main.aux (./robot_modelling.aux) (./capturing_dynamics.aux)
-(./system_identification.aux) (./mpc.aux))
+[47] (./main.aux (./robot_construction.aux) (./robot_modelling.aux)
+(./capturing_dynamics.aux) (./system_identification.aux) (./mpc.aux))
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F5DB5D49525D9DF52F82DA276DD2DF87;2438.
+(rerunfilecheck)             Checksum: 40340B4C9C5244C43CE2F852EFEC033F;2560.
  ) 
 Here is how much of TeX's memory you used:
- 18772 strings out of 473190
- 293788 string characters out of 5715800
+ 18799 strings out of 473190
+ 294626 string characters out of 5715800
  1110611 words of memory out of 5000000
- 41262 multiletter control sequences out of 15000+600000
+ 41281 multiletter control sequences out of 15000+600000
  644491 words of font info for 97 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  85i,20n,93p,397b,2079s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1242,10 +1252,10 @@ xlive/2025/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2025
 /fonts/type1/public/lm/lmtt12.pfb></usr/local/texlive/2025/texmf-dist/fonts/typ
 e1/public/lm/lmtt8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/a
 msfonts/symbols/msbm10.pfb>
-Output written on main.pdf (46 pages, 3672478 bytes).
+Output written on main.pdf (47 pages, 3672846 bytes).
 PDF statistics:
- 936 PDF objects out of 1000 (max. 8388607)
- 811 compressed objects within 9 object streams
- 485 named destinations out of 1000 (max. 500000)
- 216 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 943 PDF objects out of 1000 (max. 8388607)
+ 817 compressed objects within 9 object streams
+ 486 named destinations out of 1000 (max. 500000)
+ 224 words of extra memory for PDF output out of 10000 (max. 10000000)
 
