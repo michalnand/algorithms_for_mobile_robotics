@@ -170,6 +170,7 @@ we can estimate the corresponding maximum linear and angular velocities as:
 \begin{align}
     v_{\text{max}} &= 2\pi \frac{RPM_{\text{max}} \, r}{60}, \nonumber \\[4pt]
     \omega_{\text{max}} &= 4\pi \frac{RPM_{\text{max}} \, r}{60L}.
+    \label{eq:v_omega_params_est}
 \end{align}
 
 From these relations, we can approximate the discrete-time model parameters as:
@@ -177,6 +178,7 @@ From these relations, we can approximate the discrete-time model parameters as:
 \begin{align}
     b_0 &= v_{\text{max}} \, \Delta T, \nonumber \\[4pt]
     b_1 &= \omega_{\text{max}} \, \Delta T.
+    \label{eq:b_params_est}
 \end{align}
 
 This allows us to estimate a simple, inertia-free model directly from basic geometric parameters and motor specifications.  
@@ -230,4 +232,290 @@ The more details how state space models works can be found in chapter the \textb
 
 
 
-\subsection{Creating simulator}
+\subsection{Creating a Simulator}
+
+We start by implementing a robot class that handles the robot dynamics.  
+The implementation is intentionally simple, using the \textbf{NumPy} library for matrix operations.  
+This choice allows us to later describe more complex dynamics (e.g., with inertia or slip effects)  
+without changing the underlying mathematical framework.
+
+The constructor of the \textbf{class DifferentialDriveModel} is defined as:
+
+\begin{lstlisting}[style=python_style]
+def __init__(self, b0, b1, width, height)
+\end{lstlisting}
+
+This constructor receives the parameters describing robot dynamics ($b_0$, $b_1$)  
+and the robot’s physical dimensions (\texttt{width}, \texttt{height}), useful for visualization purposes.
+
+By calling:
+
+\begin{lstlisting}[style=python_style]
+def reset(self, initial_x, initial_y, initial_theta)
+\end{lstlisting}
+
+we can reset the robot’s state vector and bring it to the desired initial position and orientation.
+
+The main function, which is called repeatedly in the simulation loop, is:
+
+\begin{lstlisting}[style=python_style]
+def step(self, u)
+\end{lstlisting}
+
+It accepts a control input vector $u$ and returns the current state dictionary:
+
+\begin{lstlisting}[style=python_style]
+self.robot_state = {}
+self.robot_state["width"]  = self.width
+self.robot_state["height"] = self.height
+
+self.robot_state["x"]     = self.x
+self.robot_state["x_pos"] = self.x_pos
+self.robot_state["y_pos"] = self.y_pos
+self.robot_state["theta"] = theta
+\end{lstlisting}
+
+---
+
+The remaining question is:  
+\textbf{How do we convert the internal robot state $(d, \theta)$ into Cartesian coordinates $(x_{pos}, y_{pos})$?}
+
+The robot’s state space $(d, \theta)$ is convenient for control and dynamics modeling,  
+but it does not directly tell us where the robot is located in the plane.  
+We therefore need a geometric transformation.
+
+At each discrete time step, the robot travels a distance increment:
+
+\[
+d_{pos}(n) = d(n+1) - d(n),
+\]
+
+and its current heading (orientation in the global frame) is $\theta(n)$.  
+Thus, the displacement in Cartesian coordinates can be computed as:
+
+\begin{align*}
+    d_x(n) &= d_{pos}(n) \cos(\theta(n)), \\
+    d_y(n) &= d_{pos}(n) \sin(\theta(n)).
+\end{align*}
+
+\textbf{Why this works:}  
+The robot’s forward motion always occurs along its heading direction $\theta$.  
+By decomposing the traveled distance $d_{pos}$ into its projections on the global $x$ and $y$ axes  
+(using the cosine and sine of $\theta$), we obtain the actual movement in Cartesian space.  
+This is a standard transformation between the robot’s local frame and the world frame.
+
+Integrating (in discrete simulation simply summing) these increments gives the full global position:
+
+\begin{align}
+    d_{pos}(n) &= d(n+1) - d(n),         \nonumber \\
+    d_x(n) &= d_{pos}(n) \cos(\theta(n)), \nonumber \\
+    d_y(n) &= d_{pos}(n) \sin(\theta(n)), \nonumber \\
+    x_{pos}(n+1) &= x_{pos}(n) + d_x(n),  \nonumber \\
+    y_{pos}(n+1) &= y_{pos}(n) + d_y(n).  \label{eq:cartesian_update}
+\end{align}
+
+Here, $d$ and $\theta$ are taken from the robot state vector $x$.  
+This approach lets us keep a simple linear state-space model for control purposes,  
+while still maintaining accurate global position information for visualization, mapping, and collision detection.
+
+
+\newpage
+The complete Python implementation of the robot model is shown below:
+
+\begin{lstlisting}[style=python_style]
+import numpy
+
+class DifferentialDriveModel:
+    def __init__(self, b0, b1, width, height):
+        self.A = numpy.array([[1, 0],
+                              [0, 1]])
+        self.B = numpy.array([[b0, 0],
+                              [0, b1]])
+        self.width  = width
+        self.height = height
+
+        self.reset(0, 0, 0)
+        
+    def reset(self, initial_x, initial_y, initial_theta):
+        # Initialize state [d, theta]
+        self.x = numpy.zeros((2, 1))
+        self.x[1, 0] = initial_theta
+        self.x_pos = initial_x
+        self.y_pos = initial_y
+
+        self.step(numpy.zeros((2, 1)))
+
+    def step(self, u):
+        # Discrete-time dynamics update
+        x_new = self.A @ self.x + self.B @ u
+
+        # Calculate position increment in Cartesian coordinates
+        dpos  = x_new[0, 0] - self.x[0, 0]
+        theta = self.x[1, 0]
+
+        dx = dpos * numpy.cos(theta)
+        dy = dpos * numpy.sin(theta)
+
+        # Update global position
+        self.x_pos += dx
+        self.y_pos += dy
+
+        # Update internal state
+        self.x = numpy.array(x_new)
+
+        # Fill result values
+        self.robot_state = {
+            "width":  self.width,
+            "height": self.height,
+            "x":      self.x,
+            "x_pos":  self.x_pos,
+            "y_pos":  self.y_pos,
+            "theta":  theta
+        }
+
+        return self.robot_state
+    
+    def get_state(self):
+        return self.robot_state
+\end{lstlisting}
+
+---
+
+Every model must be tested.  
+It is always good practice to choose \textbf{non-trivial parameters} to avoid errors that are hidden by “nice” numbers.  
+Here we define robot dynamics, the simulation time step, motor parameters, and robot dimensions.
+
+From the equations for maximum velocities (Eq.~\ref{eq:v_omega_params_est})  
+and the parameter estimation (Eq.~\ref{eq:b_params_est}),  
+we compute $b_0$ and $b_1$ and pass them into the robot model:
+
+\begin{lstlisting}[style=python_style]
+# Input parameters
+dt      = 0.001         # time step [s]
+r_wheel = 15.0 * 0.001  # wheel radius [m]
+l_wheels= 95.0 * 0.001  # wheel separation [m]
+rpm_max = 750           # maximum motor speed [RPM]
+
+width   = 2 * l_wheels
+height  = l_wheels
+
+v_max = 2.0 * numpy.pi * rpm_max * r_wheel / 60.0
+w_max = 4.0 * numpy.pi * rpm_max * r_wheel / (60.0 * l_wheels)
+
+b0 = v_max * dt
+b1 = w_max * dt   
+
+# Initialize robot
+robot = DifferentialDriveModel(b0, b1, width, height)
+robot.reset(0, 0, 0)
+\end{lstlisting}
+
+---
+
+Now, let the robot follow an \textbf{equilateral triangular trajectory}.  
+This is a better test than a square path because 90-degree turns are a special case —  
+they only affect one Cartesian coordinate at a time,  
+while 120-degree turns give a more general motion pattern.
+
+We define two possible control inputs:
+\begin{itemize}
+    \item Full-speed forward motion: $u = (1, 0)$
+    \item In-place rotation: $u = (0, 1)$
+\end{itemize}
+
+To move along the triangle sides, we must compute how many simulation steps correspond to  
+a 1-meter straight motion and a 120° turn (converted to radians):
+
+\begin{lstlisting}[style=python_style]
+n_steps_forward = round(1.0 / (v_max * dt))
+angle = 120.0 * numpy.pi / 180.0
+n_steps_turn = round(angle / (w_max * dt))
+\end{lstlisting}
+
+We now execute three segments of motion (forward 1 m, turn 120°) to complete the triangle,  
+recording the robot’s positions for later plotting:
+
+\begin{lstlisting}[style=python_style]
+x_pos = []
+y_pos = []
+
+for j in range(3):
+    # move robot for 1m distance
+    for n in range(n_steps_forward):
+        u = numpy.array([[1.0],[0.0]])
+
+        state = robot.step(u)
+
+        x_pos.append(state["x_pos"])
+        y_pos.append(state["y_pos"])
+
+    # turn robot at 120 degrees
+    for n in range(n_steps_turn):
+        u = numpy.array([[0.0],[1.0]])
+
+        state = robot.step(u)
+
+        x_pos.append(state["x_pos"])
+        y_pos.append(state["y_pos"])
+
+print("terminal state")
+print("x_pos = ", round(state["x_pos"], 4))
+print("y_pos = ", round(state["y_pos"], 4))
+print("theta = ", round(state["theta"]*180.0/numpy.pi, 4))
+\end{lstlisting}
+
+At the end, the robot should return to approximately the same starting point,  
+with its orientation close to zero (modulo $360^\circ$).  
+In the test output, we observe:
+
+\begin{lstlisting}[style=terminal_style]
+terminal state
+x_pos =  -0.0094
+y_pos =   0.0167
+theta =  356.6842
+\end{lstlisting}
+
+\textbf{Explanation:}  
+This small offset from the starting position is caused by \textbf{numerical integration error} due to discretization.  
+Because the simulation uses a finite time step $\Delta T = 1$ ms,  
+the continuous motion is approximated by small discrete jumps.  
+Such integration errors accumulate over time and cause the trajectory to drift slightly,  
+especially in long simulations or when using small angular increments.
+
+The resulting trajectory plot is shown in Figure~\ref{fig:triangular_trajectory_plot}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.5]{../images/plots/robot_simulation_test.png}
+    \caption{Triangular trajectory plot}
+    \label{fig:triangular_trajectory_plot}
+\end{figure}
+
+If we visualize the trajectory history (e.g., using OpenCV),  
+we can see how the position gradually drifts — a natural effect of discrete simulation and rounding errors,  
+as illustrated in Figure~\ref{fig:simulator_visualisation}.  
+The complete implementation including visualization is available at:  
+\href{https://github.com/michalnand/algorithms_for_mobile_robotics/blob/main/examples/robot_simulator_01/}{\texttt{examples/robot\_simulator\_01}}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.5]{../images/screenshots/simulator_test.png}
+    \caption{Simulator visualization}
+    \label{fig:simulator_visualisation}
+\end{figure}
+
+---
+
+\textbf{Summary:}  
+In this section, we created a simple but complete simulation environment for a differential-drive robot.  
+The reader learned how to:
+\begin{itemize}
+    \item Represent the robot dynamics in discrete state-space form.
+    \item Transform robot motion from state variables $(d, \theta)$ into global Cartesian coordinates $(x, y)$.
+    \item Implement and simulate the model in Python using NumPy.
+    \item Test the model on a non-trivial trajectory and interpret integration errors.
+\end{itemize}
+
+Although the model ignores inertia and wheel slip,  
+it provides a solid base for more advanced topics such as velocity control,  
+model predictive control (MPC), and extended state estimation in later chapters.
