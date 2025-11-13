@@ -504,8 +504,67 @@ The complete implementation including visualization is available at:
     \label{fig:simulator_visualisation}
 \end{figure}
 
----
+\textbf{Special cases of motion control}
 
+It is useful to analyze how the robot behaves under specific control inputs.  
+By assigning different values to the control vector $u = [u_v, u_\omega]^T$,  
+we can immediately observe fundamental motion primitives that compose any possible trajectory:
+
+\begin{itemize}
+    \item \textbf{Straight-line motion:} $u = (1, 0)$ \\
+    Both wheels receive identical input, hence they rotate at the same speed.  
+    There is no angular component ($u_\omega = 0$), so the robot’s heading $\theta$ remains constant.  
+    As a result, the robot moves in a straight line in the direction it currently faces.
+
+    \item \textbf{In-place rotation:} $u = (0, 1)$ \\
+    In this case, both wheels rotate in opposite directions with equal magnitude.  
+    This creates a pure rotational motion around the robot’s center point, without any translation.  
+    The linear velocity component is zero ($u_v = 0$), and the heading $\theta$ changes at a constant rate.
+
+    \item \textbf{Circular motion:} $u = (1, 0.1)$ \\
+    Here, both translational and rotational components are active.  
+    The robot moves forward while simultaneously turning with a constant angular rate.  
+    The resulting trajectory is a perfect circle, where the radius of the circle is given by:
+    \[
+        R = \frac{v}{\omega} = \frac{u_v \, v_{\text{max}}}{u_\omega \, \omega_{\text{max}}}.
+    \]
+    The larger the ratio $u_v/u_\omega$, the wider the circle.  
+    When $u_\omega$ is small compared to $u_v$, the robot moves almost straight;  
+    when $u_\omega$ is large, it spins tightly around a small radius.
+\end{itemize}
+
+This elegant behavior results from the \textbf{decoupled control formulation} in which  
+the input vector $u$ directly represents the \emph{linear} and \emph{angular} control actions.  
+Because the left and right motor signals are internally computed as:
+
+\begin{align*}
+    u_{\text{left}}  &= u_v - u_\omega, \\
+    u_{\text{right}} &= u_v + u_\omega,
+\end{align*}
+
+
+
+the two control modes — translation and rotation — are cleanly separated.  
+This makes both mathematical modeling and controller design straightforward,  
+since any arbitrary trajectory can be expressed as a combination of linear motion and circular motion segments.
+
+In fact, \textbf{the entire movement of a differential-drive robot is a continuous composition of these two basic primitives} —  
+straight motion and circular arcs.  
+This geometric interpretation is extremely valuable in higher-level path planning,  
+as it allows complex paths to be represented using simple building blocks such as arcs and lines.
+
+An example of such combined motion is shown in Figure~\ref{fig:simulator_visualisation_2},  
+where the robot follows a smooth circular trajectory as a result of constant-speed turning.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.5]{../images/screenshots/simulator_test_2.png}
+    \caption{Simulator visualization of circular motion}
+    \label{fig:simulator_visualisation_2}
+\end{figure}
+
+
+\newpage
 \textbf{Summary:}  
 In this section, we created a simple but complete simulation environment for a differential-drive robot.  
 The reader learned how to:

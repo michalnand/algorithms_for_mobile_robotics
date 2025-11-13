@@ -68,15 +68,15 @@ if __name__ == "__main__":
     print("theta = ", round(state["theta"]*180.0/numpy.pi, 4))
     
     
-    plt.plot(x_pos, y_pos)
-    plt.show()
+    #plt.plot(x_pos, y_pos)
+    #plt.show()
 
     robot.reset(0.5, 0.5, 0)
     visualisation = Visualisation()
 
     visualisation.add_robot(robot)
 
-
+    '''
     while True:
         # move robot for 1m distance
         for n in range(n_steps_forward):
@@ -102,5 +102,20 @@ if __name__ == "__main__":
 
             if n%10 == 0:
                 visualisation.step()
+    '''
 
-    
+    robot.reset(1, 0.5, 0)
+    while True:
+        # move robot for 1m distance
+        u = numpy.array([
+            [1.0],
+            [0.1]
+        ])
+
+        state = robot.step(u)
+        
+        if n%10 == 0:
+            visualisation.step()
+
+        n+=1
+
