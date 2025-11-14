@@ -286,33 +286,33 @@ We therefore need a geometric transformation.
 
 At each discrete time step, the robot travels a distance increment:
 
-\[
-d_{pos}(n) = d(n+1) - d(n),
+\[  
+\Delta d(n) = d(n+1) - d(n),
 \]
 
 and its current heading (orientation in the global frame) is $\theta(n)$.  
 Thus, the displacement in Cartesian coordinates can be computed as:
 
 \begin{align*}
-    d_x(n) &= d_{pos}(n) \cos(\theta(n)), \\
-    d_y(n) &= d_{pos}(n) \sin(\theta(n)).
+    \Delta x(n) &= \Delta d(n) \cos(\theta(n)), \\
+    \Delta y(n) &= \Delta d(n) \sin(\theta(n)).
 \end{align*}
 
 \textbf{Why this works:}  
 The robot’s forward motion always occurs along its heading direction $\theta$.  
-By decomposing the traveled distance $d_{pos}$ into its projections on the global $x$ and $y$ axes  
+By decomposing the traveled distance $\Delta d$ into its projections on the global $x$ and $y$ axes  
 (using the cosine and sine of $\theta$), we obtain the actual movement in Cartesian space.  
 This is a standard transformation between the robot’s local frame and the world frame.
 
 Integrating (in discrete simulation simply summing) these increments gives the full global position:
 
-\begin{align}
-    d_{pos}(n) &= d(n+1) - d(n),         \nonumber \\
-    d_x(n) &= d_{pos}(n) \cos(\theta(n)), \nonumber \\
-    d_y(n) &= d_{pos}(n) \sin(\theta(n)), \nonumber \\
-    x_{pos}(n+1) &= x_{pos}(n) + d_x(n),  \nonumber \\
-    y_{pos}(n+1) &= y_{pos}(n) + d_y(n).  \label{eq:cartesian_update}
-\end{align}
+\begin{align}   
+    \Delta d(n) &= d(n+1) - d(n),         \nonumber \\
+    \Delta x(n) &= \Delta d(n) \cos(\theta(n)), \nonumber \\
+    \Delta y(n) &= \Delta d(n) \sin(\theta(n)), \nonumber \\
+    x_{pos}(n+1) &= x_{pos}(n) + \Delta x(n),  \nonumber \\
+    y_{pos}(n+1) &= y_{pos}(n) + \Delta y(n).  \label{eq:cartesian_update}
+\end{align} 
 
 Here, $d$ and $\theta$ are taken from the robot state vector $x$.  
 This approach lets us keep a simple linear state-space model for control purposes,  

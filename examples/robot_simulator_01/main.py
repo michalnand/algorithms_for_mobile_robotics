@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
     visualisation.add_robot(robot)
 
-    '''
+    
     while True:
         # move robot for 1m distance
         for n in range(n_steps_forward):
@@ -102,11 +102,11 @@ if __name__ == "__main__":
 
             if n%10 == 0:
                 visualisation.step()
-    '''
+    
 
+    # circle motion example
     robot.reset(1, 0.5, 0)
     while True:
-        # move robot for 1m distance
         u = numpy.array([
             [1.0],
             [0.1]

@@ -1,13 +1,76 @@
 \chapter{Robot Construction}
 
+
 \subsection{Hardware}
 
 some HW examples, schematic, photos
 
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/robot/robot_02.jpg}
+    \caption{Motoko Ice Dragon X robot}
+    \label{fig:line_following_robot}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.075]{../images/robot/robot_03.jpg}
+    \caption{Motoko Ice Dragon X robot}
+    \label{fig:line_following_robot_b}
+\end{figure}
+
+\newpage
 \subsection{Sensors}
 
 sensor chosing
 
+\newpage
 \subsection{Motors}
 
+
+\subsubsection{BLDC motor}
+
+35 turns per pole,
+wire 0.15mm 
+2..3amps
+
 drivers, motor chosing, DC, BLDC
+
+
+The out runner motor (mostly used in drones), can be modified for running wheel 
+directly. In the figure \ref{fig:original_disassembled_motor} is disassembled motor 
+of size 1404 (14mm diameter, 4m stator height).
+Such a small motor for drone is designed for high speed, and low torque, 
+we can see there is only few turns or relative thick wire.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/motors/20241108_101700.jpg}
+    \caption{Original disassembled motor}
+    \label{fig:original_disassembled_motor}
+\end{figure}
+
+This have to be rewinded, orignal number of turns is arround 12 per motor pole. 
+After rewinding with wire of 0.15mm diameters, we can fit 35turns on each motor pole.
+Each phase have 3 poles, in total it is 105turns per phase, vs. original 36. Result can be segments
+in figure \ref{fig:rewinded_motor}.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/motors/20241108_190320.jpg}
+    \caption{Rewinded motor}
+    \label{fig:rewinded_motor}
+\end{figure}
+
+Next step is to add encoder. We will follow best practices, we use diametrically magnetised 
+magnet, and magnetic i2c sensor. The magnet is not glued directly - metal to metal is 
+not strognest, thefore tiny 3D cylinder is used for better holding the magnet, 
+as shown in the figure \ref{fig:encoder_magnet_mount}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/motors/20241110_183215.jpg}
+    \caption{Encoder magnet mount}
+    \label{fig:encoder_magnet_mount}
+\end{figure}
