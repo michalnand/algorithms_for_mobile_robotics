@@ -1,20 +1,34 @@
-\chapter{Linear quadratic regulator}
+\chapter{Linear Quadratic Regulator}
 
-LQR controller is standart baseline for regulating systems with multiple input and multiple outputs.
-Controller requires knowledge of system dynamics (state space model), and cost function weights - which are design options.
+The LQR controller is a standard baseline for regulating systems with multiple inputs and multiple outputs.
+The controller requires knowledge of the system dynamics (state–space model), and two weighting matrices
+in the cost function, which are design parameters chosen by the engineer.
 
-TODO : explain LQR more, and also applications, why it is used as baseline, why not PID
+LQR gained its position as a baseline method because it is:
+\begin{itemize}
+    \item mathematically well–defined with a unique optimal solution,
+    \item robust for a wide class of linear systems,
+    \item able to naturally balance performance vs.\ control effort,
+    \item easy to tune once the engineer understands the role of $Q$ and $R$,
+    \item computationally efficient (solved offline),
+    \item superior to PID for multivariable, coupled, high-dimensional systems.
+\end{itemize}
+
+Why not PID? PID is fantastic for \textbf{single–input single–output} systems.  
+But as soon as the dynamics are coupled (e.g.\ drones, robots, manipulators, cars),  
+hand-tuning dozens of gains quickly becomes impossible.  
+LQR solves all gains at once optimally — which is why it is the industry default for linear robotics control.
 
 
-Assume we would like to control 2D system, a moving sphere with inertia. 
+Assume we would like to control a 2D system: a moving sphere with inertia.
 
-This system have two inputs, applied force $u_x(n)$, $u_y(n)$. 
-State is 4 dimensional, position and velocity for each spatial dimension.
-As demonstrated on figure \ref{fig:position_control}, 
-the state vector is $x(n)$, we also marked velocity term as $v(n)$ (which is part of state),
-and control input $u(n)$, which have to act conteract the velocity and intertia, to stear 
-system into desired state $x_r(n)$.
-
+This system has two inputs, applied forces $u_x(n)$ and $u_y(n)$.  
+The state is 4-dimensional: position and velocity in both spatial dimensions.
+As shown in Fig.~\ref{fig:position_control},
+the state vector is $x(n)$, and we explicitly mark the velocity term as $v(n)$
+(which is part of the state).  
+The control input $u(n)$ must counteract velocity and inertia to steer the system
+into the desired state $x_r(n)$.
 
 \begin{figure}[!htb]
     \centering
@@ -23,7 +37,7 @@ system into desired state $x_r(n)$.
     \label{fig:position_control}
 \end{figure}
 
-This is system with multiple outputs and multiple inputs : 
+This is a system with multiple outputs and multiple inputs:
 
 \begin{align}
     x(n) &= 
@@ -39,83 +53,81 @@ This is system with multiple outputs and multiple inputs :
     u(n) &= 
     \begin{bmatrix} 
         u_x(n) \\ 
-        u_y(n) \\ 
+        u_y(n)
     \end{bmatrix}
 \end{align}
 
-Note the ordering of state variables is completely arbitrary. Here we first define 
-position and then velocity terms. 
+The ordering of state variables is arbitrary; here we place positions first, then velocities.
 
-The intuition behing LQR is : 
-can we find linear projection, a mapping from difference of current state $x$ and desired state $x_r$ into control vector $u$ ? 
-First we define difference between desired and observed state as error, $e(n) = x_r(n) - x(n)$.
-What is simplest operator which can do mapping, transformation from error space into control, action space  ? 
-The simplest operation is of course matrix multiplication, giving us forumula of LQR : 
 
+The intuition behind LQR is simple:
+
+\textbf{Can we find a linear mapping from the error between the current state and desired state into an optimal control action?}
+
+We define the tracking error:
 \begin{align}
-    e(n) &= x_r(n) - x(n) \\ 
-    u(n) &= -Ke(n)
+    e(n) = x_r(n) - x(n)
 \end{align}
 
-The matrix $K$ is simple gain matrix, taking each state terms, putting some weights to them, 
-and by linear compbinaiton of error singnal $e(n)$ mapping to output $u$.
+The simplest general mapping from error space to control space is matrix multiplication:
+
+\begin{align}
+    u(n) = -K e(n)
+\end{align}
+
+The matrix $K$ is the gain matrix.  
+It assigns weights to each state variable and uses a linear combination to compute the optimal action $u$.
 
 
-\section{Derivate of LQR}
-Now we have to find solution of matrix K.
-We begin by defining the notation and assumptions used throughout this derivation.
+\section{Derivation of LQR}
+
+We now derive the matrix $K$.
+We begin by defining notation and assumptions used throughout this derivation.
 
 \begin{itemize}
-    \item $n$ — discrete {\textbf{time step}}.
-    \item $N$ — number of  {\textbf{state variables}} (state dimension).
-    \item $M$ — number of  {\textbf{control inputs}} (input dimension).
-    \item $x(n)$ — {\textbf{system state}}, column vector of size $N \times 1$.
-    \item $u(n)$ — {\textbf{control input}}, column vector of size $M \times 1$.
-    \item $A$ — {\textbf{system matrix}}, $N \times N$.
-    \item $B$ — {\textbf{input matrix}}, $N \times M$.
-    \item $Q$ — positive semidefinite {\textbf{state weighting matrix}}, $N \times N$.
-    \item $R$ — positive semidefinite {\textbf{input weighting matrix}}, $M \times M$.
+    \item $n$ — discrete \textbf{time step}.
+    \item $N$ — number of \textbf{state variables} (state dimension).
+    \item $M$ — number of \textbf{control inputs} (input dimension).
+    \item $x(n)$ — \textbf{system state}, column vector of size $N \times 1$.
+    \item $u(n)$ — \textbf{control input}, column vector of size $M \times 1$.
+    \item $A$ — \textbf{system matrix}, $N \times N$.
+    \item $B$ — \textbf{input matrix}, $N \times M$.
+    \item $Q$ — positive semidefinite \textbf{state weighting matrix}, $N \times N$.
+    \item $R$ — positive semidefinite \textbf{input weighting matrix}, $M \times M$.
 \end{itemize}
 
+The controller drives the system toward the desired state $x_r(n)$ by minimizing the error  
+$e(n) = x_r(n) - x(n)$.
 
-Controller stears system into desired state, required state, marked as $x_r(n)$, of same shape 
-as state $x(n)$, i.e. there is minimalization of error magnitude $e(n) = x_r(n) - x(n)$.
-
-
-The discrete-time linear system dynamics are
-
+The discrete–time system dynamics are:
 \begin{align}
-    x(n+1) = A x(n) + B u(n).
+    x(n+1) = A x(n) + B u(n)
 \end{align}
 
-Corresponding LQR problem is given as minimization of quadtratic loss 
 
-TODO : fix this cost function
+\subsection{Quadratic Cost Function}
 
-The {\textbf{quadratic cost function}} is
+The standard discrete-time LQR problem minimizes the infinite-horizon quadratic cost
 \begin{align}
-    \mathcal{L}(u) = x(n) \tilde{Q} x(n) + u(n)^T \tilde{R} u(n),
+    \mathcal{L} = \sum_{n=0}^{\infty} \left[ x(n)^T Q x(n) + u(n)^T R u(n) \right]
 \end{align}
 
-subject to the system dynamics constraint
+This cost penalizes:
+\begin{itemize}
+    \item \textbf{state deviation} through $Q$ (how much we care about errors),
+    \item \textbf{control effort} through $R$ (how expensive the control is).
+\end{itemize}
 
-\begin{align}
-    x(n+1) = A x(n) + B u(n).
-\end{align}
+Intuitively:
+\begin{itemize}
+    \item Large $Q$ entries $\Rightarrow$ state errors are very expensive.  
+    \item Large $R$ entries $\Rightarrow$ control effort is expensive (fuel, power, torque limits).  
+\end{itemize}
 
-TODO : validate this writing, here we wanna explain in very simple what quadtratic loss is, 
-how to imagine it.
-
-The following figure deciphers meaning of quadratic loss \ref{fig:lqr_quadratic_loss}.
-We demonstrate 4 dimensional state vector $x$ and 2 dimensional control input $u$.
-Therefore matrix $Q$ is $4 \times 4$, and matrix $R$ is $2 \times 2$. 
-In figure is captured one step of loss $\mathcal{L}(n)$. The terms $x(n)$ multiplied by 
-itself tranposed is basically quadratic term, well known as MSE loss, same for control variable $u$.
-Matrices $Q$ and $R$ are weighting state elements terms. Some state variables may have bigger
-weight for opitmisation. Same for control variable $u$, if the amplitude of control signal 
-matters more (e.g. fuel consumption, maximum motor power), terms in $R$ are bigger, 
-if we don't care about $u$ amplitude, terms in $R$ can be very small.
-
+Fig.~\ref{fig:lqr_quadratic_loss} interprets the quadratic loss.  
+For a 4-D state and 2-D control input, $Q$ is $4\times4$, $R$ is $2\times2$.
+Multiplying a vector by its transpose forms a quadratic (parabolic) penalty —
+the same idea as MSE loss.
 
 \begin{figure}[!htb]
     \centering
@@ -124,34 +136,59 @@ if we don't care about $u$ amplitude, terms in $R$ can be very small.
     \label{fig:lqr_quadratic_loss}
 \end{figure}
 
-Chosing of matrices $Q$ and $R$ are design choices, mostly those matrices are diagonal only, 
-meaning all terms have independent weights. 
+Choosing $Q$ and $R$ is a design choice.  
+Most often they are diagonal, meaning each state variable is weighted independently.
 
 
+\subsection{Solving the LQR Problem}
 
-TODO : explain this more, maybe derivative
-
-Solution of this optimisation problem is by solving discrete algebraic Riccati equation,
-Which leads to linear quadratic regulator, with control matrix $K$ : 
+The optimal controller is obtained by solving the \textbf{discrete algebraic Riccati equation (DARE)}.
+The solution yields the optimal gain matrix:
 
 \begin{align}
-    u(n) = -Kx(n)
+    u(n) = -K x(n)
 \end{align}
 
-Not this always stears system to zero state - this formulation not allows arbitrary setting of $x_r$,
-If system contains integral terms (e.g. servo, positional mechanism i.e. for zero error requiring zero control output $u$),
-the controller can be formulated as (with same matrix $K$)
+This steers the system to the origin $x=0$.  
+To track non-zero references, we rewrite:
 
 \begin{align}
     u(n) = K(x_r(n) - x(n))
 \end{align}
 
-In the figure \ref{fig:lqr_algo} we presents full basic LQR algorithm. 
-The system matrices $A$ and $B$, together with weight matrices $Q$ and $R$ are used as input into 
-discrete algebraic riccati equation solver. This is computed only once, giving us control matrix $K$.
-In controller loop running in real time we first compute error as 
-$e(n) = x_r(n) - x(n)$, then we apply control law $u(n) = Ke(n)$. Note we ommits minus sign here,
-bacause it is laready part of error signal $e(n)$. 
+(Here the minus sign is absorbed into the error definition.)
+
+Fig.~\ref{fig:lqr_algo} shows the complete LQR algorithm.
+
+\begin{enumerate}
+    \item \textbf{Offline (precompute)}:
+    \begin{enumerate}
+        \item Given $A,\;B,\;Q,\;R$, solve the discrete algebraic Riccati equation (DARE) for $P$: \\
+        \begin{align*}
+            P &= A^\top P A - A^\top P B (R + B^\top P B)^{-1} B^\top P A + Q.
+        \end{align*}
+        \item Compute the optimal gain matrix $K$ : \\
+        \begin{align*}
+            K \;=\; (R + B^\top P B)^{-1} B^\top P A \; 
+        \end{align*}
+        \item \textbf{\textcolor{red}{Store}} $K$ and the nominal design matrices — these are used online.
+    \end{enumerate}
+
+    \item \textbf{Online (every control time-step $n$)}:
+    \begin{enumerate}
+        \item Measure or estimate current state $x(n)$ and set reference $x_r(n)$.
+        \item Compute tracking error:
+        \begin{align*}
+            e(n) = x_r(n) - x(n).
+        \end{align*}
+        \item Compute control action:
+        \begin{align*}
+            u(n) = K\, e(n).
+        \end{align*}
+        \item Apply $u(n)$ to the plant. \\
+        \textit{Notes:} $K$ is constant for linear time-invariant designs; computing it offline makes the real-time loop very cheap.
+    \end{enumerate}
+\end{enumerate}
 
 \begin{figure}[!htb]
     \centering
@@ -161,15 +198,22 @@ bacause it is laready part of error signal $e(n)$.
 \end{figure}
 
 
-\section{Adding integral action}
+\section{Adding Integral Action}
 
-Our controller is missing integral term, which is necessary to remove steady state error.
-This is must have, if there is constant disturbance. Also systems which doesen't have 
-integral terms in nature. 
+The basic LQR has no integral term; thus it cannot remove steady-state error under constant disturbance.
+Integral action is necessary when:
+\begin{itemize}
+    \item the plant has no natural integrator,
+    \item external disturbances are constant or slowly varying,
+    \item we need zero steady-state error for positions.
+\end{itemize}
 
-TODO : explain, why integral terms helps to remove steady state error
+The integral term accumulates error over time:
+\[
+\textbf{if error persists, push harder}
+\]
 
-That's why we augment system dynamics by integral terms : 
+We augment the system with integral states:
 
 \begin{align}
     \tilde{A} &= 
@@ -179,7 +223,7 @@ That's why we augment system dynamics by integral terms :
     \end{bmatrix}
 \end{align}
 
-Also matrix $Q$ should be augmented 
+The cost matrix must be augmented as well:
 
 \begin{align}
     \tilde{Q} &= 
@@ -189,21 +233,19 @@ Also matrix $Q$ should be augmented
     \end{bmatrix}
 \end{align}
 
-Where $\kappa$ is giving weights to integral terms.
+where $\kappa$ sets how expensive the integral error is.
 
-Solution of this controller is some augmented gain, called $\tilde{K}$ : 
+Solving DARE for the augmented system yields:
 
 \begin{align}
     \tilde{K} &= 
     \begin{bmatrix} 
-        K \\
-        Ki
+        K & K_i
     \end{bmatrix}
 \end{align}
 
-Which we split into two matrices $K$, $Ki$. 
+Fig.~\ref{fig:lqr_algo_integral_action} shows the algorithmic structure.
 
-The full algorithm of LQR controller is captured in the following figure \ref{fig:lqr_algo_integral_action}.
 
 
 \begin{figure}[!htb]
@@ -213,77 +255,61 @@ The full algorithm of LQR controller is captured in the following figure \ref{fi
     \label{fig:lqr_algo_integral_action}
 \end{figure}
 
-We start with augmenting system matrix $A$ with integral terms, and also for matrix $Q$. 
-Then we apply discrete algebraic Riccati equation solver, to obtain matrices $K$, $K_i$. 
-This is precomputed once. 
+The implemented integral loop:
+\begin{align}
+    e(n) &= x_r(n) - x(n)\\
+    e_{int}(n) &= e_{int}(n-1) + K_i e(n)\\
+    u(n) &= K e(n) + e_{int}(n)
+\end{align}
 
-First we compute error as $e(n) = x_r(n) - x(n)$.
-The algorithm is introducing integral action $e_int$ as : 
-$e_{int}(n) = e_{int}(n-1) + K_ie(n)$. This is non-convetional compared to textbooks.
-This allov us much simpler antiwindup implementation in further steps. 
-Then the control output is computed as $u(n) = Ke(n) + e_{int}(n)$. 
-Note here we ommits minus sign, because it is already embedded in error term, state is there as $-x(n)$.
+Note: the minus sign is absorbed into the error state.
+
+\section{Adding Antiwindup}
+
+Real actuators are limited.  
+A motor might accept only $[-12, 12]$ volts.  
+But the controller may compute $u=20$V because of the accumulated integral term.
+
+What happens?
+\begin{itemize}
+    \item Actuator outputs only $12$V.
+    \item Integrator keeps increasing (windup).
+    \item Controller thinks it is applying $20$V (internal model), but the plant sees only $12$V.
+    \item As soon as the error becomes small, the huge integrator causes overshoot.
+\end{itemize}
+
+This leads to oscillations and long settling time —  
+not due to bad $K$ or bad model, but due to ignoring actuator limits.
 
 
+\subsection{Antiwindup correction}
 
-\section{Adding antiwindup}
+Fig.~\ref{fig:lqr_algo_integral_action_aw} shows the method.
 
+First compute the tentative integral update:
+\[
+\hat{e}_{int}(n) = e_{int}(n-1) + K_i e(n)
+\]
 
-Real actuator is always limited. It is easy to compute control output 10 000 volts, 
-if real motor have limit 12V and battery only 16V. Our linear controller doesn't know those constrains.
+Compute the tentative (unsaturated) control:
+\[
+\hat{u}(n) = K e(n) + \hat{e}_{int}(n)
+\]
 
-TODO : this is good example, but needs more grammar check
+Apply actuator saturation:
+\[
+u(n) = \operatorname{clip}(\hat{u}(n), u_{min}, u_{max})
+\]
 
-Consider our motor accepts maximum 12 volts. 
-There is non zero error and controller computes output 20 volts. Actuator gives only 12 V (e.g. PWM saturation, physical limit ...),
-anyway, motor is running its best on full power.
-However, controller things output is 20 volts, and error is still not zero, causing error summation in integral action term.
-Which increaes controller output even more, e.g. into 25, 30, 40 volts ... but not effecting real output,
-only $e_{int}(n)$ accumulator. This is called integral windup up, a state when error is not zero, 
-keeping accumualting integral action, but causing not real output change.
-As soon error reaches zero, the controller heavy overshoot output, because in integral term is accumulated huge value,
-error beceomes negative, and integrator start decreasing, which takes lot of time.
-We can observe huge overshoot, or even oscilating, and very long settle time. 
-Not beacuse of wrong control matrices, or wrong system model, but bacause we simply ignored real actuator, which 
-is always limited.
+Correct the integrator:
+\[
+e_{int}(n) = \hat{e}_{int}(n) - (\hat{u}(n) - u(n))
+\]
 
-Solution of this problem is antiwindup.
-In the figure \ref{fig:lqr_algo_integral_action_aw} we presents simple solution of this problem.
-Control matrices $K$ and $K_i$ are computed as in previous section.
+The correction term zeroes out whenever the actuator is not saturated.
 
-First we compute candidate of integral error $\hat{e}_{int}(n)$, note, if actuator is non 
-saturated, this will become equal to $e(n)$ : 
-
-$\hat{e}_{int}(n) = e_{int}(n-1) + K_ie(n)$
-
-The main antwiwindup works as follow : 
-we compute output candidate $\hat{u}$, non saturated, as in previous section : 
-$\hat{u}(n) = Ke(n) + K_ie_{int}(n)$
-
-then we saturate output, simply by clipping into $u_{min}$ and $u_{max}$ range : 
-$u(n) = clip(\hat{u}(n), u_{min}, u_{max})$
-this output is used as controller output.
-
-And finally we have to push this information to our integrator : 
-
-$e_{int}(n) = \hat{e}_{int}(n) - (\hat{u}(n) - u(n))$
-
-Note the second term : if system is not in saturation (normal conditions), 
-the second term is \textbf{zero} and integrator works same as in previous section.
-As soon the $u(n)$ is saturated, the second term \textbf{substract} exact the overshoting part 
-of integral, keeping integral term in limits.
-
-Here we can also observe benefits why we are working with wihin error integral space 
-as $K_ie_{int}(n)$ - the space is equal to action space, and therefore, we can simply define 
-limits $u_{min}, u_{max}$ based on actuator limitations.
-
-TODO : check this statament
-In case of textbook integral action, where they define error integral as : 
-
-$\hat{e}_{int}(n) = e_{int}(n-1) + e(n)$
-
-The error is in state space, don't allowing as simple clipping - we have to use aditional inverse matrix 
-projections.
+This works cleanly because the integral term lives in the \textbf{action space} ($K_i e$),
+so saturation and projection are consistent and simple.
 
 \begin{figure}[!htb]
     \centering
@@ -293,17 +319,20 @@ projections.
 \end{figure}
 
 
-\section{Practical implementation}
+\section{Practical Implementation}
 
-Now we have to put all togother to create single python class, implementing LQR controller.
+Below is a complete Python implementation of the LQR controller with integral action and antiwindup.
 
-First we precompute all control matrices in constructor, 
-and store output min max values, here we consider symmetrical clipping.
-The method \textbf{solve} is augmenting matrices, by exteding with integral action terms and solving discrete riccati equation.
-Main controller is calling in real time controll loop by calling \textbf{forward},
-which requires desired state $x_r$ current state $x$, each of shape $(n, 1)$ and 
-current state of integrator, of shape $(m, 1)$. Method returns control output $u$ and new integrator state.
-The output $u$ is of shape $(m, 1)$.    
+The constructor precomputes control matrices.  
+The method \textbf{solve} augments matrices and solves DARE.  
+The real-time loop calls \textbf{forward}, which requires:
+\begin{itemize}
+    \item desired state $x_r$,
+    \item current state $x$,
+    \item current integral state.
+\end{itemize}
+
+The output is control $u$ and updated integrator.
 
 \begin{lstlisting}[style=python_style]
 import numpy
@@ -313,9 +342,7 @@ class LQRIDiscrete:
 
     def __init__(self, a, b, q, r, qi = 0.0, antiwindup = 10**10):
         self.k, self.ki = self.solve(a, b, q, r, qi)
-
         self.antiwindup = antiwindup
-
 
     def solve(self, a, b, q, r, qi):
         n = a.shape[0]  # system order
@@ -335,18 +362,14 @@ class LQRIDiscrete:
             [numpy.zeros((n, n)), qi * q]
         ])
 
-
         p = scipy.linalg.solve_discrete_are(a_aug, b_aug, q_aug, r)
-
         k_aug = numpy.linalg.inv(r) @ (b_aug.T @ p)
 
-        #truncated small elements
+        # truncated small elements
         k_aug[numpy.abs(k_aug) < 10**-10] = 0
-        
-        
+
         k  = k_aug[:, :n]
         ki = k_aug[:, n:]
-
 
         return k, ki
 
@@ -354,16 +377,87 @@ class LQRIDiscrete:
         # integral action
         error = xr - x
 
-        integral_action_new = integral_action + self.ki@error
+        integral_action_new = integral_action + self.ki @ error
 
-        #LQR controll law
-        u_new = self.k@error + integral_action
+        # LQR control law
+        u_new = self.k @ error + integral_action
 
-        #conditional antiwindup
+        # conditional antiwindup
         u = numpy.clip(u_new, -self.antiwindup, self.antiwindup)
-
         integral_action_new = integral_action_new - (u_new - u)
-
 
         return u, integral_action_new
 \end{lstlisting}
+
+
+
+
+
+
+\section{Summary}
+
+The Linear Quadratic Regulator is one of the most widely used controllers in modern control engineering.
+Its strength comes from combining a mathematically optimal formulation with practical usability.
+Once a state--space model is available, LQR provides a systematic way to compute all feedback gains at once,
+even for large multivariable systems.
+
+\subsection*{Applications}
+
+LQR is a standard tool in fields where:
+\begin{itemize}
+    \item accurate state--space models exist,
+    \item systems have multiple coupled states and inputs,
+    \item fast, reliable, and stable control is required.
+\end{itemize}
+
+Typical applications include:
+\begin{itemize}
+    \item robotics and manipulators,
+    \item quadrotors, drones, and aerospace vehicles,
+    \item autonomous driving and vehicle dynamics control,
+    \item inverted pendulums and balancing systems,
+    \item power systems and energy control,
+    \item any linearized model in engineering simulations.
+\end{itemize}
+
+\subsection*{Advantages}
+
+LQR is popular because it offers:
+\begin{itemize}
+    \item \textbf{Uniqueness:} the solution to the Riccati equation is unique and globally optimal for the linear-quadratic problem.
+    \item \textbf{Multivariable optimality:} all gains are solved simultaneously, avoiding the combinatorial tuning of PID.
+    \item \textbf{Stability guarantees:} the resulting $K$ stabilizes the system whenever the standard LQR conditions are met.
+    \item \textbf{Clear tuning philosophy:} $Q$ shapes state penalties, $R$ shapes effort penalties.
+    \item \textbf{Computational efficiency:} Riccati equations are solved once offline; online computation is a single matrix multiplication.
+    \item \textbf{Smooth control actions:} the quadratic penalty naturally avoids aggressive or discontinuous inputs.
+\end{itemize}
+
+\subsection*{Limitations}
+
+Despite its strengths, LQR has several important limitations:
+\begin{itemize}
+    \item \textbf{Requires a linear state--space model.}  
+          Nonlinear systems must be linearized or approximated.
+    \item \textbf{Sensitive to modelling errors.}  
+          Large unmodelled dynamics or unmodelled delays degrade performance.
+    \item \textbf{No inherent integral action.}  
+          Steady-state errors require explicit integrator augmentation.
+    \item \textbf{No built-in actuator constraints.}  
+          Saturation must be handled externally (antiwindup, MPC, etc.).
+    \item \textbf{Not optimal for non-quadratic cost functions.}  
+          The controller’s optimality holds only for quadratic penalties.
+\end{itemize}
+
+\subsection*{Final Remarks}
+
+LQR remains a gold standard for linear control because it is:
+\begin{itemize}
+    \item theoretically elegant,
+    \item computationally cheap,
+    \item practically effective,
+    \item easy to integrate with integral action and antiwindup,
+    \item naturally suited to multivariable systems.
+\end{itemize}
+
+For systems with good linear models and strong coupling, LQR often provides a performance baseline that is
+difficult to surpass using manual PID tuning.
