@@ -30,18 +30,48 @@ sensor chosing
 
 \subsubsection{BLDC motor}
 
-35 turns per pole,
-wire 0.15mm 
-2..3amps
+Brushless motors with electronic commutatio is state of the art motor technology.
+Especially with feeedback (usually magnetic encoder) and field oriented control (FOC),
+it allows to achieve full torque, maximal efficiency and very precission regulating, 
+all : torque, velocity and position.
 
-drivers, motor chosing, DC, BLDC
+However, for small racing robots, there are not available brushless motors with encoder.
+This must be solved standalone - with custom diametrically magnetised magnet, and simple 3D 
+print.
+
+
 
 
 The out runner motor (mostly used in drones), can be modified for running wheel 
-directly. In the figure \ref{fig:original_disassembled_motor} is disassembled motor 
-of size 1404 (14mm diameter, 4m stator height).
+directly. In the figure \ref{fig:original_1404_motor} is disassembled motor 
+of size 1404 (14mm diameter, 4mm stator height).
 Such a small motor for drone is designed for high speed, and low torque, 
 we can see there is only few turns or relative thick wire.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/motors/20241108_101700.jpg}
+    \caption{Original 1404 motor}
+    \label{fig:original_1404_motor}
+\end{figure}
+
+
+\subsubsection{Ready to use motor}
+
+Good choice is gimbal motor, e.g. in size 2204, with 260kV. Motor is sufficient slow,
+however having relativly high weight.
+
+
+\subsubsection{Custom winding}
+
+The original drone motors are designed for high speed (RPM, high kV number), and low torque,
+operating with huge current and low voltage. This power setup have historical background,
+where in RC-world was hard to obtain higher voltage from old NiCd cells.
+For robot applications, we are looking for higher torque, low RPM, higher voltage is 
+mostly wellocmed, leading to smaller drivers, lower heath producing.
+
+In the figure \ref{fig:original_disassembled_motor} is original winding of 1404 motor,
+each pole cotains 12 turns on stator, stator have 12 poles (4 for each phase), and in total 14 magnetic poles rotors. 
 
 \begin{figure}[!htb]
     \centering
@@ -50,15 +80,29 @@ we can see there is only few turns or relative thick wire.
     \label{fig:original_disassembled_motor}
 \end{figure}
 
-This have to be rewinded, orignal number of turns is arround 12 per motor pole. 
-After rewinding with wire of 0.15mm diameters, we can fit 35turns on each motor pole.
-Each phase have 3 poles, in total it is 105turns per phase, vs. original 36. Result can be segments
-in figure \ref{fig:rewinded_motor}.
+In the figure \ref{fig:winding_diagram} is generic winding diagram for generic 
+mosty used 12 poles stator. The wire with 0.15mm is good choice for small robot, 
+and it is possible to fit 35 turns for each pole. This motor draws arround 2..3amps 
+from 2cell LiPo accumulator.
+Winding can be done by hand with some patiance and time. 
+
+The best tool to obtain exact diagram for given stator and number magnets can be find here
+\href{https://www.bavaria-direct.co.za/scheme/calculator/}{https://www.bavaria-direct.co.za/scheme/calculator/} 
 
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.1]{../images/motors/20241108_190320.jpg}
+    \includegraphics[scale=0.4]{../images/motors/motor_winding.jpg}
+    \caption{Three phase winding diagram for 12 poles}
+    \label{fig:winding_diagram}
+\end{figure}
+
+Rewinded motor can be seen in the figure \ref{fig:rewinded_motor}.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.3]{../images/motors/rewinded.png}
     \caption{Rewinded motor}
     \label{fig:rewinded_motor}
 \end{figure}
@@ -73,4 +117,24 @@ as shown in the figure \ref{fig:encoder_magnet_mount}.
     \includegraphics[scale=0.1]{../images/motors/20241110_183215.jpg}
     \caption{Encoder magnet mount}
     \label{fig:encoder_magnet_mount}
+\end{figure}
+
+The motor is held by simple 3D printed bracket, with 4 screws on motor, and 2 mount screws.
+As seen on figure \ref{fig:motor_mout} and encoder place for SO8 SMD encoder in figure 
+\ref{fig:motor_mout_encoder}. This overall summary shows how to modify existing out runner 
+motor for purpose as wheel.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/motors/20241024_211909.jpg}
+    \caption{Motor mount}
+    \label{fig:motor_mout}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.1]{../images/motors/20241025_132703.jpg}
+    \caption{Motor mount with encoder}
+    \label{fig:motor_mout_encoder}
 \end{figure}

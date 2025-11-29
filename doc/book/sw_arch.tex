@@ -1,0 +1,18 @@
+\chapter{Software architecture}
+
+Every robot must process data in real time. In most practical cases, volume of data is not huge, 
+however, strict response time must be guranteed.
+
+\begin{itemize}
+    \item motor controller, running arround 4kHz
+    \item analog sensor reading, hundrets of hertz
+    \item GPS, 1Hz
+    \item Lidar, arround 10 .. 20Hz
+    \item Camera, 25Hz
+    \item Encoders - completely asynchronois 
+    \item path planning, 10s to 100s hertz
+\end{itemize}
+
+\section{Example embedded project structure}
+
+The microcontroller stm32f722 is good start.

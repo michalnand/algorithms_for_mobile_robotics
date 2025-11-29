@@ -1,0 +1,369 @@
+\chapter{Linear quadratic regulator}
+
+LQR controller is standart baseline for regulating systems with multiple input and multiple outputs.
+Controller requires knowledge of system dynamics (state space model), and cost function weights - which are design options.
+
+TODO : explain LQR more, and also applications, why it is used as baseline, why not PID
+
+
+Assume we would like to control 2D system, a moving sphere with inertia. 
+
+This system have two inputs, applied force $u_x(n)$, $u_y(n)$. 
+State is 4 dimensional, position and velocity for each spatial dimension.
+As demonstrated on figure \ref{fig:position_control}, 
+the state vector is $x(n)$, we also marked velocity term as $v(n)$ (which is part of state),
+and control input $u(n)$, which have to act conteract the velocity and intertia, to stear 
+system into desired state $x_r(n)$.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/examples/examples-trajectory_a.png}
+    \caption{2D position control}
+    \label{fig:position_control}
+\end{figure}
+
+This is system with multiple outputs and multiple inputs : 
+
+\begin{align}
+    x(n) &= 
+    \begin{bmatrix} 
+        p_x(n) \\ 
+        p_y(n) \\ 
+        v_x(n) \\ 
+        v_y(n) 
+    \end{bmatrix}
+\end{align}
+
+\begin{align}
+    u(n) &= 
+    \begin{bmatrix} 
+        u_x(n) \\ 
+        u_y(n) \\ 
+    \end{bmatrix}
+\end{align}
+
+Note the ordering of state variables is completely arbitrary. Here we first define 
+position and then velocity terms. 
+
+The intuition behing LQR is : 
+can we find linear projection, a mapping from difference of current state $x$ and desired state $x_r$ into control vector $u$ ? 
+First we define difference between desired and observed state as error, $e(n) = x_r(n) - x(n)$.
+What is simplest operator which can do mapping, transformation from error space into control, action space  ? 
+The simplest operation is of course matrix multiplication, giving us forumula of LQR : 
+
+\begin{align}
+    e(n) &= x_r(n) - x(n) \\ 
+    u(n) &= -Ke(n)
+\end{align}
+
+The matrix $K$ is simple gain matrix, taking each state terms, putting some weights to them, 
+and by linear compbinaiton of error singnal $e(n)$ mapping to output $u$.
+
+
+\section{Derivate of LQR}
+Now we have to find solution of matrix K.
+We begin by defining the notation and assumptions used throughout this derivation.
+
+\begin{itemize}
+    \item $n$ — discrete {\textbf{time step}}.
+    \item $N$ — number of  {\textbf{state variables}} (state dimension).
+    \item $M$ — number of  {\textbf{control inputs}} (input dimension).
+    \item $x(n)$ — {\textbf{system state}}, column vector of size $N \times 1$.
+    \item $u(n)$ — {\textbf{control input}}, column vector of size $M \times 1$.
+    \item $A$ — {\textbf{system matrix}}, $N \times N$.
+    \item $B$ — {\textbf{input matrix}}, $N \times M$.
+    \item $Q$ — positive semidefinite {\textbf{state weighting matrix}}, $N \times N$.
+    \item $R$ — positive semidefinite {\textbf{input weighting matrix}}, $M \times M$.
+\end{itemize}
+
+
+Controller stears system into desired state, required state, marked as $x_r(n)$, of same shape 
+as state $x(n)$, i.e. there is minimalization of error magnitude $e(n) = x_r(n) - x(n)$.
+
+
+The discrete-time linear system dynamics are
+
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+Corresponding LQR problem is given as minimization of quadtratic loss 
+
+TODO : fix this cost function
+
+The {\textbf{quadratic cost function}} is
+\begin{align}
+    \mathcal{L}(u) = x(n) \tilde{Q} x(n) + u(n)^T \tilde{R} u(n),
+\end{align}
+
+subject to the system dynamics constraint
+
+\begin{align}
+    x(n+1) = A x(n) + B u(n).
+\end{align}
+
+TODO : validate this writing, here we wanna explain in very simple what quadtratic loss is, 
+how to imagine it.
+
+The following figure deciphers meaning of quadratic loss \ref{fig:lqr_quadratic_loss}.
+We demonstrate 4 dimensional state vector $x$ and 2 dimensional control input $u$.
+Therefore matrix $Q$ is $4 \times 4$, and matrix $R$ is $2 \times 2$. 
+In figure is captured one step of loss $\mathcal{L}(n)$. The terms $x(n)$ multiplied by 
+itself tranposed is basically quadratic term, well known as MSE loss, same for control variable $u$.
+Matrices $Q$ and $R$ are weighting state elements terms. Some state variables may have bigger
+weight for opitmisation. Same for control variable $u$, if the amplitude of control signal 
+matters more (e.g. fuel consumption, maximum motor power), terms in $R$ are bigger, 
+if we don't care about $u$ amplitude, terms in $R$ can be very small.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/lqr/lqr-q_loss.png}
+    \caption{Quadratic loss meaning}
+    \label{fig:lqr_quadratic_loss}
+\end{figure}
+
+Chosing of matrices $Q$ and $R$ are design choices, mostly those matrices are diagonal only, 
+meaning all terms have independent weights. 
+
+
+
+TODO : explain this more, maybe derivative
+
+Solution of this optimisation problem is by solving discrete algebraic Riccati equation,
+Which leads to linear quadratic regulator, with control matrix $K$ : 
+
+\begin{align}
+    u(n) = -Kx(n)
+\end{align}
+
+Not this always stears system to zero state - this formulation not allows arbitrary setting of $x_r$,
+If system contains integral terms (e.g. servo, positional mechanism i.e. for zero error requiring zero control output $u$),
+the controller can be formulated as (with same matrix $K$)
+
+\begin{align}
+    u(n) = K(x_r(n) - x(n))
+\end{align}
+
+In the figure \ref{fig:lqr_algo} we presents full basic LQR algorithm. 
+The system matrices $A$ and $B$, together with weight matrices $Q$ and $R$ are used as input into 
+discrete algebraic riccati equation solver. This is computed only once, giving us control matrix $K$.
+In controller loop running in real time we first compute error as 
+$e(n) = x_r(n) - x(n)$, then we apply control law $u(n) = Ke(n)$. Note we ommits minus sign here,
+bacause it is laready part of error signal $e(n)$. 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/lqr/lqr-lqr_algorithm.png}
+    \caption{LQR algorithm}
+    \label{fig:lqr_algo}
+\end{figure}
+
+
+\section{Adding integral action}
+
+Our controller is missing integral term, which is necessary to remove steady state error.
+This is must have, if there is constant disturbance. Also systems which doesen't have 
+integral terms in nature. 
+
+TODO : explain, why integral terms helps to remove steady state error
+
+That's why we augment system dynamics by integral terms : 
+
+\begin{align}
+    \tilde{A} &= 
+    \begin{bmatrix} 
+        A & 0 \\
+        I & I
+    \end{bmatrix}
+\end{align}
+
+Also matrix $Q$ should be augmented 
+
+\begin{align}
+    \tilde{Q} &= 
+    \begin{bmatrix} 
+        Q & 0 \\
+        0 & \kappa Q
+    \end{bmatrix}
+\end{align}
+
+Where $\kappa$ is giving weights to integral terms.
+
+Solution of this controller is some augmented gain, called $\tilde{K}$ : 
+
+\begin{align}
+    \tilde{K} &= 
+    \begin{bmatrix} 
+        K \\
+        Ki
+    \end{bmatrix}
+\end{align}
+
+Which we split into two matrices $K$, $Ki$. 
+
+The full algorithm of LQR controller is captured in the following figure \ref{fig:lqr_algo_integral_action}.
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/lqr/lqr-lqri_algorithm.png}
+    \caption{LQR algorithm with integral action}
+    \label{fig:lqr_algo_integral_action}
+\end{figure}
+
+We start with augmenting system matrix $A$ with integral terms, and also for matrix $Q$. 
+Then we apply discrete algebraic Riccati equation solver, to obtain matrices $K$, $K_i$. 
+This is precomputed once. 
+
+First we compute error as $e(n) = x_r(n) - x(n)$.
+The algorithm is introducing integral action $e_int$ as : 
+$e_{int}(n) = e_{int}(n-1) + K_ie(n)$. This is non-convetional compared to textbooks.
+This allov us much simpler antiwindup implementation in further steps. 
+Then the control output is computed as $u(n) = Ke(n) + e_{int}(n)$. 
+Note here we ommits minus sign, because it is already embedded in error term, state is there as $-x(n)$.
+
+
+
+\section{Adding antiwindup}
+
+
+Real actuator is always limited. It is easy to compute control output 10 000 volts, 
+if real motor have limit 12V and battery only 16V. Our linear controller doesn't know those constrains.
+
+TODO : this is good example, but needs more grammar check
+
+Consider our motor accepts maximum 12 volts. 
+There is non zero error and controller computes output 20 volts. Actuator gives only 12 V (e.g. PWM saturation, physical limit ...),
+anyway, motor is running its best on full power.
+However, controller things output is 20 volts, and error is still not zero, causing error summation in integral action term.
+Which increaes controller output even more, e.g. into 25, 30, 40 volts ... but not effecting real output,
+only $e_{int}(n)$ accumulator. This is called integral windup up, a state when error is not zero, 
+keeping accumualting integral action, but causing not real output change.
+As soon error reaches zero, the controller heavy overshoot output, because in integral term is accumulated huge value,
+error beceomes negative, and integrator start decreasing, which takes lot of time.
+We can observe huge overshoot, or even oscilating, and very long settle time. 
+Not beacuse of wrong control matrices, or wrong system model, but bacause we simply ignored real actuator, which 
+is always limited.
+
+Solution of this problem is antiwindup.
+In the figure \ref{fig:lqr_algo_integral_action_aw} we presents simple solution of this problem.
+Control matrices $K$ and $K_i$ are computed as in previous section.
+
+First we compute candidate of integral error $\hat{e}_{int}(n)$, note, if actuator is non 
+saturated, this will become equal to $e(n)$ : 
+
+$\hat{e}_{int}(n) = e_{int}(n-1) + K_ie(n)$
+
+The main antwiwindup works as follow : 
+we compute output candidate $\hat{u}$, non saturated, as in previous section : 
+$\hat{u}(n) = Ke(n) + K_ie_{int}(n)$
+
+then we saturate output, simply by clipping into $u_{min}$ and $u_{max}$ range : 
+$u(n) = clip(\hat{u}(n), u_{min}, u_{max})$
+this output is used as controller output.
+
+And finally we have to push this information to our integrator : 
+
+$e_{int}(n) = \hat{e}_{int}(n) - (\hat{u}(n) - u(n))$
+
+Note the second term : if system is not in saturation (normal conditions), 
+the second term is \textbf{zero} and integrator works same as in previous section.
+As soon the $u(n)$ is saturated, the second term \textbf{substract} exact the overshoting part 
+of integral, keeping integral term in limits.
+
+Here we can also observe benefits why we are working with wihin error integral space 
+as $K_ie_{int}(n)$ - the space is equal to action space, and therefore, we can simply define 
+limits $u_{min}, u_{max}$ based on actuator limitations.
+
+TODO : check this statament
+In case of textbook integral action, where they define error integral as : 
+
+$\hat{e}_{int}(n) = e_{int}(n-1) + e(n)$
+
+The error is in state space, don't allowing as simple clipping - we have to use aditional inverse matrix 
+projections.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/lqr/lqr-lqri_aw_algorithm.png}
+    \caption{LQR algorithm with integral action and antiwindup}
+    \label{fig:lqr_algo_integral_action_aw}
+\end{figure}
+
+
+\section{Practical implementation}
+
+Now we have to put all togother to create single python class, implementing LQR controller.
+
+First we precompute all control matrices in constructor, 
+and store output min max values, here we consider symmetrical clipping.
+The method \textbf{solve} is augmenting matrices, by exteding with integral action terms and solving discrete riccati equation.
+Main controller is calling in real time controll loop by calling \textbf{forward},
+which requires desired state $x_r$ current state $x$, each of shape $(n, 1)$ and 
+current state of integrator, of shape $(m, 1)$. Method returns control output $u$ and new integrator state.
+The output $u$ is of shape $(m, 1)$.    
+
+\begin{lstlisting}[style=python_style]
+import numpy
+import scipy
+
+class LQRIDiscrete: 
+
+    def __init__(self, a, b, q, r, qi = 0.0, antiwindup = 10**10):
+        self.k, self.ki = self.solve(a, b, q, r, qi)
+
+        self.antiwindup = antiwindup
+
+
+    def solve(self, a, b, q, r, qi):
+        n = a.shape[0]  # system order
+        m = b.shape[1]  # system inputs
+
+        # augmented system
+        a_aug = numpy.block([
+            [a, numpy.zeros((n, n))],
+            [numpy.eye(n), numpy.eye(n)]
+        ])
+        
+        b_aug = numpy.vstack([b, numpy.zeros((n, m))])
+        
+        # augmented cost
+        q_aug = numpy.block([
+            [q, numpy.zeros((n, n))],   
+            [numpy.zeros((n, n)), qi * q]
+        ])
+
+
+        p = scipy.linalg.solve_discrete_are(a_aug, b_aug, q_aug, r)
+
+        k_aug = numpy.linalg.inv(r) @ (b_aug.T @ p)
+
+        #truncated small elements
+        k_aug[numpy.abs(k_aug) < 10**-10] = 0
+        
+        
+        k  = k_aug[:, :n]
+        ki = k_aug[:, n:]
+
+
+        return k, ki
+
+    def forward(self, xr, x, integral_action):
+        # integral action
+        error = xr - x
+
+        integral_action_new = integral_action + self.ki@error
+
+        #LQR controll law
+        u_new = self.k@error + integral_action
+
+        #conditional antiwindup
+        u = numpy.clip(u_new, -self.antiwindup, self.antiwindup)
+
+        integral_action_new = integral_action_new - (u_new - u)
+
+
+        return u, integral_action_new
+\end{lstlisting}
