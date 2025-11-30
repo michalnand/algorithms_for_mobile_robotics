@@ -365,6 +365,8 @@ To reduce encoder noise we use a steady-state Kalman filter.
 For simple systems one could use an exponential moving average (EMA) based only on the noise variance.  
 However, the Kalman filter exploits the known system dynamics \((A, B, C)\), producing a much faster and more accurate estimate than EMA.
 
+TODO next
+
 \clearpage
 \section{Real Motor Testing}
 
@@ -372,3 +374,4 @@ Finally, we deploy the controller to a real robot using C++ on an STM32 microcon
 The hardware details are not critical: we only require a function to measure wheel velocity (rad/s) and a function to send the motor command.  
 A periodic timer maintains the control loop timing, and a UART output streams the measured data for plotting and analysis.
 
+TODO next
