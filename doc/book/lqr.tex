@@ -158,7 +158,17 @@ To track non-zero references, we rewrite:
 
 (Here the minus sign is absorbed into the error definition.)
 
-Fig.~\ref{fig:lqr_algo} shows the complete LQR algorithm.
+Fig.~\ref{fig:lqr_block_diagram} shows the flow diagram of basic LQR controller.
+Fig.~\ref{fig:lqr_algo} shows the complete LQR algorithm. 
+
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/lqr/lqr-lqr.png}
+    \caption{LQR block diagram}
+    \label{fig:lqr_block_diagram}
+\end{figure}
+
 
 \begin{enumerate}
     \item \textbf{Offline (precompute)}:
@@ -197,7 +207,7 @@ Fig.~\ref{fig:lqr_algo} shows the complete LQR algorithm.
     \label{fig:lqr_algo}
 \end{figure}
 
-
+\newpage
 \section{Adding Integral Action}
 
 The basic LQR has no integral term; thus it cannot remove steady-state error under constant disturbance.
@@ -212,6 +222,15 @@ The integral term accumulates error over time:
 \[
 \textbf{if error persists, push harder}
 \]
+
+The structure of extended LQR with intagral action is in the Fig.~\ref{fig:lqri_block_diagram}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.8]{../diagrams/lqr/lqr-lqri_diagram.png}
+    \caption{LQR with integral action block diagram}
+    \label{fig:lqri_block_diagram}
+\end{figure}
 
 We augment the system with integral states:
 
@@ -228,12 +247,10 @@ The cost matrix must be augmented as well:
 \begin{align}
     \tilde{Q} &= 
     \begin{bmatrix} 
-        Q & 0 \\
-        0 & \kappa Q
+        0 & 0 \\
+        0 & Q
     \end{bmatrix}
 \end{align}
-
-where $\kappa$ sets how expensive the integral error is.
 
 Solving DARE for the augmented system yields:
 
@@ -259,11 +276,12 @@ The implemented integral loop:
 \begin{align}
     e(n) &= x_r(n) - x(n)\\
     e_{int}(n) &= e_{int}(n-1) + K_i e(n)\\
-    u(n) &= K e(n) + e_{int}(n)
+    u(n) &= -Kx(n) + e_{int}(n)
 \end{align}
 
-Note: the minus sign is absorbed into the error state.
+Note: the operator $K$ transforms state $x(n)$ and opertator $K_i$ is related with error signal $e(n)$.
 
+\newpage
 \section{Adding Antiwindup}
 
 Real actuators are limited.  
@@ -284,7 +302,16 @@ not due to bad $K$ or bad model, but due to ignoring actuator limits.
 
 \subsection{Antiwindup correction}
 
-Fig.~\ref{fig:lqr_algo_integral_action_aw} shows the method.
+The Fig.~\ref{fig:lqri_aw_block_diagram} shows full LQR block diagram, with both, integral action and antiwindup.
+Antiwindup section is marked by orange color.
+Complete algorithm is demonstrated in Fig.~\ref{fig:lqr_algo_integral_action_aw}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.6]{../diagrams/lqr/lqr-lqri_aw_diagram.png}
+    \caption{LQR with integral action and antiwindup block diagram}
+    \label{fig:lqri_aw_block_diagram}
+\end{figure}
 
 First compute the tentative integral update:
 \[
@@ -293,8 +320,8 @@ First compute the tentative integral update:
 
 Compute the tentative (unsaturated) control:
 \[
-\hat{u}(n) = K e(n) + \hat{e}_{int}(n)
-\]
+\hat{u}(n) = -Kx(n) + \hat{e}_{int}(n)
+\]  
 
 Apply actuator saturation:
 \[
@@ -334,17 +361,37 @@ The real-time loop calls \textbf{forward}, which requires:
 
 The output is control $u$ and updated integrator.
 
+
+
+\clearpage
 \begin{lstlisting}[style=python_style]
 import numpy
 import scipy
 
 class LQRIDiscrete: 
 
-    def __init__(self, a, b, q, r, qi = 0.0, antiwindup = 10**10):
-        self.k, self.ki = self.solve(a, b, q, r, qi)
+    def __init__(self, a, b, q, r, antiwindup = 10**10):
+        self.k, self.ki = self.solve(a, b, q, r)
+
         self.antiwindup = antiwindup
 
-    def solve(self, a, b, q, r, qi):
+    def forward(self, xr, x, integral_action):
+        # integral action
+        error = xr - x
+
+        integral_action_new = integral_action + self.ki@error
+
+        #LQR controll law
+        u_new = -self.k@x + integral_action
+        
+        #conditional antiwindup
+        u = numpy.clip(u_new, -self.antiwindup, self.antiwindup)
+
+        integral_action_new = integral_action_new - (u_new - u)
+
+        return u, integral_action_new
+
+    def solve(self, a, b, q, r):
         n = a.shape[0]  # system order
         m = b.shape[1]  # system inputs
 
@@ -358,42 +405,25 @@ class LQRIDiscrete:
         
         # augmented cost
         q_aug = numpy.block([
-            [q, numpy.zeros((n, n))],   
-            [numpy.zeros((n, n)), qi * q]
+            [numpy.zeros((n, n)), numpy.zeros((n, n))],   
+            [numpy.zeros((n, n)), q]
         ])
 
         p = scipy.linalg.solve_discrete_are(a_aug, b_aug, q_aug, r)
         k_aug = numpy.linalg.inv(r) @ (b_aug.T @ p)
 
-        # truncated small elements
+        #truncated small elements
         k_aug[numpy.abs(k_aug) < 10**-10] = 0
-
+        
         k  = k_aug[:, :n]
         ki = k_aug[:, n:]
 
         return k, ki
-
-    def forward(self, xr, x, integral_action):
-        # integral action
-        error = xr - x
-
-        integral_action_new = integral_action + self.ki @ error
-
-        # LQR control law
-        u_new = self.k @ error + integral_action
-
-        # conditional antiwindup
-        u = numpy.clip(u_new, -self.antiwindup, self.antiwindup)
-        integral_action_new = integral_action_new - (u_new - u)
-
-        return u, integral_action_new
 \end{lstlisting}
 
 
 
-
-
-
+\clearpage
 \section{Summary}
 
 The Linear Quadratic Regulator is one of the most widely used controllers in modern control engineering.
