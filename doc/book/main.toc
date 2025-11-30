@@ -1,0 +1,6 @@
+\contentsline {chapter}{Contents}{2}{section*.1}%
+\contentsline {chapter}{\chapternumberline {1}Motor control example}{3}{chapter.1}%
+\contentsline {subsection}{motor model}{5}{section*.2}%
+\contentsline {subsection}{controller design}{7}{section*.4}%
+\contentsline {subsection}{ablation testing}{11}{section*.7}%
+\contentsline {subsection}{real motor testing}{14}{section*.10}%
