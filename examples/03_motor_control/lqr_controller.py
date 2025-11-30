@@ -93,7 +93,6 @@ print("ki = ", lqr.ki)
 
 
 #process simulation
-
 n = mat_a.shape[0]
 m = mat_b.shape[1]
 

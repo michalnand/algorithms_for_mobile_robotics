@@ -1,6 +1,54 @@
 \contentsline {chapter}{Contents}{2}{section*.1}%
-\contentsline {chapter}{\chapternumberline {1}Motor control example}{3}{chapter.1}%
-\contentsline {subsection}{motor model}{5}{section*.2}%
-\contentsline {subsection}{controller design}{7}{section*.4}%
-\contentsline {subsection}{ablation testing}{11}{section*.7}%
-\contentsline {subsection}{real motor testing}{14}{section*.10}%
+\contentsline {chapter}{\chapternumberline {1}Robot Modelling}{4}{chapter.1}%
+\contentsline {subsection}{Motion Formalism}{6}{section*.3}%
+\contentsline {subsection}{Creating a Simulator}{9}{section*.4}%
+\contentsline {chapter}{\chapternumberline {2}Capturing dynamics}{18}{chapter.2}%
+\contentsline {section}{\numberline {2.1}State space models}{18}{section.2.1}%
+\contentsline {subsection}{System State}{18}{section*.8}%
+\contentsline {subsection}{Examples of System States}{19}{section*.9}%
+\contentsline {paragraph}{Single-State Example:}{19}{section*.10}%
+\contentsline {paragraph}{Second-Order Example:}{19}{section*.11}%
+\contentsline {paragraph}{Extended Example:}{19}{section*.12}%
+\contentsline {paragraph}{Mobile Robot Example:}{19}{section*.13}%
+\contentsline {subsection}{System Inputs}{19}{section*.14}%
+\contentsline {subsection}{Discrete-Time State Space Model}{20}{section*.15}%
+\contentsline {subsection}{Continuous-Time Model and Discretization}{21}{section*.17}%
+\contentsline {section}{\numberline {2.2}System Examples}{21}{section.2.2}%
+\contentsline {subsection}{First-Order Dynamical System}{21}{section*.18}%
+\contentsline {subsubsection}{System Definition}{22}{section*.19}%
+\contentsline {subsubsection}{Simulation Setup}{22}{section*.20}%
+\contentsline {subsubsection}{Numerical Integration Methods}{23}{section*.21}%
+\contentsline {subsubsection}{Response Analysis}{24}{section*.22}%
+\contentsline {subsubsection}{Practical Insight}{25}{section*.24}%
+\contentsline {section}{\numberline {2.3}First Order Identification}{26}{section.2.3}%
+\contentsline {subsection}{Steady-State Estimation}{28}{section*.28}%
+\contentsline {subsection}{Time Constant Estimation}{30}{section*.30}%
+\contentsline {subsection}{Real Motor Identification}{30}{section*.32}%
+\contentsline {subsection}{Summary of Identification Results}{35}{section*.33}%
+\contentsline {chapter}{\chapternumberline {3}Linear Quadratic Regulator}{37}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Derivation of LQR}{39}{section.3.1}%
+\contentsline {subsection}{Quadratic Cost Function}{40}{section*.36}%
+\contentsline {subsection}{Solving the LQR Problem}{41}{section*.38}%
+\contentsline {section}{\numberline {3.2}Adding Integral Action}{43}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Adding Antiwindup}{45}{section.3.3}%
+\contentsline {subsection}{Antiwindup correction}{45}{section*.43}%
+\contentsline {section}{\numberline {3.4}Practical Implementation}{46}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Summary}{49}{section.3.5}%
+\contentsline {chapter}{\chapternumberline {4}Motor Control Example}{52}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Motor Model}{54}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Controller Design}{56}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Closed-Loop Simulation}{58}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Ablation Testing}{61}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Antiwindup Behaviour}{62}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Kalman Filtering}{64}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Real Motor Testing}{65}{section.4.7}%
+\contentsline {chapter}{\chapternumberline {5}Model Predictive Control}{66}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Stacked system formulation}{70}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Prediction model formalism}{71}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Understanding the Prediction Model}{71}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Optimization problem}{76}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Analytical solution}{76}{section.5.5}%
+\contentsline {section}{\numberline {5.6}Remarks}{77}{section.5.6}%
+\contentsline {section}{\numberline {5.7}Algorithm implementation}{77}{section.5.7}%
+\contentsline {subsection}{Python code example}{79}{section*.61}%
+\contentsline {section}{\numberline {5.8}Tracking Problem Example}{81}{section.5.8}%

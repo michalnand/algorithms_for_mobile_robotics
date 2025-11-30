@@ -1,97 +1,86 @@
-\chapter{Motor control example}
+\chapter{Motor Control Example}
 
-Now it is the right time put everything togother.
-We already know state space models mathemtatical famework,
-LQR controller, kalman filter - all neccessary pieces for bringing control loop alive.
+In this chapter we put everything together.  
+So far we have introduced the mathematical framework of \textbf{state–space models}, the \textbf{LQR controller} (including integral action and anti-windup), robot kinematics, and the \textbf{Kalman filter}.  
+All these pieces allow us to close a real control loop.
 
-Our goal is to control motor velocity.
-First we create simulation, based on real motor measurement.
-Where we tune our LQR controller, kalman filter for encoders. 
-We also demonstrate \textbf{windup} and \textbf{antiwindup} effects.
-After tunning controller, we move into real hardware, and comapre results.
+Our goal here is simple and practical: \textbf{control the velocity of a DC motor}.
 
-Input is observed velocity (which is of course noised), and desired velocity.
-Output of algorithm is applied torque (proportional to PWM value).
+We first build a simulation based on real motor measurements.  
+Inside this simulation we will tune the LQR controller, test the effect of noise and the Kalman filter, 
+and demonstrate the important concepts of \textbf{windup} and \textbf{anti-windup}.  
+After tuning, we will transfer everything to real hardware and compare the results.
 
+The controller receives as input:
+- the (noisy) measured motor velocity,
+- the desired velocity.
 
-The measured real motor have following parameters 
+Its output is the motor torque command (scaled into the PWM range).
+
+The \textbf{measured motor} has the following parameters:
 
 \begin{itemize}
-    \item sampling time step, $dt = 0.0005 s$, $2kHz$
-    \item max torque, $u_{max} =  1.0$
-    \item motor constant, $k = 205.443$
-    \item motor time constant $\tau = 7.957 ms$
-    \item encoder noise variance, $enc_{var} = 29$
+    \item sampling time step: $dt = 0.0005\,\text{s}$ (sampling frequency $2\,\text{kHz}$)
+    \item maximal usable torque command: $u_{\max} = 1.0$
+    \item motor constant: $k = 205.443$
+    \item motor time constant: $\tau = 7.957\,\text{ms}$
+    \item encoder noise variance: $enc_{\mathrm{var}} = 29$
 \end{itemize}
 
-This example leads to very simple 1st order system, with single input, 
-and we can ommits matrix algebra here - however, for sake of generality, 
-we keep this matrix formalism, as 1x1 matrices, even they are not required.
+This leads to a very simple \textbf{first-order system} with one input.  
+Although matrices are technically not required, we keep the \(1 \times 1\) matrix formulation for consistency with the rest of the book.
 
-The \textbf{sampling frequency} is chosen with respect to motor response. 
-Small quick motors require highger sampling rate. This is also reflected 
-by motor time constane, which is arround $8ms$. Small pololu motors have time 
-constant arround $10ms$, measurements are from quicker BLDC motor.
-Heavier rotor leads to larger time constant in general.
-The good thumb rule for sampling rate is arround 5 .. 20x faster than 
-fastest system time constant. In our case this ratio is : $\frac{0.008}{0.0005} = 16$.
+The chosen sampling frequency reflects the motor dynamics: the time constant is roughly \(8\text{ ms}\), and the sampling period is \(0.5\text{ ms}\).  
+The ratio \(\frac{0.008}{0.0005} = 16\) fits the common rule of thumb that the sampling frequency should be \textbf{5–20 times faster} than the fastest time constant in the system.
 
-The motor driver accepts control input $u$ within rage $\langle -1, 1 \rangle$,
-which is internaly converted to raw PWM value (e.g. into range $\langle 0, 255 \rangle$ with corresponding
-sign as rotation way control).  
+The motor driver accepts a control signal \(u \in \langle -1, 1 \rangle\), which is internally converted to a PWM value (e.g. in the range \(0\ldots255\) with sign indicating rotation direction).
 
 \clearpage
-\subsection{motor model}
+\section{Motor Model}
 
-Here we can construct continuous state space motor model, and plot it's 
-unit step response
-The system matrices have dimensions $1\times1$, because we are considering 1st order system with one input :
+We now construct the continuous-time state–space model of the motor and plot its unit step response.
+
+For a first-order motor with time constant \(\tau\) and motor constant \(k\), the continuous system matrices are:
 
 \begin{align*}
     \bar{A} &= \begin{bmatrix} -\frac{1}{\tau} \end{bmatrix}, &
-    \bar{B} &= \begin{bmatrix} \frac{k}{\tau} \end{bmatrix}
+    \bar{B} &= \begin{bmatrix} \frac{k}{\tau} \end{bmatrix}.
 \end{align*}
 
-Which corresponds to dynamics 
+The resulting dynamics are
 
 \begin{align*}
-    \frac{dx}{dt} &= Ax(t) + Bu(t), \\
-    \frac{dx}{dt} &= \begin{bmatrix} -\frac{1}{\tau} \end{bmatrix}x(t) + \begin{bmatrix} \frac{k}{\tau} \end{bmatrix}u(t)
+    \frac{dx}{dt} &= \bar{A}x(t) + \bar{B}u(t)
+    = -\frac{1}{\tau}x(t) + \frac{k}{\tau}u(t).
 \end{align*}
 
-For our system we have 
+With our numerical values, this becomes
 
 \begin{align*}
-    \frac{dx}{dt} &= \begin{bmatrix} -125.67 \end{bmatrix}x(t) + \begin{bmatrix} 25819.15 \end{bmatrix}u(t)
+    \frac{dx}{dt} &= \begin{bmatrix} -125.67 \end{bmatrix}x(t)
+    + \begin{bmatrix} 25819.15 \end{bmatrix}u(t).
 \end{align*}
 
-
-In program we first create continuous dynamical system.
-Then we drive system with input, first 100 steps input is zero, then for 
-300 steps retains 1, and than last 100 steps is again zero. Finally we plot this 
-response into Fig.~\ref{fig:motor_sim_step_response}.
+The following code builds the continuous system and evaluates its unit-step response:
 
 \begin{lstlisting}[style=python_style]
-#continuous time dynamics
+# continuous time dynamics
 mat_a = numpy.zeros((1, 1))
 mat_b = numpy.zeros((1, 1))
 mat_c = numpy.eye(1)
- 
-tau = tau*0.001
-mat_a[0][0] = -1.0/tau    
-mat_b[0][0] = k*(1.0/tau)
 
+tau = tau * 0.001
+mat_a[0][0] = -1.0 / tau
+mat_b[0][0] = k * (1.0 / tau)
 
 print("continuous model")
 print("a = ", mat_a)
 print("b = ", mat_b)
-print()
 
-
-#create dynamical system
+# create dynamical system
 ds = LibsControl.DynamicalSystem(mat_a, mat_b, mat_c, dt)
 
-#compute step response
+# compute step response
 t_result = []
 u_result = []
 x_result = []
@@ -115,42 +104,44 @@ x_result = numpy.array(x_result)
 
 #plot result
 LibsControl.plot_response(t_result, u_result,  x_result*60.0/(2.0*numpy.pi), "plots/step_response.png", ["control u"], ["rpm"])
+
 \end{lstlisting}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.8]{../diagrams/motor_control/step_response.png}
+    \includegraphics[scale=0.6]{../diagrams/motor_control/step_response.png}
     \caption{Simulated motor step response}
     \label{fig:motor_sim_step_response}
 \end{figure}
 
 \clearpage
-\subsection{controller design}
+\section{Controller Design}
 
-First we discretise model, with respect to sampling time $dt$, 
-from matrices $\bar{A}$ and $\bar{B}$ we obtain discrete model :
+We discretise the model with sampling time \(dt = 0.0005\text{ s}\).  
+From the continuous matrices we obtain:
 
 \begin{align*}
     A &= \begin{bmatrix} 0.939 \end{bmatrix}, &
-    B &= \begin{bmatrix} 12.516 \end{bmatrix}
+    B &= \begin{bmatrix} 12.516 \end{bmatrix}.
 \end{align*}
 
-Giving us discrete model 
+Thus the discrete dynamics are
 
-\begin{align*}
+\begin{align*} 
     x(n+1) & = Ax(n) + Bu(n) \\
-    x(n+1) & =  \begin{bmatrix} 0.939 \end{bmatrix} x(n) +  \begin{bmatrix} 12.516 \end{bmatrix} u(n)
+    x(n+1) & = \begin{bmatrix} 0.939 \end{bmatrix} x(n) + \begin{bmatrix} 12.516 \end{bmatrix} u(n) 
 \end{align*}
 
-Next step we chose the quadratic loss weight matricess $Q$ and $R$.
+
+To design the LQR we choose the quadratic loss weights
 
 \begin{align*}
     Q &= \begin{bmatrix} 1 \end{bmatrix}, &
-    R &= \begin{bmatrix} 4(10^7) \end{bmatrix}
+    R &= \begin{bmatrix} 4 \cdot 10^7 \end{bmatrix}.
 \end{align*}
 
-And finally getting control matrices $K$, $Ki$. 
-The full LQR algorithm, with integral action and antowindup is in figure Fig \ref{fig:lqr_algo_integral_action_aw_example}.
+From these we compute the LQR gain and the integral gain.  
+The complete LQRI algorithm with anti-windup is shown in Fig.~\ref{fig:lqr_algo_integral_action_aw_example}.
 
 \begin{figure}[!htb]
     \centering
@@ -159,21 +150,19 @@ The full LQR algorithm, with integral action and antowindup is in figure Fig \re
     \label{fig:lqr_algo_integral_action_aw_example}
 \end{figure}
 
-Corresponding code for controller synthetise is : 
-
 \begin{lstlisting}[style=python_style]
-#create loss weighting matrices (diagonal)
-q = numpy.array([ [1.0] ] )
-r = numpy.array( [ [4*(10**7)] ]) 
+# create loss weighting matrices
+q = numpy.array([[1.0]])
+r = numpy.array([[4*(10**7)]])
 
-#solve LQR controller
+# compute LQRI controller
 lqr = LibsControl.LQRIDiscrete(a_disc, b_disc, q, r)
 
 print("k  = ", lqr.k)
 print("ki = ", lqr.ki)
 \end{lstlisting}
 
-Terminal screenshot output after run
+Terminal output:
 
 \begin{lstlisting}[style=terminal_style]
 continuous model
@@ -189,176 +178,197 @@ k  =  [[0.00216876]]
 ki =  [[0.00016025]]
 \end{lstlisting}
 
+\clearpage
+\section{Closed-Loop Simulation}
 
+Finally, we run the closed-loop control simulation for 2000 discrete steps (corresponding to 1\,s of simulated time).  
+The desired velocity is set to \(1000\,\text{rpm}\), which must be converted into \(\text{rad/s}\) for the controller.  
+We initialise the integral action to zero, and we also reset the dynamical system state to zero by calling \textbf{ds.reset()}.
 
+In the main simulation loop, the reference remains at zero for the first 200 steps.  
+Then it switches to \(1000\,\text{rpm}\) until step number 1500, after which it returns to zero.  
+This allows us to observe the transient behaviour both when accelerating and when decelerating.
 
-Finally we run controll loop, e.g. for 2000 discrete steps (1s of simulation).
-We set desired velocity as 1000 rpm, which have to converted into rad/s.
-We also initialise integral action to zero, and also zero initial condition for 
-dynamical system, by calling \textbf{ds.reset()}.
-
-In main simulation loop, we wait for 200 steps, then we change required value to 1000rpm, 
-until step num 1500, then we set required value to zero. 
-
-Computation steps are as follow 
+The computation steps inside the loop are as follows:
 \begin{itemize}
-    \item obtain current state $x(n)$ (e.g. reading sensor x = ds.read())
-    \item compute controller output and new integral action, by calling \textbf{u, integral\_action = lqr.forward(xr, x, integral\_action)}
-    \item sending controller output to system, \textbf{x, y = ds.forward\_state(u)}, returning new state x
-    \item log results for plot (optional)
+    \item obtain the current state \(x(n)\) (this effectively represents reading the sensor value, e.g.\ \textbf{x = ds.read()}),
+    \item compute the controller output and updated integral term using  
+    \textbf{u, integral\_action = lqr.forward(xr, x, integral\_action)},
+    \item apply the controller output to the plant:  
+    \textbf{x, y = ds.forward\_state(u)}, which returns the new state \(x(n{+}1)\),
+    \item log the results for later plotting (optional but very useful for analysis).
 \end{itemize}
 
 \begin{lstlisting}[style=python_style]
-#process simulation
-
+# process simulation
 n = mat_a.shape[0]
 m = mat_b.shape[1]
 
 n_max = 2000
 
-#required output, 1000rpm
+# required output: 1000 rpm
 rpm_req = 1000
 xr = numpy.zeros((n, 1))
-# convert rpm to rad/s
-xr_req_value = (rpm_req/60.0)*(2.0*numpy.pi) 
 
-#initial integral action
+# convert rpm to rad/s
+xr_req_value = (rpm_req / 60.0) * (2.0 * numpy.pi)
+
+# initial integral action
 integral_action = numpy.zeros((m, 1))
 
-#result log
-t_result    = []
-u_result    = []
-xr_result   = []
-x_result    = []
+# result log
+t_result  = []
+u_result  = []
+xr_result = []
+x_result  = []
 
-
-#initial motor state
+# initial motor state
 ds.reset()
 
 for n in range(n_max):
 
-    # unit step as input
+    # reference step input
     if n > 200 and n < 1500:
         xr[0][0] = xr_req_value
     else:
-        xr[0][0] = 0
+        xr[0][0] = 0.0
 
-    #plant current state
+    # plant current state
     x = ds.x
 
-    #compute controller output
+    # compute controller output
     u, integral_action = lqr.forward(xr, x, integral_action)
-    
-    #compute plant output
+
+    # propagate plant dynamics
     x, y = ds.forward_state(u)
-    
-    # store for plot
-    t_result.append(n*dt)
+
+    # store results for plotting
+    t_result.append(n * dt)
     u_result.append(u[:, 0].copy())
     xr_result.append(xr[:, 0].copy())
     x_result.append(x[:, 0].copy())
 \end{lstlisting}
 
-
-And finally we plot the results as in Fig \ref{fig:lqr_controller_output}
-The x axis is in seconds. 
-On top graph the control input variable is shown - controller output $u$. 
-Graph below  \textbf{\textcolor{red}{required velocity}} $x_r(n)$ and
-\textbf{\textcolor{blue}{system output}} velocity $x(x)$.
-For easier readability we converted rad/s back to rpm.
-
-
+After the simulation finishes, we plot the results as shown in Fig.~\ref{fig:lqr_controller_output}.  
+The horizontal axis represents time in seconds.  
+The top graph shows the controller output \(u(n)\), i.e.\ the control input applied to the motor.  
+The lower graph compares the \textbf{\textcolor{red}{required velocity}} \(x_r(n)\) with the \textbf{\textcolor{blue}{actual motor velocity}} \(x(n)\).  
+For improved readability, the velocity is converted from \(\text{rad/s}\) back to \(\text{rpm}\).
 
 \begin{lstlisting}[style=python_style]
-t_result = numpy.array(t_result)
+t_result  = numpy.array(t_result)
 xr_result = numpy.array(xr_result)
-x_result = numpy.array(x_result)
-u_result = numpy.array(u_result)
+x_result  = numpy.array(x_result)
+u_result  = numpy.array(u_result)
 
-#convert rps to rpm
-xr_result[:, 0]*= 60.0/(2.0*numpy.pi)
-x_result[:, 0]*= 60.0/(2.0*numpy.pi)
+# convert rad/s to rpm
+xr_result[:, 0] *= 60.0 / (2.0 * numpy.pi)
+x_result[:, 0]  *= 60.0 / (2.0 * numpy.pi)
 
-#plot results
-LibsControl.plot_cl_response(t_result, u_result, xr_result, x_result, "plots/lqr_result.png",  ["input u"], ["velocity [rpm]"])
+# plot results
+LibsControl.plot_cl_response(
+    t_result,
+    u_result,
+    xr_result,
+    x_result,
+    "plots/lqr_result.png",
+    ["input u"],
+    ["velocity [rpm]"]
+)
 \end{lstlisting}
-
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.8]{../diagrams/motor_control/lqr_result.png}
-    \caption{LQR controller output}
+    \includegraphics[scale=0.6]{../diagrams/motor_control/lqr_result.png}
+    \caption{LQR controller closed-loop response}
     \label{fig:lqr_controller_output}
 \end{figure}
 
+
+
 \clearpage
-\subsection{ablation testing}
+\section{Ablation Testing}
 
-We chosen $Q$ and $R$ matrices arbitraly, here we would like to understand different values.
-In such simple system, we can keep $Q$ fixed, and modify only $R$, weights of control input $u$.
+In the previous section we selected the $Q$ and $R$ weighting matrices somewhat arbitrarily.  
+Here, we analyse how different values of $R$ influence the closed-loop behaviour.  
+Since the considered system is relatively simple, we keep $Q$ fixed and vary only $R$, which directly penalises the control input $u$.  
 
-Here we decide test this values for $R$ : $0.01(10^7), 0.1(10^7), 1(10^7), 5(10^7), 10(10^7)$
+We evaluate the following values of $R$:  
+\[
+R \in \left\{ 0.01(10^7),\; 0.1(10^7),\; 1(10^7),\; 5(10^7),\; 10(10^7) \right\}.
+\]
+To better emphasise differences in the transient response, we shorten the simulation to 400 steps (approximately 0.2\,s).  
+The resulting plot is shown in Fig.~\ref{fig:lqr_controller_output_r_abl}.
 
-Tho emphasise response, we run simulation only for 400 steps (0.2 seconds). 
-The resulted plot is in Fig \ref{fig:lqr_controller_output_r_abl}.
-On top figure is controller output value. We can observer, 
-lower the $R$ value, higher controller output - this is logical, 
-the loss penalise  large $u$ values less.
-On figure bottom, we can observer desired velocity. The settling time is 
-shorter for lower $R$ value, hower in cost of overshots and huge required power.
-On other side, too big $R$ value leads to very long settling time, hwover withour overshoot.
-Between those extremes is balanced response, quick settling time and low overshot.
+In the top plot, the controller output is displayed. We can observe that \textbf{smaller values of $R$ produce larger control actions}, which is expected: the cost function penalises large $u$ values less severely.  
+In the bottom plot, the corresponding velocity response is shown.
 
-Also note, the huge kick of controller output $u$ (for low $R$ value) is in practice 
-bad choice - system may suffer with high mechanical stress.
+A small \(R\) value results in a very fast response with short settling time, but at the cost of overshoot and extremely large control effort.  
+Conversely, a \textbf{large \(R\) value leads to a slower response and a very long settling time}, but with almost no overshoot.  
+Between these extremes lies a balanced configuration, offering a reasonable trade-off between response speed, overshoot, and control effort.
+
+It is also important to note that extremely large controller kicks (produced when $R$ is very small) are typically undesirable in practice, as they may induce excessive mechanical stress on the system.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.8]{../diagrams/motor_control/lqr_abl_result.png}
-    \caption{R values ablation}
+    \includegraphics[scale=0.6]{../diagrams/motor_control/lqr_abl_result.png}
+    \caption{Influence of the $R$ weighting value}
     \label{fig:lqr_controller_output_r_abl}
 \end{figure}
 
+\newpage
+\section{Antiwindup Behaviour}
 
-The second test is if \textbf{antiwindup} handles saturation as expected.
-We design following testing scenarios : 
+The second experiment evaluates whether the implemented \textbf{antiwindup} mechanism properly handles actuator saturation.  
+We consider the following testing scenarios:
 \begin{itemize}
-    \item no antiwindup and no saturation - textbook controler
-    \item no error integral antiwindup, but only controller output $u$ cliping
-    \item full antiwindup for integral and $u$ clipping
+    \item no antiwindup and no saturation — a textbook controller,
+    \item no antiwindup on the integral term, but with controller output clipping,
+    \item full antiwindup: both integral correction and output clipping.
 \end{itemize}
 
-We also set required velocity close to maximal motor velocity, to 1900rpm,
-to be close in saturation region. In the Fig \ref{fig:lqr_controller_antiwindup} we presents 
-results.    
-The \textbf{\textcolor{blue}{blue line}} shows textbook controller, where is no clipping, and no antiwindup.
-This controller produces high output, (exceeding our $u_{max} = 1$), and 
-plant achieves quick steady state. This is of course non real scenario - our actuator accepts
-maximal $u_{max}$ value at the input.
+To push the system close to its saturation limits, we set the desired velocity to 1900\,rpm, which is near the maximum achievable motor speed.  
+The corresponding results are presented in Fig.~\ref{fig:lqr_controller_antiwindup}.
 
-We can extend our controller by simply clipping $u$ value, within 
-$\langle -u_{max}, u_{max} \rangle$ range. This sucesfully limits output value, 
-as plotted by \textbf{\textcolor{orange}{orange line}}.
-However, integrator in controller doesn't knows the output is saturated, 
-and keeping accumualting integral action. As soon system reaches required value, 
-the contoller output still keeps raising, beacause of accumuated huge value in integral term.
-Detail of this effect is on graph bellow with \textbf{\textcolor{orange}{orange line}}.
-This is typical integral windup effect, and takes long time to settle steady state.
+The \textbf{\textcolor{blue}{blue line}} shows the textbook controller, where no clipping and no antiwindup are applied.  
+This controller \textbf{produces very large control inputs} (well beyond our limit of \(u_{\max} = 1\)) and therefore the plant reaches steady state artificially quickly.  
+This is, of course, unrealistic — in practice the actuator cannot exceed \(u_{\max}\).  
+To enforce this practical constraint, we clip the controller output to the range \(\langle -u_{\max}, u_{\max} \rangle\).  
+The resulting behaviour is shown by the \textbf{\textcolor{orange}{orange line}}.
 
-Solution is full antiwindup, both clippping and compensating integrator, 
-as plotted by \textbf{\textcolor{green}{green line}}.
-Also note in the top plot, the controller fully accepts maximum $u$ value - don't 
-cheating briging huge values. Setting time is also accetable within given conditions.
+However, while the output is properly clipped, the integrator is still unaware of the saturation.  
+It continues accumulating error, causing a large integral term.  
+As soon as the system reaches the reference value, the controller output continues to rise due to the accumulated integral action.  
+This classic \textbf{integral windup} effect causes a long settling time, clearly visible in the lower plot as the \textbf{\textcolor{orange}{orange}} response overshoots and slowly decays.
 
+The solution is the full antiwindup mechanism, which both clips the output and compensates the integrator.  
+The corresponding response is shown by the \textbf{\textcolor{green}{green line}}.  
+Here, the controller respects the actuator limits and avoids integral windup, achieving a stable and well-behaved response.
+
+Finally, note in the top plot that the controller correctly saturates at \(u_{\max}\) without producing unrealistic peaks.  
+Given the high requested speed, the resulting settling time is acceptable and significantly more stable than in the non-antiwindup case.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[scale=0.8]{../diagrams/motor_control/lqr_aw_result.png}
-    \caption{Antiwindup result}
+    \includegraphics[scale=0.6]{../diagrams/motor_control/lqr_aw_result.png}
+    \caption{Comparison of antiwindup strategies under actuator saturation}
     \label{fig:lqr_controller_antiwindup}
 \end{figure}
 
 
 
+
 \clearpage
-\subsection{real motor testing}
+\section{Kalman Filtering}
+
+To reduce encoder noise we use a steady-state Kalman filter.  
+For simple systems one could use an exponential moving average (EMA) based only on the noise variance.  
+However, the Kalman filter exploits the known system dynamics \((A, B, C)\), producing a much faster and more accurate estimate than EMA.
+
+\clearpage
+\section{Real Motor Testing}
+
+Finally, we deploy the controller to a real robot using C++ on an STM32 microcontroller.  
+The hardware details are not critical: we only require a function to measure wheel velocity (rad/s) and a function to send the motor command.  
+A periodic timer maintains the control loop timing, and a UART output streams the measured data for plotting and analysis.
+
